@@ -1,5 +1,4 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import LoginImage from "../assets/loginImage.jpg";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +7,7 @@ type Inputs = {
   password: string;
 };
 
-export const Login = () => {
+export const Register = () => {
   const {
     register,
     handleSubmit,
@@ -22,53 +21,50 @@ export const Login = () => {
   console.log(watch("email")); // watch input value by passing the name of it
 
   return (
-    <div className="bg-pink-600  flex h-full justify-center items-center ">
-      <div className="max-w-[800px] md:w-[800px] bg-brown-200 flex flex-col m-auto rounded-md relative my-8">
-        <div className="absolute w-full h-full text-gray-200 max-h-[400px] sm:w-[240px] bg-black/40 flex flex-col">
-          <h1 className="px-4 text-2xl sm:text-2xl md:text-4xl lg:7xl font-bold pt-4">
-            Welcome to
-          </h1>
-          <h1 className="px-4 text-4xl sm:text-5xl md:text-6xl lg:8xl font-bold">
-            Bonna<span className="text-pink-900">Care</span>
-          </h1>
-        </div>
-        <img
-          className="max-h-[400px] md:w-[800px] sm:w-[240px] w-full object-cover rounded-t-xl"
-          src={LoginImage}
-        />
+    <div className="bg-pink-600 flex h-full justify-center items-center py-8">
+      <div className="max-w-[800px] md:w-[800px] bg-brown-200 flex flex-col m-auto rounded-md relative items-center">
+        <h1 className="px-4 text-3xl sm:text-3xl md:text-5xl lg:6xl font-bold pt-4">
+          We're glad to have <span className="text-pink-900">you</span> here</h1>
+
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-4 p-4 items-center m-4"
         >
           <div className="flex flex-col">
-            <label>E-mail</label>
+            <label>Name</label>
             <input
               {...register("email")}
+              className="p-2 rounded-2xl"
+              type="text"
+              placeholder="Full Name"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label>E-mail</label>
+            <input
+              {...register("password", { required: true })}
               className="p-2 rounded-2xl"
               type="email"
               placeholder="user@mail.com"
             />
+            {errors.password && <span>This field is required</span>}
           </div>
           <div className="flex flex-col">
-            <label>Password</label>
+            <label>Age</label>
             <input
               {...register("password", { required: true })}
               className="p-2 rounded-2xl"
-              type="password"
-              placeholder="********"
+              type="number"
+              placeholder="Age"
             />
             {errors.password && <span>This field is required</span>}
           </div>
           <button
             type="submit"
-            className="border border-black rounded-xl px-5 py-1 max-w-32"
-          >
-            Sign in
+            className="border border-black rounded-xl px-5 py-1 max-w-32">
+            Sign up
           </button>
         </form>
-        <h2 onClick={() => navigate("/register")} className="text-center pb-6 text-brown-900 cursor-pointer">
-          Join us
-        </h2>
       </div>
     </div>
   );
