@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { HiOutlineMenu } from "react-icons/hi";
 import { TbHealthRecognition } from "react-icons/tb";
+import { HiOutlineMenu } from "react-icons/hi";
+import React, { useState } from "react";
+import { Menu } from "./Menu";
 
 export const Header = () => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
@@ -24,6 +25,8 @@ export const Header = () => {
       ) : (
         ""
       )}
+      {/* Menu */}
+      {openMenu ? <Menu openMenu={openMenu} setOpenMenu={setOpenMenu} /> : ""}
     </>
   );
 };
