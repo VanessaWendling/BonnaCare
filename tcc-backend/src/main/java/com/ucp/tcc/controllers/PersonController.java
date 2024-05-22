@@ -11,27 +11,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ucp.tcc.dto.dog.DogRequestDTO;
-import com.ucp.tcc.dto.dog.DogResponseDTO;
-import com.ucp.tcc.services.DogService;
+import com.ucp.tcc.dto.person.PersonRequestDTO;
+import com.ucp.tcc.dto.person.PersonResponseDTO;
+import com.ucp.tcc.services.PersonService;
 
 @RestController
-@RequestMapping("/dogs")
-public class DogController {
+@RequestMapping("/person")
+public class PersonController {
 
 	@Autowired
-	private DogService dogService;
+	private PersonService personService;
 
 	@GetMapping
-	public ResponseEntity<List<DogResponseDTO>> getDogs() {
+	public ResponseEntity<List<PersonResponseDTO>> getAll() {
 		return ResponseEntity.status(HttpStatus.OK)
-				.body(dogService.getDogs().stream().map(DogResponseDTO::new).toList());
-	}
-	
-	@PostMapping
-	public ResponseEntity<DogResponseDTO> createDog(@RequestBody DogRequestDTO dogRequestDTO){
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(new DogResponseDTO(dogService.insertDog(dogRequestDTO)));
+				.body(personService.getPeople().stream().map(PersonResponseDTO::new).toList());
 	}
 
+	@PostMapping
+	public ResponseEntity<PersonResponseDTO> createUser(@RequestBody PersonRequestDTO personRequestDTO) {
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(new PersonResponseDTO(personService.savePerson(personRequestDTO)));
+	}
 }

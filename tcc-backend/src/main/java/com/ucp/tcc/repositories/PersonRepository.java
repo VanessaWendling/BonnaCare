@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ucp.tcc.entities.Keeper;
+import com.ucp.tcc.entities.Person;
 
-public interface KeeperRepository extends JpaRepository<Keeper, UUID>{
+public interface PersonRepository extends JpaRepository<Person, UUID>{
 
 }
