@@ -6,9 +6,11 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ucp.tcc.dto.person.PersonRequestDTO;
+import com.ucp.tcc.dto.person.PersonReqRecord;
 import com.ucp.tcc.entities.Person;
 import com.ucp.tcc.repositories.PersonRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class PersonService {
@@ -20,12 +22,12 @@ public class PersonService {
 		return keeperRepository.findAll();
 	}
 	
-	public Person savePerson(PersonRequestDTO personRequestDTO) {
-		return keeperRepository.save(new Person(personRequestDTO.name(), personRequestDTO.email(), personRequestDTO.password(), personRequestDTO.phone(), personRequestDTO.address()));
+	public Person savePerson(PersonReqRecord reqRecord) {
+		return keeperRepository.save(new Person(reqRecord.name(), reqRecord.email(), reqRecord.password(), reqRecord.phone(), reqRecord.address()));
 	}
 	
 	public Person findKeeper(UUID uuid) throws Exception {
-		return keeperRepository.findById(uuid).orElseThrow(() -> new Exception ("Not Found"));
+		return keeperRepository.findById(uuid).orElseThrow(() -> new EntityNotFoundException("Person not found in the system"));
 	}
 
 }

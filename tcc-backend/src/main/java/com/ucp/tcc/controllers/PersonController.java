@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ucp.tcc.dto.person.PersonRequestDTO;
-import com.ucp.tcc.dto.person.PersonResponseDTO;
+import com.ucp.tcc.dto.person.PersonMapper;
+import com.ucp.tcc.dto.person.PersonReqRecord;
+import com.ucp.tcc.dto.person.PersonResRecord;
 import com.ucp.tcc.services.PersonService;
 
 @RestController
@@ -23,14 +24,14 @@ public class PersonController {
 	private PersonService personService;
 
 	@GetMapping
-	public ResponseEntity<List<PersonResponseDTO>> getAll() {
+	public ResponseEntity<List<PersonResRecord>> getAll() {
 		return ResponseEntity.status(HttpStatus.OK)
-				.body(personService.getPeople().stream().map(PersonResponseDTO::new).toList());
+				.body(personService.getPeople().stream().map(PersonMapper::fromEntity).toList());
 	}
 
 	@PostMapping
-	public ResponseEntity<PersonResponseDTO> createUser(@RequestBody PersonRequestDTO personRequestDTO) {
+	public ResponseEntity<PersonResRecord> createUser(@RequestBody PersonReqRecord reqRecord) {
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(new PersonResponseDTO(personService.savePerson(personRequestDTO)));
+				.body(PersonMapper.fromEntity(personService.savePerson(reqRecord)));
 	}
 }

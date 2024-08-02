@@ -44,4 +44,24 @@ public class Address {
 		return number;
 	}
 
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public void setLocale(String locale) {
+		this.locale = locale;
+	}
+
+	public void setNeighborhood(String neighborhood) {
+		this.neighborhood = neighborhood;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+	
 }

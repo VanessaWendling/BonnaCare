@@ -22,12 +22,11 @@ public class Person {
 	private String phone;
 	@Embedded
 	private Address address;
-	
+
 	@ManyToMany
 	private Set<Dog> dogs;
-	
+
 	public Person(UUID uuid, String name, String email, String password, String phone, Address address, Set<Dog> dogs) {
-		super();
 		this.uuid = uuid;
 		this.name = name;
 		this.email = email;
@@ -37,16 +36,20 @@ public class Person {
 		this.dogs = dogs;
 	}
 
-	public Person() {
-		
-	}
-
 	public Person(String name, String email, String password, String phone, Address address) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
 		this.phone = phone;
 		this.address = address;
+	}
+
+	public Person() {
+
+	}
+
+	public Person(UUID uuid) {
+		this.uuid = uuid;
 	}
 
 	public UUID getUuid() {
@@ -76,5 +79,4 @@ public class Person {
 	public Address getAddress() {
 		return address;
 	}
-		
 }
