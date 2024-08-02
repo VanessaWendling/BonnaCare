@@ -40,7 +40,9 @@ public class Dog {
 		this.age = age;
 		this.keepers = keepers;
 	}
+
 	public Dog(String name, Breeds breed, Double weight, Long age, Set<Person> keepers) {
+		super();
 		this.name = name;
 		this.breed = breed;
 		this.weight = weight;
@@ -70,6 +72,30 @@ public class Dog {
 
 	public Set<Person> getKeepers() {
 		return keepers;
+	}
+
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setBreed(Breeds breed) {
+		this.breed = breed;
+	}
+
+	public void setWeight(Double weight) {
+		this.weight = weight;
+	}
+
+	public void setAge(Long age) {
+		this.age = age;
+	}
+
+	public void setKeepers(Set<Person> keepers) {
+		this.keepers = keepers;
 	}
 
 }

@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ucp.tcc.dto.dog.DogRequestDTO;
-import com.ucp.tcc.dto.dog.DogResponseDTO;
+import com.ucp.tcc.dto.dog.DogMapper;
+import com.ucp.tcc.dto.dog.DogReqRecord;
+import com.ucp.tcc.dto.dog.DogResRecord;
 import com.ucp.tcc.services.DogService;
 
 @RestController
@@ -23,15 +24,15 @@ public class DogController {
 	private DogService dogService;
 
 	@GetMapping
-	public ResponseEntity<List<DogResponseDTO>> getDogs() {
+	public ResponseEntity<List<DogResRecord>> getDogs() {
 		return ResponseEntity.status(HttpStatus.OK)
-				.body(dogService.getDogs().stream().map(DogResponseDTO::new).toList());
+				.body(dogService.getDogs().stream().map(DogMapper::fromEntity).toList());
 	}
 	
 	@PostMapping
-	public ResponseEntity<DogResponseDTO> createDog(@RequestBody DogRequestDTO dogRequestDTO){
+	public ResponseEntity<DogResRecord> createDog(@RequestBody DogReqRecord reqRecord){
 		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(new DogResponseDTO(dogService.insertDog(dogRequestDTO)));
+				.body(DogMapper.fromEntity (dogService.insertDog(reqRecord)));
 	}
 
 }
