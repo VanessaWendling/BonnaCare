@@ -19,15 +19,17 @@ public class PersonService {
 	private PersonRepository keeperRepository;
 
 	public List<Person> getPeople() {
-		return keeperRepository.findAll();
+		List<Person> people = keeperRepository.findAll();
+		return people;
 	}
 	
 	public Person savePerson(PersonReqRecord reqRecord) {
 		return keeperRepository.save(new Person(reqRecord.name(), reqRecord.email(), reqRecord.password(), reqRecord.phone(), reqRecord.address()));
 	}
 	
-	public Person findKeeper(UUID uuid) throws Exception {
-		return keeperRepository.findById(uuid).orElseThrow(() -> new EntityNotFoundException("Person not found in the system"));
+	public Person getKeeperById(UUID uuid) {
+		return keeperRepository.findById(uuid)
+				.orElseThrow(() -> new EntityNotFoundException("Person not found in the system"));
 	}
 
 }

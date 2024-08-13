@@ -17,26 +17,19 @@ public class DogService {
 
 	@Autowired
 	private DogRepository dogRepository;
-	
+
 	@Autowired
 	private PersonService personService;
 
 	public List<Dog> getDogs() {
-		return dogRepository.findAll();
+		 return dogRepository.findAll();
 	}
 
 	public Dog insertDog(DogReqRecord reqRecord) {
-		Set<Person> person = reqRecord.keepers().stream().map(uuid -> {
-			try {
-				return personService.findKeeper(uuid);
-			} catch (Exception e) {
-				
-				e.printStackTrace();
-			}
-			return null;
-		}).collect(Collectors.toSet());
-		return dogRepository.save(new Dog(reqRecord.name(), reqRecord.breed(), reqRecord.weight(),
-				reqRecord.age(), person));
+		Set<Person> person = reqRecord.keepers().stream().map(uuid -> personService.getKeeperById(uuid))
+				.collect(Collectors.toSet());
+		return dogRepository
+				.save(new Dog(reqRecord.name(), reqRecord.breed(), reqRecord.weight(), reqRecord.age(), person));
 	}
 
 }
