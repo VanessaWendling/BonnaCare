@@ -5,9 +5,12 @@ import java.util.UUID;
 
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 
 @Entity
@@ -23,7 +26,8 @@ public class Person {
 	@Embedded
 	private Address address;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "dog_keepers", joinColumns = @JoinColumn(name = "keepers_uuid"), inverseJoinColumns = @JoinColumn(name = "dog_uuid"))
 	private Set<Dog> dogs;
 
 	public Person(UUID uuid, String name, String email, String password, String phone, Address address, Set<Dog> dogs) {
@@ -79,4 +83,11 @@ public class Person {
 	public Address getAddress() {
 		return address;
 	}
+
+	@Override
+	public String toString() {
+		return "Person [uuid=" + uuid + ", name=" + name + ", email=" + email + ", password=" + password + ", phone="
+				+ phone + ", address=" + address + ", dogs=" + dogs + "]";
+	}
+
 }

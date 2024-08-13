@@ -30,9 +30,11 @@ public class Dog {
 	public Dog() {
 
 	}
+	public Dog(UUID uuid) {
+		this.uuid = uuid;
+	}
 
 	public Dog(UUID uuid, String name, Breeds breed, Double weight, Long age, Set<Person> keepers) {
-		super();
 		this.uuid = uuid;
 		this.name = name;
 		this.breed = breed;
@@ -42,7 +44,6 @@ public class Dog {
 	}
 
 	public Dog(String name, Breeds breed, Double weight, Long age, Set<Person> keepers) {
-		super();
 		this.name = name;
 		this.breed = breed;
 		this.weight = weight;
@@ -97,5 +98,12 @@ public class Dog {
 	public void setKeepers(Set<Person> keepers) {
 		this.keepers = keepers;
 	}
+	@Override
+	public String toString() {
+		return "uuid=" + uuid + "\n name=" + name + "\n  breed=" + breed + "\n  weight=" + weight + "\n  age=" + age
+				+ "\n  keepers=" + keepers + "\n \n ";
+	}
 
+	
+	
 }
