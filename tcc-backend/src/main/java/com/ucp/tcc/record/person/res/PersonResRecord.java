@@ -1,4 +1,4 @@
-package com.ucp.tcc.dto.person;
+package com.ucp.tcc.record.person.res;
 
 import java.util.UUID;
 

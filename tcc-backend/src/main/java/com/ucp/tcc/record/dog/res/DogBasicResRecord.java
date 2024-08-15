@@ -1,4 +1,4 @@
-package com.ucp.tcc.dto.dog;
+package com.ucp.tcc.record.dog.res;
 
 import java.util.Set;
 import java.util.UUID;

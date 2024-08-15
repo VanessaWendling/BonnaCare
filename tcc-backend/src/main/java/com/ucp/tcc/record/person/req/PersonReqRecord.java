@@ -1,4 +1,4 @@
-package com.ucp.tcc.dto.person;
+package com.ucp.tcc.record.person.req;
 
 import com.ucp.tcc.entities.Address;
 
