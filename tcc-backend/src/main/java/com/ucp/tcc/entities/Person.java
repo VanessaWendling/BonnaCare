@@ -27,7 +27,9 @@ public class Person {
 	private Address address;
 
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "dog_keepers", joinColumns = @JoinColumn(name = "keepers_uuid"), inverseJoinColumns = @JoinColumn(name = "dog_uuid"))
+	@JoinTable(name = "dog_keepers",
+	joinColumns = @JoinColumn(name = "keepers_uuid"),
+	inverseJoinColumns = @JoinColumn(name = "dog_uuid"))
 	private Set<Dog> dogs;
 
 	public Person(UUID uuid, String name, String email, String password, String phone, Address address, Set<Dog> dogs) {

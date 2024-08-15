@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Dog {
@@ -18,14 +19,19 @@ public class Dog {
 
 	private String name;
 
+	private String microchip;
+
 	private Breeds breed;
 
 	private Double weight;
 
 	private Long age;
-
+	
 	@ManyToMany
 	private Set<Person> keepers;
+	
+	@OneToOne
+	private MedicalHistory medicalHistory;
 
 	public Dog() {
 
@@ -34,23 +40,35 @@ public class Dog {
 		this.uuid = uuid;
 	}
 
-	public Dog(UUID uuid, String name, Breeds breed, Double weight, Long age, Set<Person> keepers) {
+	public Dog(UUID uuid, String name, String microchip, Breeds breed, Double weight, Long age, Set<Person> keepers) {
+		this.uuid = uuid;
+		this.name = name;
+		this.microchip = microchip;
+		this.breed = breed;
+		this.weight = weight;
+		this.age = age;
+		this.keepers = keepers;
+	}
+
+	public Dog(String name, String microchip, Breeds breed, Double weight, Long age, Set<Person> keepers) {
+		this.name = name;
+		this.microchip = microchip;
+		this.breed = breed;
+		this.weight = weight;
+		this.age = age;
+		this.keepers = keepers;
+	}
+	
+	public Dog(UUID uuid, String name, Breeds breed, Double weight, Long age, Set<Person> keepers,
+			MedicalHistory medicalHistory) {
 		this.uuid = uuid;
 		this.name = name;
 		this.breed = breed;
 		this.weight = weight;
 		this.age = age;
 		this.keepers = keepers;
+		this.medicalHistory = medicalHistory;
 	}
-
-	public Dog(String name, Breeds breed, Double weight, Long age, Set<Person> keepers) {
-		this.name = name;
-		this.breed = breed;
-		this.weight = weight;
-		this.age = age;
-		this.keepers = keepers;
-	}
-
 	public UUID getUuid() {
 		return uuid;
 	}
@@ -97,6 +115,19 @@ public class Dog {
 
 	public void setKeepers(Set<Person> keepers) {
 		this.keepers = keepers;
+	}
+	
+	public String getMicrochip() {
+		return microchip;
+	}
+	public void setMicrochip(String microchip) {
+		this.microchip = microchip;
+	}
+	public MedicalHistory getMedicalHistory() {
+		return medicalHistory;
+	}
+	public void setMedicalHistory(MedicalHistory medicalHistory) {
+		this.medicalHistory = medicalHistory;
 	}
 	@Override
 	public String toString() {
