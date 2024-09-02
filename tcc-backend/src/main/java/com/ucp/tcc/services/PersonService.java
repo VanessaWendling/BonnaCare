@@ -6,8 +6,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ucp.tcc.dto.person.PersonReqRecord;
 import com.ucp.tcc.entities.Person;
+import com.ucp.tcc.record.person.req.PersonReqRecord;
 import com.ucp.tcc.repositories.PersonRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -19,8 +19,7 @@ public class PersonService {
 	private PersonRepository keeperRepository;
 
 	public List<Person> getPeople() {
-		List<Person> people = keeperRepository.findAll();
-		return people;
+		return keeperRepository.findAll();
 	}
 	
 	public Person savePerson(PersonReqRecord reqRecord) {

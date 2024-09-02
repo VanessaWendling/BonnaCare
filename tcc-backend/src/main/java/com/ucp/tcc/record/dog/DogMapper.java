@@ -21,7 +21,7 @@ public class DogMapper {
 	}
 	
 	public static DogResHistoricRecord fromEntityHistoricRecord(Dog dog) {
-		return new DogResHistoricRecord(dog.getUuid(), dog.getName(), dog.getMicrochip(), dog.getBreed(), dog.getWeight(),	dog.getAge(), dog.getMedicalHistory());
+		return new DogResHistoricRecord(dog.getUuid(), dog.getName(), dog.getMicrochip(), dog.getBreed(), dog.getWeight(),	dog.getAge(), dog.getConsults());
 	}
 	
 	private static Set<PersonResRecord> setOfPeopleDetailsRecord(Set<Person> people){

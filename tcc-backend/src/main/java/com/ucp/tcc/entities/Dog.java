@@ -8,7 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Dog {
@@ -26,21 +26,23 @@ public class Dog {
 	private Double weight;
 
 	private Long age;
-	
+
 	@ManyToMany
 	private Set<Person> keepers;
-	
-	@OneToOne
-	private MedicalHistory medicalHistory;
+
+	@OneToMany
+	private Set<Consult> consults;
 
 	public Dog() {
 
 	}
+
 	public Dog(UUID uuid) {
 		this.uuid = uuid;
 	}
 
-	public Dog(UUID uuid, String name, String microchip, Breeds breed, Double weight, Long age, Set<Person> keepers) {
+	public Dog(UUID uuid, String name, String microchip, Breeds breed, Double weight, Long age, Set<Person> keepers,
+			Set<Consult> consults) {
 		this.uuid = uuid;
 		this.name = name;
 		this.microchip = microchip;
@@ -48,6 +50,7 @@ public class Dog {
 		this.weight = weight;
 		this.age = age;
 		this.keepers = keepers;
+		this.consults = consults;
 	}
 
 	public Dog(String name, String microchip, Breeds breed, Double weight, Long age, Set<Person> keepers) {
@@ -58,17 +61,16 @@ public class Dog {
 		this.age = age;
 		this.keepers = keepers;
 	}
-	
-	public Dog(UUID uuid, String name, Breeds breed, Double weight, Long age, Set<Person> keepers,
-			MedicalHistory medicalHistory) {
+
+	public Dog(UUID uuid, String name, Breeds breed, Double weight, Long age, Set<Person> keepers) {
 		this.uuid = uuid;
 		this.name = name;
 		this.breed = breed;
 		this.weight = weight;
 		this.age = age;
 		this.keepers = keepers;
-		this.medicalHistory = medicalHistory;
 	}
+
 	public UUID getUuid() {
 		return uuid;
 	}
@@ -116,25 +118,27 @@ public class Dog {
 	public void setKeepers(Set<Person> keepers) {
 		this.keepers = keepers;
 	}
-	
+
 	public String getMicrochip() {
 		return microchip;
 	}
+
 	public void setMicrochip(String microchip) {
 		this.microchip = microchip;
 	}
-	public MedicalHistory getMedicalHistory() {
-		return medicalHistory;
+
+	public Set<Consult> getConsults() {
+		return consults;
 	}
-	public void setMedicalHistory(MedicalHistory medicalHistory) {
-		this.medicalHistory = medicalHistory;
+
+	public void setConsults(Set<Consult> consults) {
+		this.consults = consults;
 	}
+
 	@Override
 	public String toString() {
 		return "uuid=" + uuid + "\n name=" + name + "\n  breed=" + breed + "\n  weight=" + weight + "\n  age=" + age
 				+ "\n  keepers=" + keepers + "\n \n ";
 	}
 
-	
-	
 }

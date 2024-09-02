@@ -1,19 +1,22 @@
 package com.ucp.tcc.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ucp.tcc.dto.dog.DogMapper;
-import com.ucp.tcc.dto.dog.DogReqRecord;
-import com.ucp.tcc.dto.dog.DogResRecord;
+import com.ucp.tcc.record.dog.DogMapper;
+import com.ucp.tcc.record.dog.req.DogReqRecord;
+import com.ucp.tcc.record.dog.res.DogResHistoricRecord;
+import com.ucp.tcc.record.dog.res.DogResRecord;
 import com.ucp.tcc.services.DogService;
 
 @RestController
@@ -33,6 +36,18 @@ public class DogController {
 	public ResponseEntity<DogResRecord> createDog(@RequestBody DogReqRecord reqRecord){
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(DogMapper.fromEntity (dogService.insertDog(reqRecord)));
+	}
+	
+	@GetMapping("/{uuid}")
+	public ResponseEntity<DogResRecord> getDogByUUID(@PathVariable UUID uuid){
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(DogMapper.fromEntity(dogService.findDogByUUID(uuid)));
+	}
+	
+	@GetMapping("/medicalhistory/{uuid}")
+	public ResponseEntity<DogResHistoricRecord> getDogMedicalHistoryByUUID(@PathVariable UUID uuid){
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(DogMapper.fromEntityHistoricRecord(dogService.findDogByUUID(uuid)));
 	}
 
 }

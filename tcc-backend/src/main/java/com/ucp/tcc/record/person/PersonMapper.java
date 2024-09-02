@@ -26,7 +26,7 @@ public class PersonMapper {
 	}
 	
 	private static  Set<DogBasicResRecord> fromDogToDogBasicResRecord (Set<Dog> dogs){
-		return dogs.stream().map(dog -> new DogBasicResRecord(dog.getUuid(), dog.getName(), dog.getBreed(), dog.getWeight(), dog.getAge())).collect(Collectors.toSet());
+		return dogs.stream().map(dog -> new DogBasicResRecord(dog.getUuid(), dog.getName(), dog.getBreed(), dog.getMicrochip(), dog.getWeight(), dog.getAge())).collect(Collectors.toSet());
 	}
 	
 	
