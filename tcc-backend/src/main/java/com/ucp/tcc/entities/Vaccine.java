@@ -13,19 +13,24 @@ public class Vaccine {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID uuid;
-	
+
 	private String name;
-	
-	private String batch;
+
+	private String description;
 
 	public Vaccine() {
-	
+
 	}
-	
-	public Vaccine(UUID uuid, String name, String batch) {
+
+	public Vaccine(UUID uuid, String name, String description) {
 		this.uuid = uuid;
 		this.name = name;
-		this.batch = batch;
+		this.description = description;
+	}
+
+	public Vaccine(String name, String description) {
+		this.name = name;
+		this.description = description;
 	}
 
 	public UUID getUuid() {
@@ -44,12 +49,12 @@ public class Vaccine {
 		this.name = name;
 	}
 
-	public String getBatch() {
-		return batch;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setBatch(String batch) {
-		this.batch = batch;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	
+
 }

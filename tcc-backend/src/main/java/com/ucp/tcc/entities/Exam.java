@@ -1,6 +1,5 @@
 package com.ucp.tcc.entities;
 
-import java.util.Date;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
@@ -13,22 +12,25 @@ public class Exam {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID uuid;
-	
+
 	private String name;
-	
-	private Date date;
-	
-	private String observation;
-	
+
+
+	private String description;
+
 	public Exam() {
-	
+
 	}
 
-	public Exam(UUID uuid, String name, Date date, String observation) {
+	public Exam(UUID uuid, String name, String description) {
 		this.uuid = uuid;
 		this.name = name;
-		this.date = date;
-		this.observation = observation;
+		this.description = description;
+	}
+
+	public Exam(String name, String description) {
+		this.name = name;
+		this.description = description;
 	}
 
 	public UUID getUuid() {
@@ -47,20 +49,12 @@ public class Exam {
 		this.name = name;
 	}
 
-	public Date getDate() {
-		return date;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getObservation() {
-		return observation;
-	}
-
-	public void setObservation(String observation) {
-		this.observation = observation;
-	}
-	
 }
