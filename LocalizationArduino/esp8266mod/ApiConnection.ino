@@ -42,8 +42,11 @@ void loop() {
   if (gps.location.isUpdated()) {
     Serial.print("Latitude: ");
     float latitude = gps.location.lat();
+    Serial.println(latitude, 6);
+    
     Serial.print("Longitude: ");
     float longitude = gps.location.lng();
+    Serial.println(longitude, 6);
 
     // Velocidade em km/h
     Serial.print("Velocidade (km/h): ");
