@@ -1,13 +1,17 @@
 package com.ucp.tcc.entities;
 
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
@@ -17,32 +21,46 @@ public class Consult {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID uuid;
-	
+
 	private Date date;
-	
-	@OneToMany
-	private List<Vaccine> vaccines;
-	
-	@OneToMany
-	private List<Exam> exams;
-	
+
+	@OneToMany(cascade = CascadeType.ALL)
+	private Set<Vaccine> vaccines =  new HashSet<>();
+
+	@OneToMany(mappedBy = "consult", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<ConsultExam> consultExams;
+
 	@OneToOne
 	private Veterinarian vet;
-	
+
 	@OneToOne
-	private Clinic clinc;
-	
+	private Clinic clinic;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Dog dog;
+
 	public Consult() {
-	
+
 	}
 
-	public Consult(UUID uuid, Date date, List<Vaccine> vaccines, List<Exam> exams, Veterinarian vet, Clinic clinc) {
+	public Consult(UUID uuid, Date date, Set<Vaccine> vaccines, Set<ConsultExam> consultExams, Veterinarian vet, Clinic clinic,
+			Dog dog) {
 		this.uuid = uuid;
 		this.date = date;
 		this.vaccines = vaccines;
-		this.exams = exams;
+		this.consultExams = consultExams;
 		this.vet = vet;
-		this.clinc = clinc;
+		this.clinic = clinic;
+		this.dog = dog;
+	}
+
+	public Consult(Date date, Set<Vaccine> vaccines, Set<ConsultExam> consultExams, Veterinarian vet, Clinic clinic, Dog dog) {
+		this.date = date;
+		this.vaccines = vaccines;
+		this.consultExams = consultExams;
+		this.vet = vet;
+		this.clinic = clinic;
+		this.dog = dog;
 	}
 
 	public UUID getUuid() {
@@ -61,20 +79,20 @@ public class Consult {
 		this.date = date;
 	}
 
-	public List<Vaccine> getVaccines() {
+	public Set<Vaccine> getVaccines() {
 		return vaccines;
 	}
 
-	public void setVaccines(List<Vaccine> vaccines) {
+	public void setVaccines(Set<Vaccine> vaccines) {
 		this.vaccines = vaccines;
 	}
 
-	public List<Exam> getExams() {
-		return exams;
+	public Set<ConsultExam> getExams() {
+		return consultExams;
 	}
 
-	public void setExams(List<Exam> exams) {
-		this.exams = exams;
+	public void setExams(Set<ConsultExam> consultExams) {
+		this.consultExams = consultExams;
 	}
 
 	public Veterinarian getVet() {
@@ -85,12 +103,24 @@ public class Consult {
 		this.vet = vet;
 	}
 
-	public Clinic getClinc() {
-		return clinc;
+	public Clinic getClinic() {
+		return clinic;
 	}
 
-	public void setClinc(Clinic clinc) {
-		this.clinc = clinc;
+	public void setClinc(Clinic clinic) {
+		this.clinic = clinic;
 	}
-		
+
+	public Dog getDog() {
+		return dog;
+	}
+
+	public void setDog(Dog dog) {
+		this.dog = dog;
+	}
+
+	public void setClinic(Clinic clinic) {
+		this.clinic = clinic;
+	}
+
 }

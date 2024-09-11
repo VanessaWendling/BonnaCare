@@ -21,7 +21,7 @@ public class Clinic {
 	
 	private Address address;
 	
-	@ManyToMany
+	@ManyToMany(mappedBy = "clinics")
 	private Set<Veterinarian> veterinarians;
 	
 	public Clinic() {

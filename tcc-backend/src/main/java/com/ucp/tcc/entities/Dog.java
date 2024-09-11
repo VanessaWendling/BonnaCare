@@ -1,3 +1,4 @@
+
 package com.ucp.tcc.entities;
 
 import java.util.Set;
@@ -30,9 +31,12 @@ public class Dog {
 	@ManyToMany
 	private Set<Person> keepers;
 
-	@OneToMany
+	@OneToMany(mappedBy = "dog")
 	private Set<Consult> consults;
 
+	
+	private String localizationId;
+	
 	public Dog() {
 
 	}
@@ -69,6 +73,19 @@ public class Dog {
 		this.weight = weight;
 		this.age = age;
 		this.keepers = keepers;
+	}
+	
+	public Dog(UUID uuid, String localizationId) {
+		this.uuid = uuid;
+		this.localizationId = localizationId;
+	}
+
+	public String getLocalizationId() {
+		return localizationId;
+	}
+
+	public void setLocalizationId(String localizationId) {
+		this.localizationId = localizationId;
 	}
 
 	public UUID getUuid() {
