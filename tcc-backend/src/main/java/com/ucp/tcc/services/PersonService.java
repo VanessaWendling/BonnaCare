@@ -26,12 +26,12 @@ public class PersonService {
 	public List<Person> getPeople() {
 		return keeperRepository.findAll();
 	}
-	
+
 	public Person savePerson(PersonReqRecord reqRecord) {
 		Optional<Person> existingPerson = keeperRepository.findByEmail(reqRecord.email());
 		if (existingPerson.isPresent()) {
-	        throw new EmailAlreadyExistsException("Email já está em uso.");
-	    }
+			throw new EmailAlreadyExistsException("Email já está em uso.");
+		}
 		return keeperRepository.save(new Person(reqRecord.name(), reqRecord.email(),
 				passwordEncoder.encode(reqRecord.password()), reqRecord.phone(), reqRecord.address()));
 	}
