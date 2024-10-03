@@ -30,7 +30,7 @@ export const Header = () => {
           onClick={() => setOpenMenu(!openMenu)}
         /> */}
         <div className="bg-transparent w-[36px] h-[36px]" />
-        <div className="p-4 flex flex-row gap-2 items-center cursor-pointer">
+        <div className="p-4 flex flex-row gap-2 items-center cursor-pointer" onClick={(() => navigate("/home"))}>
           <TbHealthRecognition size={36} className="text-pink-100" />
           <h1 className="text-pink-100 font-bold text-xl">BonnaCare</h1>
         </div>
