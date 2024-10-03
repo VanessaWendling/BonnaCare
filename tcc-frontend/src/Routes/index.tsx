@@ -1,9 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Login } from "../Pages/Login";
-import React from "react";
-import { Register } from "../Pages/Register";
+import { DetailsDog } from "../Pages/DetailsDog";
 import { Home } from "../Pages/Home";
-import { AddDogs } from "../Pages/AddDogs";
+import { Login } from "../Pages/Login";
 
 export const Routes = () => {
   const router = createBrowserRouter([
@@ -12,17 +10,13 @@ export const Routes = () => {
       element: <Login />,
     },
     {
-      path: "/register",
-      element: <Register />,
-    },
-    {
       path: "/home",
       element: <Home />,
     },
     {
-      path: "/AddDogs",
-      element: <AddDogs />,
-    },
+      path: "/details",
+      element: <DetailsDog />,
+    }
   ]);
 
   return <RouterProvider router={router} />;
