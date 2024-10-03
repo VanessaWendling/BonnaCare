@@ -11,20 +11,24 @@ import com.ucp.tcc.record.dog.res.DogResRecord;
 import com.ucp.tcc.record.person.res.PersonResRecord;
 
 public class DogMapper {
-	
+
 	public static Dog fromRecord(DogReqRecord reqRecord) {
-		return new Dog(reqRecord.name(), reqRecord.microchip(), reqRecord.breed(), reqRecord.weight(), reqRecord.age(), reqRecord.setOfPeopleDetails(reqRecord.keepers()));
+		return new Dog(reqRecord.name(), reqRecord.microchip(), reqRecord.breed(), reqRecord.age(),
+				reqRecord.setOfPeopleDetails(reqRecord.keepers()));
 	}
-	
+
 	public static DogResRecord fromEntity(Dog dog) {
-		return new DogResRecord(dog.getUuid(), dog.getName(), dog.getMicrochip(), dog.getBreed(), dog.getWeight(),	dog.getAge(), setOfPeopleDetailsRecord(dog.getKeepers()));
+		return new DogResRecord(dog.getUuid(), dog.getName(), dog.getMicrochip(), dog.getBreed(), dog.getAge(),
+				setOfPeopleDetailsRecord(dog.getKeepers()));
 	}
-	
+
 	public static DogResHistoricRecord fromEntityHistoricRecord(Dog dog) {
-		return new DogResHistoricRecord(dog.getUuid(), dog.getName(), dog.getMicrochip(), dog.getBreed(), dog.getWeight(),	dog.getAge(), dog.getConsults());
+		return new DogResHistoricRecord(dog.getUuid(), dog.getName(), dog.getMicrochip(), dog.getBreed(), dog.getAge(),
+				dog.getConsults());
 	}
-	
-	private static Set<PersonResRecord> setOfPeopleDetailsRecord(Set<Person> people){
-		return people.stream().map(person -> new PersonResRecord(person.getUuid(), person.getName(), person.getEmail(), person.getPhone(), person.getAddress())).collect(Collectors.toSet());
+
+	private static Set<PersonResRecord> setOfPeopleDetailsRecord(Set<Person> people) {
+		return people.stream().map(person -> new PersonResRecord(person.getUuid(), person.getName(), person.getEmail(),
+				person.getPhone(), person.getAddress())).collect(Collectors.toSet());
 	}
 }

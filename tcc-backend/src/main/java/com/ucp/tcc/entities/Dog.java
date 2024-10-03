@@ -24,8 +24,6 @@ public class Dog {
 
 	private Breeds breed;
 
-	private Double weight;
-
 	private Long age;
 
 	@ManyToMany
@@ -45,32 +43,29 @@ public class Dog {
 		this.uuid = uuid;
 	}
 
-	public Dog(UUID uuid, String name, String microchip, Breeds breed, Double weight, Long age, Set<Person> keepers,
+	public Dog(UUID uuid, String name, String microchip, Breeds breed, Long age, Set<Person> keepers,
 			Set<Consult> consults) {
 		this.uuid = uuid;
 		this.name = name;
 		this.microchip = microchip;
 		this.breed = breed;
-		this.weight = weight;
 		this.age = age;
 		this.keepers = keepers;
 		this.consults = consults;
 	}
 
-	public Dog(String name, String microchip, Breeds breed, Double weight, Long age, Set<Person> keepers) {
+	public Dog(String name, String microchip, Breeds breed, Long age, Set<Person> keepers) {
 		this.name = name;
 		this.microchip = microchip;
 		this.breed = breed;
-		this.weight = weight;
 		this.age = age;
 		this.keepers = keepers;
 	}
 
-	public Dog(UUID uuid, String name, Breeds breed, Double weight, Long age, Set<Person> keepers) {
+	public Dog(UUID uuid, String name, Breeds breed, Long age, Set<Person> keepers) {
 		this.uuid = uuid;
 		this.name = name;
 		this.breed = breed;
-		this.weight = weight;
 		this.age = age;
 		this.keepers = keepers;
 	}
@@ -100,10 +95,6 @@ public class Dog {
 		return breed;
 	}
 
-	public Double getWeight() {
-		return weight;
-	}
-
 	public Long getAge() {
 		return age;
 	}
@@ -122,10 +113,6 @@ public class Dog {
 
 	public void setBreed(Breeds breed) {
 		this.breed = breed;
-	}
-
-	public void setWeight(Double weight) {
-		this.weight = weight;
 	}
 
 	public void setAge(Long age) {
@@ -154,7 +141,7 @@ public class Dog {
 
 	@Override
 	public String toString() {
-		return "uuid=" + uuid + "\n name=" + name + "\n  breed=" + breed + "\n  weight=" + weight + "\n  age=" + age
+		return "uuid=" + uuid + "\n name=" + name + "\n  breed=" + breed + "\n  age=" + age
 				+ "\n  keepers=" + keepers + "\n \n ";
 	}
 

@@ -32,7 +32,7 @@ public class DogService {
 		Set<Person> person = reqRecord.keepers().stream().map(uuid -> personService.getKeeperById(uuid))
 				.collect(Collectors.toSet());
 		return dogRepository
-				.save(new Dog(reqRecord.name(), reqRecord.microchip(), reqRecord.breed(), reqRecord.weight(), reqRecord.age(), person));
+				.save(new Dog(reqRecord.name(), reqRecord.microchip(), reqRecord.breed(), reqRecord.age(), person));
 	}
 
 	public Dog findDogByUUID(UUID uuid) {
