@@ -13,7 +13,7 @@ import com.ucp.tcc.record.person.res.PersonResRecord;
 public class PersonMapper {
 
 	public static Person fromRecord(PersonReqRecord reqRecord) {
-		return new Person(reqRecord.name(), reqRecord.email(), reqRecord.password(), reqRecord.phone(),
+		return new Person(reqRecord.name(), reqRecord.photo(), reqRecord.email(), reqRecord.password(), reqRecord.phone(),
 				reqRecord.address());
 	}
 
@@ -22,11 +22,11 @@ public class PersonMapper {
 	}
 
 	public static PersonDogResRecord fromEntityDog(Person person) {
-		return new PersonDogResRecord(person.getUuid(), person.getName(), person.getEmail(), person.getPhone(), person.getAddress(), fromDogToDogBasicResRecord(person.getDogs()));
+		return new PersonDogResRecord(person.getUuid(), person.getName(), person.getPhoto(), person.getEmail(), person.getPhone(), person.getAddress(), fromDogToDogBasicResRecord(person.getDogs()));
 	}
 	
 	private static  Set<DogBasicResRecord> fromDogToDogBasicResRecord (Set<Dog> dogs){
-		return dogs.stream().map(dog -> new DogBasicResRecord(dog.getUuid(), dog.getName(), dog.getBreed(), dog.getMicrochip(), dog.getWeight(), dog.getAge())).collect(Collectors.toSet());
+		return dogs.stream().map(dog -> new DogBasicResRecord(dog.getUuid(), dog.getName(), dog.getBreed(), dog.getMicrochip(), dog.getAge())).collect(Collectors.toSet());
 	}
 	
 	

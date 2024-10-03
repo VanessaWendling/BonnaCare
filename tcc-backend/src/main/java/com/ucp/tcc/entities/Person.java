@@ -3,6 +3,7 @@ package com.ucp.tcc.entities;
 import java.util.Set;
 import java.util.UUID;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -20,6 +21,8 @@ public class Person {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID uuid;
 	private String name;
+	@Column(columnDefinition = "TEXT")
+	private String photo;
 	private String email;
 	private String password;
 	private String phone;
@@ -32,9 +35,10 @@ public class Person {
 	inverseJoinColumns = @JoinColumn(name = "dog_uuid"))
 	private Set<Dog> dogs;
 
-	public Person(UUID uuid, String name, String email, String password, String phone, Address address, Set<Dog> dogs) {
+	public Person(UUID uuid, String name, String photo, String email, String password, String phone, Address address, Set<Dog> dogs) {
 		this.uuid = uuid;
 		this.name = name;
+		this.phone = photo;
 		this.email = email;
 		this.password = password;
 		this.phone = phone;
@@ -42,8 +46,9 @@ public class Person {
 		this.dogs = dogs;
 	}
 
-	public Person(String name, String email, String password, String phone, Address address) {
+	public Person(String name, String photo, String email, String password, String phone, Address address) {
 		this.name = name;
+		this.photo = photo;
 		this.email = email;
 		this.password = password;
 		this.phone = phone;
@@ -68,6 +73,14 @@ public class Person {
 
 	public String getEmail() {
 		return email;
+	}
+	
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
 	}
 
 	public String getPassword() {

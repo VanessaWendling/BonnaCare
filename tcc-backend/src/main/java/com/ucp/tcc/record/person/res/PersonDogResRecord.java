@@ -6,7 +6,7 @@ import java.util.UUID;
 import com.ucp.tcc.entities.Address;
 import com.ucp.tcc.record.dog.res.DogBasicResRecord;
 
-public record PersonDogResRecord(UUID uuid, String name, String email, String phone, Address address, Set<DogBasicResRecord> dogs) {
+public record PersonDogResRecord(UUID uuid, String name, String photo, String email, String phone, Address address, Set<DogBasicResRecord> dogs) {
 
 	
 }

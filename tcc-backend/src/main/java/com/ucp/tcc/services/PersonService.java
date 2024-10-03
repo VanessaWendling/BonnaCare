@@ -32,7 +32,8 @@ public class PersonService {
 		if (existingPerson.isPresent()) {
 			throw new EmailAlreadyExistsException("Email já está em uso.");
 		}
-		return keeperRepository.save(new Person(reqRecord.name(), reqRecord.email(),
+		
+		return keeperRepository.save(new Person(reqRecord.name(), reqRecord.photo(), reqRecord.email(),
 				passwordEncoder.encode(reqRecord.password()), reqRecord.phone(), reqRecord.address()));
 	}
 
