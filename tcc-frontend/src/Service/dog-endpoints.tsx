@@ -1,14 +1,22 @@
+import Cookies from "js-cookie";
 import { api } from "./axios";
 
 interface IDog {
   name: string;
+  photo?: string,
   breed: string;
   microchip: string;
-  age: string;
+  birthday: string;
   keepers: string[];
 }
 
 export const createDog = async (data: IDog) => {
   const url = `/dogs`;
-  return api.post(url, data);
+  const token = Cookies.get('token')
+  console.log(data)
+  return api.post(url, data, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
 };

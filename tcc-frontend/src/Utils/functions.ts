@@ -1,4 +1,3 @@
-import { IPosition, TimeClassification } from "../Types/Types";
 
 export function convertData(data: string, method: string): string {
   switch (method) {
@@ -13,6 +12,36 @@ export function convertData(data: string, method: string): string {
     default:
       return data;
   }
+}
 
+export interface IAge {
+  years: number;
+  months: number
+}
+
+export function calculateAge(date: string): IAge {
+
+  const [day, month, year] = date.split("/").map(Number);
+  const birthDate = new Date(year, month - 1, day);
+  const today = new Date();
+
+  let ageYears = today.getFullYear() - birthDate.getFullYear();
+  let ageMonths = today.getMonth() - birthDate.getMonth();
+
+  if (ageMonths < 0 || (ageMonths === 0 && today.getDate() < birthDate.getDate())) {
+    ageYears--;
+    ageMonths += 12;
+  }
+
+  // Ajustar o número de meses se a data de nascimento for posterior ao dia atual no mês
+  if (today.getDate() < birthDate.getDate()) {
+    ageMonths--;
+    if (ageMonths < 0) {
+      ageMonths += 12;
+      ageYears--;
+    }
+  }
+
+  return { years: ageYears, months: ageMonths };
 }
 

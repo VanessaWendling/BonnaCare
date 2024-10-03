@@ -4,18 +4,23 @@ import { AiOutlineClose, AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 import { FileUpload } from "../FileUpload";
 import { CardNotification } from "./CardNotification";
 import { FaExclamationTriangle } from "react-icons/fa";
+import { createDog } from "../../Service/dog-endpoints";
+import Cookies from "js-cookie";
+import { convertData } from "../../Utils/functions";
 
 interface IAddDogs {
   buttonAddPet: boolean;
   setButtonAddPet: Dispatch<boolean>;
+  refresh: boolean;
+  setRefresh: Dispatch<boolean>;
 }
 
-export const CardAddDogs = ({ buttonAddPet, setButtonAddPet }: IAddDogs) => {
+export const CardAddDogs = ({ buttonAddPet, setButtonAddPet, refresh, setRefresh }: IAddDogs) => {
   const [name, setName] = useState<string>("");
   const [microship, setMicroship] = useState<string>("");
   const [localizator, setLocalizator] = useState<string>("");
   const [base64Image, setBase64Image] = useState<string>();
-  const [day, setDay] = useState<string>();
+  const [birthday, setBirthday] = useState<string>();
   const [listOfBreeds, setListOfBreeds] =
     useState<Array<IBreedType>>(breedTypes);
   const [selectedBreed, setSelectedBreed] = useState<string>("");
@@ -24,16 +29,20 @@ export const CardAddDogs = ({ buttonAddPet, setButtonAddPet }: IAddDogs) => {
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    setCardAttention(true);
-    console.log({
-      day,
-      selectedBreed,
-      name,
-      microship,
-      localizator,
-      base64Image,
-    });
+    const uuidUser = Cookies.get("uuidUser");
+    createDog({
+      name: name,
+      photo: base64Image,
+      breed: selectedBreed,
+      microchip: microship,
+      birthday: convertData(birthday!, "getReformattedData"),
+      keepers: [uuidUser!],
+    })
+      .then(() => {
+        setCardAttention(true);
+        setRefresh(!refresh)
+      })
+      .catch();
   }
 
   return (
@@ -104,11 +113,11 @@ export const CardAddDogs = ({ buttonAddPet, setButtonAddPet }: IAddDogs) => {
                   </select>
                 </div>
                 <div className="flex flex-col w-full">
-                  <label className="font-bold mb-2">Age</label>
+                  <label className="font-bold mb-2">Birthday</label>
                   <input
                     type="date"
-                    value={day}
-                    onChange={(e) => setDay(e.target.value)}
+                    value={birthday}
+                    onChange={(e) => setBirthday(e.target.value)}
                     className="border border-gray-300 rounded-2xl p-2 w-full focus:outline-none focus:ring-2 focus:ring-pink-600"
                   />
                 </div>

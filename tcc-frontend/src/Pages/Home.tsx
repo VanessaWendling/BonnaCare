@@ -14,10 +14,11 @@ export const Home = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [profile, setProfile] = useState<IProfile>();
   const [listOfDogs, setListOfDogs] = useState<ICardDogs[]>();
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   useEffect(() => {
     getUserDetails();
-  }, []);
+  }, [refresh]);
 
   function getUserDetails() {
     const uuid = Cookies.get("uuidUser");
@@ -61,13 +62,14 @@ export const Home = () => {
                 className="text-pink-900 cursor-pointer"
               />
             </div>
-            <div>
-              {listOfDogs?.map((dog) => (
+            <div className="flex flex-row flex-wrap gap-4">
+              {listOfDogs?.map((dog, index) => (
                 <CardDogs
+                  key={index}
                   name={dog.name}
                   uuid={dog.uuid}
                   photo={dog.photo}
-                  age={dog.age}
+                  birthday={dog.birthday}
                   breed={dog.breed}
                 />
               ))}
@@ -98,6 +100,8 @@ export const Home = () => {
         <CardAddDogs
           buttonAddPet={buttonAddPet}
           setButtonAddPet={setButtonAddPet}
+          setRefresh={setRefresh}
+          refresh={refresh}
         />
       ) : (
         ""
