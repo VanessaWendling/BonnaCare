@@ -1,5 +1,5 @@
 package com.ucp.tcc.record.auth;
 
-public record Token(String token) {
+public record Token(String token, String uuid) {
 
 }
