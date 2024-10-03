@@ -33,6 +33,10 @@ public class Vaccine {
 		this.description = description;
 	}
 
+	public Vaccine(UUID uuid) {
+		this.uuid = uuid;
+	}
+
 	public UUID getUuid() {
 		return uuid;
 	}
