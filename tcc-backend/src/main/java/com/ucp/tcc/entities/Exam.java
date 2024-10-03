@@ -32,6 +32,12 @@ public class Exam {
 		this.name = name;
 		this.description = description;
 	}
+	
+	
+
+	public Exam(UUID uuid) {
+		this.uuid = uuid;
+	}
 
 	public UUID getUuid() {
 		return uuid;
