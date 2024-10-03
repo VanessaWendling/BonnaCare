@@ -8,6 +8,7 @@ public class Address {
 	private String postalCode;
 	private String city;
 	private String locale;
+	private String street;
 	private String neighborhood;
 	private String number;
 
@@ -15,11 +16,12 @@ public class Address {
 
 	}
 
-	public Address(String postalCode, String city, String locale, String neighborhood, String number) {
+	public Address(String postalCode, String city, String locale, String street, String neighborhood, String number) {
 		super();
 		this.postalCode = postalCode;
 		this.city = city;
 		this.locale = locale;
+		this.street = street;
 		this.neighborhood = neighborhood;
 		this.number = number;
 	}
@@ -34,6 +36,14 @@ public class Address {
 
 	public String getLocale() {
 		return locale;
+	}
+
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
 	}
 
 	public String getNeighborhood() {
@@ -63,5 +73,5 @@ public class Address {
 	public void setNumber(String number) {
 		this.number = number;
 	}
-	
+
 }
