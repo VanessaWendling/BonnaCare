@@ -1,14 +1,22 @@
+import { ButtonHTMLAttributes, HTMLAttributes } from "react";
 
-interface IButton {
-    text: string;
-    id: number;
-    background?: boolean
+interface IButton extends HTMLAttributes<HTMLElement>{
+  text: string;
+  idDog?: number|string;
+  background?: boolean;
 }
 
-export const Button = ({text, id, background}: IButton) => {
-    return(
-        <div className={background ? "bg-pink-900 text-gray-100 text-center rounded-md px-5 py-1 max-w-32":"border border-black text-center rounded-md px-5 py-1 max-w-32"}>
-            <h2>{text}</h2>
-        </div>
-    )
-}
+export const Button = ({ text, idDog, background, ...props }: IButton) => {
+  return (
+    <div
+      className={
+        background
+          ? "bg-pink-900 text-gray-100 text-center rounded-md px-5 py-1 max-w-32 cursor-pointer"
+          : "border border-black text-center rounded-md px-5 py-1 max-w-32 cursor-pointer"
+      }
+      {...props}
+    >
+      <h2>{text}</h2>
+    </div>
+  );
+};
