@@ -10,20 +10,20 @@ import com.ucp.tcc.record.dog.res.DogResHistoricRecord;
 import com.ucp.tcc.record.dog.res.DogResRecord;
 import com.ucp.tcc.record.person.res.PersonResRecord;
 
-public class DogMapper {
+public class DogMapper {                                  
 
 	public static Dog fromRecord(DogReqRecord reqRecord) {
-		return new Dog(reqRecord.name(), reqRecord.microchip(), reqRecord.breed(), reqRecord.age(),
+		return new Dog(reqRecord.name(), reqRecord.photo(), reqRecord.microchip(), reqRecord.breed(), reqRecord.birthday(),
 				reqRecord.setOfPeopleDetails(reqRecord.keepers()));
 	}
 
 	public static DogResRecord fromEntity(Dog dog) {
-		return new DogResRecord(dog.getUuid(), dog.getName(), dog.getMicrochip(), dog.getBreed(), dog.getAge(),
+		return new DogResRecord(dog.getUuid(), dog.getName(), dog.getPhoto(), dog.getMicrochip(), dog.getBreed(), dog.getBirthday(),
 				setOfPeopleDetailsRecord(dog.getKeepers()));
 	}
 
 	public static DogResHistoricRecord fromEntityHistoricRecord(Dog dog) {
-		return new DogResHistoricRecord(dog.getUuid(), dog.getName(), dog.getMicrochip(), dog.getBreed(), dog.getAge(),
+		return new DogResHistoricRecord(dog.getUuid(), dog.getName(), dog.getPhoto(), dog.getMicrochip(), dog.getBreed(), dog.getBirthday(),
 				dog.getConsults());
 	}
 

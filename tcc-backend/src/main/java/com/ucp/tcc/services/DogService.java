@@ -31,13 +31,14 @@ public class DogService {
 	public Dog insertDog(DogReqRecord reqRecord) {
 		Set<Person> person = reqRecord.keepers().stream().map(uuid -> personService.getKeeperById(uuid))
 				.collect(Collectors.toSet());
-		return dogRepository
-				.save(new Dog(reqRecord.name(), reqRecord.microchip(), reqRecord.breed(), reqRecord.age(), person));
+		return dogRepository.save(new Dog(reqRecord.name(), reqRecord.photo(), reqRecord.microchip(), reqRecord.breed(),
+				reqRecord.birthday(), person));
 	}
 
 	public Dog findDogByUUID(UUID uuid) {
-		return dogRepository.findById(uuid).orElseThrow(() -> new EntityNotFoundException("Dog not found in the system"));
-		
+		return dogRepository.findById(uuid)
+				.orElseThrow(() -> new EntityNotFoundException("Dog not found in the system"));
+
 	}
 
 }
