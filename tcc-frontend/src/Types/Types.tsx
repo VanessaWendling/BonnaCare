@@ -80,6 +80,7 @@ export interface IAddress {
 export type TimeClassification =
   | "Last seen"
   | "1h ago"
+  | "1d ago"
   | "7days ago"
   | "A month ago"
   | "More than a month ago";
@@ -89,6 +90,11 @@ export interface IPosition {
   longitude: number;
   ref: boolean;
   timestamp: string;
+}
+export interface IPositionRef {
+  latitudeRef: number;
+  localizator: string;
+  longitudeRef: number;
 }
 
 export interface ILogin {
@@ -375,12 +381,6 @@ export const mockConsult = [
 
 
 export const mockPetsPosition = [
-  {
-    latitude: -22.499554,
-    longitude: -43.202187,
-    ref: true,
-    timestamp: "2024-08-24T11:08:03.874Z",
-  },
   {
     latitude: -22.500993,
     longitude: -43.200556,

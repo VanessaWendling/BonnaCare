@@ -4,6 +4,7 @@ import { Button } from "../Button";
 import { useNavigate } from "react-router-dom";
 import { Photo } from "../Photo";
 import { calculateAge, IAge } from "../../Utils/functions";
+import { IPositionRef } from "../../Types/Types";
 
 export interface ICardDogs {
   uuid: string;
@@ -11,13 +12,14 @@ export interface ICardDogs {
   name: string;
   birthday: string;
   breed: string;
+  petLocalization?: IPositionRef
 }
 
-export const CardDogs = ({ uuid, photo, name, birthday, breed }: ICardDogs) => {
+export const CardDogs = ({ uuid, photo, name, birthday, breed, petLocalization }: ICardDogs) => {
   const navigate = useNavigate();
 
   const age: IAge = calculateAge(birthday);
-
+  
   return (
     <div className="bg-slate-50 shadow-lg min-h-[300px] max-w-[400px] min-w-[250px] rounded-2xl flex flex-col items-center gap-2 p-2 cursor-pointer">
       <div className="bg-yellow-200 rounded-2xl justify-center flex items-center h-40 w-full">
@@ -37,7 +39,11 @@ export const CardDogs = ({ uuid, photo, name, birthday, breed }: ICardDogs) => {
           background={true}
           text="Details"
           idDog={1}
-          onClick={() => navigate("/details")}
+          onClick={() =>
+            navigate("/details", {
+              state: { uuid, photo, name, birthday, breed, petLocalization },
+            })
+          }
         />
       </div>
     </div>

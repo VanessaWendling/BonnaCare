@@ -7,6 +7,7 @@ interface IDog {
   breed: string;
   microchip: string;
   birthday: string;
+  localizator: string;
   keepers: string[];
 }
 

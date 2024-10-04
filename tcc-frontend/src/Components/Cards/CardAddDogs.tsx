@@ -36,10 +36,12 @@ export const CardAddDogs = ({ buttonAddPet, setButtonAddPet, refresh, setRefresh
       breed: selectedBreed,
       microchip: microship,
       birthday: convertData(birthday!, "getReformattedData"),
+      localizator: localizator,
       keepers: [uuidUser!],
     })
       .then(() => {
         setCardAttention(true);
+        setButtonAddPet(!buttonAddPet)
         setRefresh(!refresh)
       })
       .catch();
