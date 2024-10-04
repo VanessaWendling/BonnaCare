@@ -13,8 +13,8 @@ import Cookies from 'js-cookie'
 export const Login = () => {
   const [joinUs, setJoinUs] = useState<boolean>(false);
   const [registerSuccess, setRegisterSuccess] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>("vmw@hotmail.com");
-  const [password, setPassword] = useState<string>("bonnora");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   
   const navigate = useNavigate();
