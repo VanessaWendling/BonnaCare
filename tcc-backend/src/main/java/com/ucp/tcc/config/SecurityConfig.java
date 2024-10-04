@@ -49,8 +49,11 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable()).cors(Customizer.withDefaults()).authorizeHttpRequests(auth -> auth
-				.requestMatchers(HttpMethod.POST, "/login").permitAll().requestMatchers(HttpMethod.POST, "/person")
-				.permitAll().anyRequest().authenticated()).httpBasic(Customizer.withDefaults())
+				.requestMatchers(HttpMethod.POST, "/login").permitAll()
+				.requestMatchers(HttpMethod.POST, "/person").permitAll()
+				.requestMatchers(HttpMethod.POST, "/localization").permitAll()
+				.requestMatchers(HttpMethod.PUT, "/dogs/localization").permitAll()
+				.anyRequest().authenticated()).httpBasic(Customizer.withDefaults())
 				.oauth2ResourceServer(conf -> conf.jwt(jwt -> jwt.decoder(jwtDecoder())));
 		return http.build();
 	}
