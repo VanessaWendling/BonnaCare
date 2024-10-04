@@ -1,13 +1,14 @@
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import { FaHospitalAlt } from "react-icons/fa";
+import { FaHandHoldingMedical, FaHospitalAlt } from "react-icons/fa";
 import { FaRegSquarePlus, FaUserDoctor } from "react-icons/fa6";
+import { TbVaccine } from "react-icons/tb";
 import { CardAddDogs } from "../Components/Cards/CardAddDogs";
 import { CardDogs, ICardDogs } from "../Components/Cards/CardDogs";
 import { Header } from "../Components/Header";
 import { IProfile, Profile } from "../Components/ProfileBox";
 import { Service } from "../Components/Service";
 import { personDetails } from "../Service/keeper-endpoints";
-import Cookies from "js-cookie";
 
 export const Home = () => {
   const [buttonAddPet, setButtonAddPet] = useState<boolean>(false);
@@ -71,6 +72,7 @@ export const Home = () => {
                   photo={dog.photo}
                   birthday={dog.birthday}
                   breed={dog.breed}
+                  petLocalization={dog.petLocalization}
                 />
               ))}
             </div>
@@ -85,6 +87,16 @@ export const Home = () => {
                 Icon={FaHospitalAlt}
                 name="Clinicas"
                 description="Encontre clinicas perto de você."
+              />
+              <Service
+                Icon={TbVaccine}
+                name="Vacinas"
+                description="Veja as vacinas disponíveis."
+              />
+              <Service
+                Icon={FaHandHoldingMedical}
+                name="Exames"
+                description="Entenda um pouco sobre cada exame."
               />
             </div>
           </div>
