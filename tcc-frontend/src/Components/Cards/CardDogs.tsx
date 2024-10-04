@@ -12,14 +12,15 @@ export interface ICardDogs {
   name: string;
   birthday: string;
   breed: string;
+  microchip?: string;
   petLocalization?: IPositionRef
 }
 
-export const CardDogs = ({ uuid, photo, name, birthday, breed, petLocalization }: ICardDogs) => {
+export const CardDogs = ({ uuid, photo, name, birthday, microchip, breed, petLocalization }: ICardDogs) => {
   const navigate = useNavigate();
 
   const age: IAge = calculateAge(birthday);
-  
+
   return (
     <div className="bg-slate-50 shadow-lg min-h-[300px] max-w-[400px] min-w-[250px] rounded-2xl flex flex-col items-center gap-2 p-2 cursor-pointer">
       <div className="bg-yellow-200 rounded-2xl justify-center flex items-center h-40 w-full">

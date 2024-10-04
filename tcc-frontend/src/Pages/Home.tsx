@@ -70,6 +70,7 @@ export const Home = () => {
                   name={dog.name}
                   uuid={dog.uuid}
                   photo={dog.photo}
+                  microchip={dog.microchip}
                   birthday={dog.birthday}
                   breed={dog.breed}
                   petLocalization={dog.petLocalization}
