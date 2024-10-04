@@ -1,6 +1,7 @@
 package com.ucp.tcc.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.ucp.tcc.entities.Dog;
 import com.ucp.tcc.entities.Person;
+import com.ucp.tcc.entities.PetLocalization;
 import com.ucp.tcc.record.dog.req.DogReqRecord;
+import com.ucp.tcc.record.loc.LocalizationReqRecord;
 import com.ucp.tcc.repositories.DogRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -32,7 +35,7 @@ public class DogService {
 		Set<Person> person = reqRecord.keepers().stream().map(uuid -> personService.getKeeperById(uuid))
 				.collect(Collectors.toSet());
 		return dogRepository.save(new Dog(reqRecord.name(), reqRecord.photo(), reqRecord.microchip(), reqRecord.breed(),
-				reqRecord.birthday(), person));
+				reqRecord.birthday(), person, new PetLocalization(reqRecord.localizator())));
 	}
 
 	public Dog findDogByUUID(UUID uuid) {
@@ -41,4 +44,20 @@ public class DogService {
 
 	}
 
+	public boolean createPositionRef(LocalizationReqRecord reqRecord) {
+		Optional<Dog> optionalDog = findByLocalizator(reqRecord.chipID());
+		if (optionalDog.isPresent()) {
+			Dog dog = optionalDog.get();
+			dog.setPetLocalization(new PetLocalization(reqRecord.chipID(), Double.parseDouble(reqRecord.latitude()),
+					Double.parseDouble(reqRecord.longitude())));
+			dogRepository.save(dog);
+			return true;
+		}
+		throw new EntityNotFoundException("Dog with localizator " + reqRecord.chipID() + " not found");
+	}
+
+	public Optional<Dog> findByLocalizator(String chipID) {
+		Optional<Dog> optionalDog = dogRepository.findByPetLocalization_Localizator(chipID);
+		return optionalDog;
+	}
 }

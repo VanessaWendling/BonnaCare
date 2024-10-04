@@ -11,7 +11,7 @@ import com.ucp.tcc.entities.Person;
 
 public record DogReqRecord(String name, String photo, String microchip, Breeds breed, 
 		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-		Date birthday, Set<UUID> keepers) {
+		Date birthday, Set<UUID> keepers, String localizator) {
 
 	public Set<Person> setOfPeopleDetails(Set<UUID> uuids){
 		return uuids.stream().map(uuid -> new Person(uuid)).collect(Collectors.toSet());

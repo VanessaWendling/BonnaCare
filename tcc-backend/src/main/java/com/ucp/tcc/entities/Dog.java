@@ -5,9 +5,11 @@ import java.util.Date;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,13 +40,14 @@ public class Dog {
     private Date birthday;
 
 	@ManyToMany
+	@JsonBackReference
 	private Set<Person> keepers;
 
 	@OneToMany(mappedBy = "dog")
 	private Set<Consult> consults;
 
-	
-	private String localizationId;
+	@Embedded
+	private PetLocalization petLocalization;
 	
 	public Dog() {
 
@@ -66,13 +69,14 @@ public class Dog {
 		this.consults = consults;
 	}
 
-	public Dog(String name, String photo, String microchip, Breeds breed, Date birthday, Set<Person> keepers) {
+	public Dog(String name, String photo, String microchip, Breeds breed, Date birthday, Set<Person> keepers, PetLocalization petLocalization) {
 		this.name = name;
 		this.photo = photo;
 		this.microchip = microchip;
 		this.breed = breed;
 		this.birthday = birthday;
 		this.keepers = keepers;
+		this.petLocalization = petLocalization;
 	}
 
 	public Dog(UUID uuid, String name, String photo, Breeds breed, Date birthday, Set<Person> keepers) {
@@ -84,17 +88,17 @@ public class Dog {
 		this.keepers = keepers;
 	}
 	
-	public Dog(UUID uuid, String localizationId) {
+	public Dog(UUID uuid, PetLocalization petLocalization) {
 		this.uuid = uuid;
-		this.localizationId = localizationId;
+		this.petLocalization = petLocalization;
 	}
 
-	public String getLocalizationId() {
-		return localizationId;
+	public PetLocalization getPetLocalization() {
+		return petLocalization;
 	}
 
-	public void setLocalizationId(String localizationId) {
-		this.localizationId = localizationId;
+	public void setPetLocalization(PetLocalization petLocalization) {
+		this.petLocalization = petLocalization;
 	}
 
 	public UUID getUuid() {
@@ -159,12 +163,6 @@ public class Dog {
 
 	public void setConsults(Set<Consult> consults) {
 		this.consults = consults;
-	}
-
-	@Override
-	public String toString() {
-		return "uuid=" + uuid + "\n name=" + name + "\n  breed=" + breed
-				+ "\n  keepers=" + keepers + "\n \n ";
 	}
 
 }
