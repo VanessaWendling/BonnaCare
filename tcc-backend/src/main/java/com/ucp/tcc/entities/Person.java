@@ -3,6 +3,8 @@ package com.ucp.tcc.entities;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -30,6 +32,7 @@ public class Person {
 	private Address address;
 
 	@ManyToMany(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinTable(name = "dog_keepers",
 	joinColumns = @JoinColumn(name = "keepers_uuid"),
 	inverseJoinColumns = @JoinColumn(name = "dog_uuid"))

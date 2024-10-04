@@ -17,7 +17,7 @@ interface IAddDogs {
 
 export const CardAddDogs = ({ buttonAddPet, setButtonAddPet, refresh, setRefresh }: IAddDogs) => {
   const [name, setName] = useState<string>("");
-  const [microship, setMicroship] = useState<string>("");
+  const [microchip, setMicrochip] = useState<string>("");
   const [localizator, setLocalizator] = useState<string>("");
   const [base64Image, setBase64Image] = useState<string>();
   const [birthday, setBirthday] = useState<string>();
@@ -34,7 +34,7 @@ export const CardAddDogs = ({ buttonAddPet, setButtonAddPet, refresh, setRefresh
       name: name,
       photo: base64Image,
       breed: selectedBreed,
-      microchip: microship,
+      microchip: microchip,
       birthday: convertData(birthday!, "getReformattedData"),
       localizator: localizator,
       keepers: [uuidUser!],
@@ -127,13 +127,13 @@ export const CardAddDogs = ({ buttonAddPet, setButtonAddPet, refresh, setRefresh
             ) : (
               <>
                 <div className="flex flex-col">
-                  <label>Microship</label>
+                  <label>Microchip</label>
                   <input
                     className="p-2 rounded-2xl"
                     type="text"
-                    placeholder="Microship"
-                    value={microship}
-                    onChange={(e) => setMicroship(e.target.value)}
+                    placeholder="Microchip"
+                    value={microchip}
+                    onChange={(e) => setMicrochip(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col">
