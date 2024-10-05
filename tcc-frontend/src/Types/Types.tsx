@@ -10,7 +10,7 @@ export const breedTypes = [
 
 export interface IKeepper {
   name: string;
-  photo?:string;
+  photo?: string;
   email: string;
   password: string;
   phone: string;
@@ -86,10 +86,10 @@ export type TimeClassification =
   | "More than a month ago";
 
 export interface IPosition {
+  localizator: string;
   latitude: number;
   longitude: number;
-  ref: boolean;
-  timestamp: string;
+  date: string;
 }
 export interface IPositionRef {
   latitudeRef: number;
@@ -228,13 +228,13 @@ export const mockConsult = [
         uuid: "f27d118e-b80f-4de1-b24c-2fc1f4a3fab0",
         name: "Leucemia Felina (FeLV)",
         description:
-        "Protege contra a leucemia felina, uma doença viral que pode ser fatal e é transmitida entre gatos.",
+          "Protege contra a leucemia felina, uma doença viral que pode ser fatal e é transmitida entre gatos.",
       },
       {
         uuid: "22e881e2-c0c3-4dd4-b453-0eae8b00b53f",
         name: "V4",
         description:
-        "Protege contra doenças comuns em gatos, como panleucopenia, calicivirose e rinotraqueíte.",
+          "Protege contra doenças comuns em gatos, como panleucopenia, calicivirose e rinotraqueíte.",
       },
     ],
     exams: [
@@ -244,7 +244,7 @@ export const mockConsult = [
           uuid: "1fa2cca0-5ab1-4f94-859c-315fc59aaabb",
           name: "Bioquímico Sanguíneo",
           description:
-          "Analisa componentes químicos no sangue, como glicose, proteínas, enzimas e eletrólitos, para avaliar a função de órgãos.",
+            "Analisa componentes químicos no sangue, como glicose, proteínas, enzimas e eletrólitos, para avaliar a função de órgãos.",
           hibernateLazyInitializer: {},
         },
         interpretation: "sem alteração significativa",
@@ -281,7 +281,7 @@ export const mockConsult = [
         uuid: "f27d118e-b80f-4de1-b24c-2fc1f4a3fab0",
         name: "Leucemia Felina (FeLV)",
         description:
-        "Protege contra a leucemia felina, uma doença viral que pode ser fatal e é transmitida entre gatos.",
+          "Protege contra a leucemia felina, uma doença viral que pode ser fatal e é transmitida entre gatos.",
       },
       {
         uuid: "22e881e2-c0c3-4dd4-b453-0eae8b00b53f",
@@ -297,7 +297,7 @@ export const mockConsult = [
           uuid: "1fa2cca0-5ab1-4f94-859c-315fc59aaabb",
           name: "Bioquímico Sanguíneo",
           description:
-          "Analisa componentes químicos no sangue, como glicose, proteínas, enzimas e eletrólitos, para avaliar a função de órgãos.",
+            "Analisa componentes químicos no sangue, como glicose, proteínas, enzimas e eletrólitos, para avaliar a função de órgãos.",
           hibernateLazyInitializer: {},
         },
         interpretation: "sem alteração significativa",
@@ -334,13 +334,13 @@ export const mockConsult = [
         uuid: "f27d118e-b80f-4de1-b24c-2fc1f4a3fab0",
         name: "Leucemia Felina (FeLV)",
         description:
-        "Protege contra a leucemia felina, uma doença viral que pode ser fatal e é transmitida entre gatos.",
+          "Protege contra a leucemia felina, uma doença viral que pode ser fatal e é transmitida entre gatos.",
       },
       {
         uuid: "22e881e2-c0c3-4dd4-b453-0eae8b00b53f",
         name: "V4",
         description:
-        "Protege contra doenças comuns em gatos, como panleucopenia, calicivirose e rinotraqueíte.",
+          "Protege contra doenças comuns em gatos, como panleucopenia, calicivirose e rinotraqueíte.",
       },
     ],
     exams: [
@@ -350,7 +350,7 @@ export const mockConsult = [
           uuid: "1fa2cca0-5ab1-4f94-859c-315fc59aaabb",
           name: "Bioquímico Sanguíneo",
           description:
-          "Analisa componentes químicos no sangue, como glicose, proteínas, enzimas e eletrólitos, para avaliar a função de órgãos.",
+            "Analisa componentes químicos no sangue, como glicose, proteínas, enzimas e eletrólitos, para avaliar a função de órgãos.",
           hibernateLazyInitializer: {},
         },
         interpretation: "sem alteração significativa",
@@ -378,7 +378,6 @@ export const mockConsult = [
     },
   },
 ];
-
 
 export const mockPetsPosition = [
   {
