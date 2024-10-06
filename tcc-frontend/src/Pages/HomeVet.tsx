@@ -10,12 +10,13 @@ import { IProfile, Profile } from "../Components/ProfileBox";
 import { Service } from "../Components/Service";
 import { personDetails } from "../Service/keeper-endpoints";
 import { vetDetails } from "../Service/vet-endpoints";
+import { CardClinic, ICardClinic } from "../Components/Cards/CardClinic";
 
 export const HomeVet = () => {
   const [buttonAddPet, setButtonAddPet] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [profile, setProfile] = useState<IProfile>();
-  const [listOfDogs, setListOfDogs] = useState<ICardDogs[]>();
+  const [listOfClinics, setListOfClinics] = useState<ICardClinic[]>();
   const [refresh, setRefresh] = useState<boolean>(false);
 
   useEffect(() => {
@@ -36,6 +37,7 @@ export const HomeVet = () => {
           crmv: res.data.crmv,
           profileType: "VET",
         });
+        setListOfClinics(res.data.clinic);
       })
       .catch((e) => {});
   }
@@ -60,19 +62,27 @@ export const HomeVet = () => {
           </div>
           <div className="flex col-span-7 flex-col">
             <div className="flex flex-row items-center">
-              <h2 className="text-lg p-4 font-semibold">Find Pet by Microchip</h2>
+              <h2 className="text-lg p-4 font-semibold">
+                Find Pet by Microchip
+              </h2>
               <FaRegSquarePlus
                 onClick={() => setButtonAddPet(true)}
                 size={20}
                 className="text-pink-900 cursor-pointer"
               />
             </div>
-            <div className="flex flex-row flex-wrap gap-4">
-              
-            </div>
+            <div className="flex flex-row flex-wrap gap-4"></div>
             <h2 className="text-lg p-4 font-semibold">Linked Clinics</h2>
             <div className="flex gap-2 flex-wrap">
-             
+              {listOfClinics?.map((clinic, index) => (
+                <CardClinic
+                  key={index}
+                  name={clinic.name}
+                  phone={clinic.phone}
+                  address={clinic.address}
+                  uuid={clinic.uuid}
+                />
+              ))}
             </div>
           </div>
         </div>

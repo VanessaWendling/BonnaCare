@@ -45,3 +45,10 @@ export function calculateAge(date: string): IAge {
   return { years: ageYears, months: ageMonths };
 }
 
+export function formatPhoneNumber(phone: string) {
+  const cleaned = phone.replace(/\D/g, ''); // Remove tudo que não for número
+  const match = cleaned.match(/^(\d{3})(\d{4,5})(\d{4})$/);
+  if (match)
+    return `(${match[1]}) ${match[2]}-${match[3]}`;
+  return null;
+}
