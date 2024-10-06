@@ -6,29 +6,41 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.ucp.tcc.entities.AuthenticatedUser;
 import com.ucp.tcc.entities.Person;
+import com.ucp.tcc.entities.Veterinarian;
 
 public class UserAuthenticated implements UserDetails {
 
-	private final Person person;
+	private final AuthenticatedUser authenticatedUser;
 
-	public UserAuthenticated(Person person) {
-		this.person = person;
+	public UserAuthenticated(AuthenticatedUser authenticatedUser) {
+		this.authenticatedUser = authenticatedUser;
 	}
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(() -> "ROLE_USER");
-	}
+//	@Override
+//	public Collection<? extends GrantedAuthority> getAuthorities() {
+//		return List.of(() -> "ROLE_USER");
+//	}
+	
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (authenticatedUser instanceof Person) {
+            return List.of(() -> "ROLE_USER"); // Para Person
+        } else if (authenticatedUser instanceof Veterinarian) {
+            return List.of(() -> "ROLE_VETERINARIAN"); // Para Veterinarian
+        }
+        return List.of(); // Nenhuma autoridade se nenhum usuário conhecido
+    }
 
 	@Override
 	public String getPassword() {
-		return person.getPassword();
+		return authenticatedUser.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-		return person.getEmail();
+		return authenticatedUser.getEmail();
 	}
 
 	@Override

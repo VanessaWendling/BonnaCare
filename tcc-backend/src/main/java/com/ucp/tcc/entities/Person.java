@@ -17,7 +17,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 
 @Entity
-public class Person {
+public class Person implements AuthenticatedUser{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
@@ -74,6 +74,7 @@ public class Person {
 		return name;
 	}
 
+	@Override
 	public String getEmail() {
 		return email;
 	}
@@ -86,6 +87,7 @@ public class Person {
 		this.photo = photo;
 	}
 
+	@Override
 	public String getPassword() {
 		return password;
 	}
@@ -107,5 +109,4 @@ public class Person {
 		return "Person [uuid=" + uuid + ", name=" + name + ", email=" + email + ", password=" + password + ", phone="
 				+ phone + ", address=" + address + ", dogs=" + dogs + "]";
 	}
-
 }

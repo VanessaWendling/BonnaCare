@@ -5,26 +5,44 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.ucp.tcc.entities.Person;
+import com.ucp.tcc.entities.Veterinarian;
 import com.ucp.tcc.repositories.PersonRepository;
+import com.ucp.tcc.repositories.VeterinarianRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private final PersonRepository personRepository;
-	
-	public UserDetailsServiceImpl(PersonRepository personRepository) {
+
+	private final VeterinarianRepository veterinarianRepository;
+
+	public UserDetailsServiceImpl(PersonRepository personRepository, VeterinarianRepository veterinarianRepository) {
 		this.personRepository = personRepository;
+		this.veterinarianRepository = veterinarianRepository;
 	}
-
-
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		return personRepository.findByEmail(email)
-        .map(user -> new UserAuthenticated(user))
-        .orElseThrow(
-            () -> new UsernameNotFoundException("User Not Found with email: " + email));
+		Person person = personRepository.findByEmail(email).orElse(null);
 
-  }
+		Veterinarian veterinarian = null;
+		if (person == null) {
+			veterinarian = veterinarianRepository.findByEmail(email).orElse(null);
+		}
+
+		if (person == null && veterinarian == null) {
+			throw new UsernameNotFoundException("User not found");
+		}
+
+		if (person != null) {
+			return new UserAuthenticated(person); // Para Person
+		} else {
+			return new UserAuthenticated(veterinarian); // Para Veterinarian
+		}
+		
+//		return personRepository.findByEmail(email).map(user -> new UserAuthenticated(user))
+//				.orElseThrow(() -> new UsernameNotFoundException("User Not Found with email: " + email));
+	}
 }

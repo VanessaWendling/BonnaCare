@@ -29,10 +29,9 @@ public class PersonService {
 
 	public Person savePerson(PersonReqRecord reqRecord) {
 		Optional<Person> existingPerson = keeperRepository.findByEmail(reqRecord.email());
-		if (existingPerson.isPresent()) {
+		if (existingPerson.isPresent())
 			throw new EmailAlreadyExistsException("Email já está em uso.");
-		}
-		
+
 		return keeperRepository.save(new Person(reqRecord.name(), reqRecord.photo(), reqRecord.email(),
 				passwordEncoder.encode(reqRecord.password()), reqRecord.phone(), reqRecord.address()));
 	}
