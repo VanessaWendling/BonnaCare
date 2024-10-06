@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { FormEvent, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { MdAlternateEmail, MdPassword } from "react-icons/md";
@@ -6,9 +7,9 @@ import LoginImage from "../assets/loginImage_copy.jpg";
 import { CardNotification } from "../Components/Cards/CardNotification";
 import { CardRegister } from "../Components/Cards/CardRegister";
 import { Input } from "../Components/Input";
-import { login, personDetails } from "../Service/keeper-endpoints";
-import Cookies from 'js-cookie'
-
+import { jwtDecode } from "jwt-decode"
+import { CustomJwtPayload } from "../Types/Types";
+import { login } from "../Service/login-endpoints";
 
 export const Login = () => {
   const [joinUs, setJoinUs] = useState<boolean>(false);
@@ -16,7 +17,7 @@ export const Login = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  
+
   const navigate = useNavigate();
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -24,10 +25,18 @@ export const Login = () => {
     if (username !== "" && password !== "") {
       login({ username, password })
         .then((res) => {
-          console.log(res.data)
-          Cookies.set('token', res.data.token, {expires: 1})
-          Cookies.set('uuidUser', res.data.uuid, {expires: 1} )
-          navigate("/home");  // Navega para a rota '/home'
+          console.log(res.data);
+          Cookies.set("token", res.data.token, { expires: 1 });
+          Cookies.set("uuidUser", res.data.uuid, { expires: 1 });
+          const decoded = jwtDecode<CustomJwtPayload>(res.data.token);
+          switch(decoded.scope){
+            case 'ROLE_USER':
+              navigate("/home");
+              break;
+            case 'ROLE_VETERINARIAN':
+              navigate('/homeVet')
+              break;     
+          }
         })
         .catch((e) => {
           console.error("Erro no login", e);
@@ -35,7 +44,6 @@ export const Login = () => {
         });
     }
   }
-
 
   return (
     <>

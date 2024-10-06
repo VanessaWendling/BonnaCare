@@ -1,11 +1,13 @@
 package com.ucp.tcc.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,11 @@ public class VeterinarianController {
 	public ResponseEntity<VeterinarianResRecord> createVet(@RequestBody VeterinarianReqRecord reqRecord){
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(VetMapper.fromEntity(veterinarianService.insertVeterinarian(reqRecord)));
-		
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<VeterinarianResRecord> findByUUID(@PathVariable UUID id){
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(VetMapper.fromEntity(veterinarianService.findByUUID(id)));
 	}
 }

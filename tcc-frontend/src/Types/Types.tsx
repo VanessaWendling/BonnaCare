@@ -17,6 +17,16 @@ export interface IKeepper {
   address: IAddress;
 }
 
+type ROLES = "ROLE_USER" | "ROLE_VETERINARIAN";
+
+export interface CustomJwtPayload {
+  scope: ROLES;
+  iat: number;
+  iss: string;
+  sub: string;
+  exp: number;
+}
+
 export interface IBreedType {
   breed: string;
 }
