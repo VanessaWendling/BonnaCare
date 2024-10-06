@@ -4,8 +4,8 @@ import java.util.Set;
 import java.util.UUID;
 
 import com.ucp.tcc.entities.Address;
-import com.ucp.tcc.entities.Veterinarian;
+import com.ucp.tcc.record.veterinarian.VeterinarianSimpleResRecord;
 
-public record ClinicResRecord(UUID uuid, String name, String phone, Address address, Set<Veterinarian> veterinarians) {
+public record ClinicResRecord(UUID uuid, String name, String phone, Address address, Set<VeterinarianSimpleResRecord> veterinarians) {
 
 }

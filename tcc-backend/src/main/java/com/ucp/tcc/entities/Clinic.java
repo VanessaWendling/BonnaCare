@@ -1,13 +1,16 @@
 package com.ucp.tcc.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Clinic {
@@ -22,14 +25,16 @@ public class Clinic {
 	private Address address;
 	
 	@ManyToMany(mappedBy = "clinics")
-	private Set<Veterinarian> veterinarians;
+    private Set<Veterinarian> veterinarians = new HashSet<>();
+
+    @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL)
+    private Set<Consult> consults = new HashSet<>();
 	
 	public Clinic() {
 	
 	}
 
 	public Clinic(UUID uuid, String name, String phone, Address address, Set<Veterinarian> veterinarians) {
-		super();
 		this.uuid = uuid;
 		this.name = name;
 		this.phone = phone;
