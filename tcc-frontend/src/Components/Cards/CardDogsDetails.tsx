@@ -11,6 +11,7 @@ interface ICardDigsDetails {
   idDog: string;
   localizator?: string;
   microchip?: string;
+  role: string;
 }
 
 export const CardDogsDetails = ({
@@ -19,7 +20,8 @@ export const CardDogsDetails = ({
   birthday,
   idDog,
   localizator,
-  microchip
+  microchip,
+  role,
 }: ICardDigsDetails) => {
   const age: IAge = calculateAge(birthday);
   return (
@@ -32,10 +34,20 @@ export const CardDogsDetails = ({
         <h3 className="text-center">
           {age.years}y {age.months}months
         </h3>
-        {microchip && <h3 className="text-center">Microchip: {microchip}</h3>}
-        {localizator && <h3 className="text-center">Localizator: {localizator}</h3>}
+        {microchip && (
+          <div className="flex flex-row gap-1">
+            <h3 className="font-semibold">Microchip:</h3>
+            <h3>{microchip}</h3>
+          </div>
+        )}
+        {localizator && role == "ROLE_USER" && (
+          <div className="flex flex-row gap-1">
+          <h3 className="font-semibold">Localizator:</h3>
+          <h3>{localizator}</h3>
+        </div>
+        )}
         <div className="flex-row flex w-full justify-around pt-4">
-          <Button text="Edit" idDog={idDog} />
+          {role == "ROLE_USER" && <Button text="Edit" idDog={idDog} />}
         </div>
       </div>
     </div>

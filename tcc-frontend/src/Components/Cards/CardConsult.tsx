@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { IConsult } from "../../Types/Types";
 import { FaRegSquarePlus, FaRegSquareMinus } from "react-icons/fa6";
+import { convertData } from "../../Utils/functions";
 
 interface ICardConsult {
   consult: IConsult;
@@ -8,6 +9,8 @@ interface ICardConsult {
 
 export const CardConsult = ({ consult }: ICardConsult) => {
   const [openDetails, setOpenDetails] = useState<boolean>(false);
+  const [openExams, setOpenExams] = useState<boolean>(false);
+  const [openVaccines, setOpenVaccines] = useState<boolean>(false);
 
   const color = (() => {
     switch (consult.consultType) {
@@ -31,7 +34,7 @@ export const CardConsult = ({ consult }: ICardConsult) => {
           {consult.consultType}
         </h3>
         <h3 className="text-center self-end">
-          {consult.date.substring(0, 10)}
+          {convertData(consult.date.substring(0, 10), "getReformattedData")}
         </h3>
       </div>
       <div>
@@ -42,17 +45,93 @@ export const CardConsult = ({ consult }: ICardConsult) => {
         <h2 className="font-semibold">Clinical Observations:</h2>
         <h2 className="ps-8">{consult.observations}</h2>
       </div>
-      <div className="flex flex-row">
-        <h2 className="font-semibold">Weight:</h2>
-        <h2 className="ps-2">{consult.weight} kg</h2>
-      </div>
       <div>
         <h2 className="font-semibold"> Treatment Plan:</h2>
         <h2 className="ps-8">{consult.treatmentPlan}</h2>
       </div>
+      <div className="flex flex-row">
+        <h2 className="font-semibold">Weight:</h2>
+        <h2 className="ps-2">{consult.weight} kg</h2>
+      </div>
+      {consult.exams && (
+        <div>
+          <div className="flex flex-row items-center gap-2 px-2">
+            <h2 className="font-semibold">Exams:</h2>
+            {openExams ? (
+              <FaRegSquareMinus
+                onClick={() => setOpenExams(!openExams)}
+                size={20}
+                className="text-pink-900 cursor-pointer"
+              />
+            ) : (
+              <FaRegSquarePlus
+                onClick={() => setOpenExams(!openExams)}
+                size={20}
+                className="text-pink-900 cursor-pointer"
+              />
+            )}
+          </div>
+          {openExams
+            ? consult.exams.map((exam, index) => (
+                <div className="ps-8" key={index}>
+                  <div className="p-2 shadow-lg mb-2">
+                    <div className="flex flex-row">
+                      <h2 className="font-semibold">Exam:</h2>
+                      <h2 className="ps-2">{exam.exam!.name}</h2>
+                    </div>
+                    <div className="flex flex-row">
+                      <h2 className="font-semibold">Result:</h2>
+                      <h2 className="ps-2">{exam.interpretation}</h2>
+                    </div>
+                    <div className="flex flex-row">
+                      <h2 className="font-semibold">Is Abnormal ?</h2>
+                      <h2 className="ps-2">{exam.isAbnormal ? "No" : "Yes"}</h2>
+                    </div>
+                  </div>
+                </div>
+              ))
+            : ""}
+        </div>
+      )}
+      {consult.vaccines && (
+        <div>
+          <div className="flex flex-row items-center gap-2 px-2">
+            <h2 className="font-semibold">Vaccines Applied:</h2>
+            {openVaccines ? (
+              <FaRegSquareMinus
+                onClick={() => setOpenVaccines(!openVaccines)}
+                size={20}
+                className="text-pink-900 cursor-pointer"
+              />
+            ) : (
+              <FaRegSquarePlus
+                onClick={() => setOpenVaccines(!openVaccines)}
+                size={20}
+                className="text-pink-900 cursor-pointer"
+              />
+            )}
+          </div>
+          <div className="ps-8">
+            {openVaccines ? (
+              <div className="p-2 shadow-lg mb-2">
+                {consult.vaccines.map((vaccine, index) => (
+                  <div className="flex flex-row" key={index}>
+                    {/* <h2 className="font-semibold">Name:</h2> */}
+                    <h2 className="ps-2 font-semibold">
+                      {index + 1} - {vaccine.name}
+                    </h2>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-row items-center gap-2 px-2">
-        <h2>Details</h2>
+        <h2 className="font-semibold">See Veterinarian and Clinic</h2>
         {openDetails ? (
           <FaRegSquareMinus
             onClick={() => setOpenDetails(!openDetails)}
