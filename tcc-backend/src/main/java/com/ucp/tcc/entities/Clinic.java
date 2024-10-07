@@ -4,8 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,7 +27,8 @@ public class Clinic {
 	
 	private Address address;
 	
-	@ManyToMany(mappedBy = "clinics")
+	@ManyToMany(mappedBy = "clinics", fetch = FetchType.LAZY)
+	@JsonBackReference
     private Set<Veterinarian> veterinarians = new HashSet<>();
 
     @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL)

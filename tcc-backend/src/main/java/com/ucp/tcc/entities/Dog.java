@@ -2,6 +2,7 @@
 package com.ucp.tcc.entities;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
@@ -30,25 +32,27 @@ public class Dog {
 
 	@Column(columnDefinition = "TEXT")
 	private String photo;
-	
+
+	@Column(unique = true)
 	private String microchip;
 
 	private Breeds breed;
 
 	@Temporal(TemporalType.DATE)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
-    private Date birthday;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	private Date birthday;
 
 	@ManyToMany
 	@JsonBackReference
 	private Set<Person> keepers;
 
 	@OneToMany(mappedBy = "dog")
-	private Set<Consult> consults;
+	@OrderBy("date DESC")
+	private List<Consult> consults;
 
 	@Embedded
 	private PetLocalization petLocalization;
-	
+
 	public Dog() {
 
 	}
@@ -58,7 +62,7 @@ public class Dog {
 	}
 
 	public Dog(UUID uuid, String name, String photo, String microchip, Breeds breed, Date birthday, Set<Person> keepers,
-			Set<Consult> consults) {
+			List<Consult> consults) {
 		this.uuid = uuid;
 		this.name = name;
 		this.photo = photo;
@@ -69,7 +73,8 @@ public class Dog {
 		this.consults = consults;
 	}
 
-	public Dog(String name, String photo, String microchip, Breeds breed, Date birthday, Set<Person> keepers, PetLocalization petLocalization) {
+	public Dog(String name, String photo, String microchip, Breeds breed, Date birthday, Set<Person> keepers,
+			PetLocalization petLocalization) {
 		this.name = name;
 		this.photo = photo;
 		this.microchip = microchip;
@@ -87,7 +92,7 @@ public class Dog {
 		this.birthday = birthday;
 		this.keepers = keepers;
 	}
-	
+
 	public Dog(UUID uuid, PetLocalization petLocalization) {
 		this.uuid = uuid;
 		this.petLocalization = petLocalization;
@@ -112,7 +117,7 @@ public class Dog {
 	public Breeds getBreed() {
 		return breed;
 	}
-	
+
 	public Date getBirthday() {
 		return birthday;
 	}
@@ -157,11 +162,11 @@ public class Dog {
 		this.microchip = microchip;
 	}
 
-	public Set<Consult> getConsults() {
+	public List<Consult> getConsults() {
 		return consults;
 	}
 
-	public void setConsults(Set<Consult> consults) {
+	public void setConsults(List<Consult> consults) {
 		this.consults = consults;
 	}
 

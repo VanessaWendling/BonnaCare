@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -33,6 +35,7 @@ public class Veterinarian implements AuthenticatedUser{
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "veterinarian_clinics", joinColumns = @JoinColumn(name = "veterinarian_uuid"), inverseJoinColumns = @JoinColumn(name = "clinic_uuid"))
+	@JsonManagedReference
 	private Set<Clinic> clinics = new HashSet<>();
 
 	@OneToMany(mappedBy = "vet", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
