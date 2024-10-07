@@ -11,8 +11,8 @@ export const Button = ({ text, idDog, background, ...props }: IButton) => {
     <div
       className={
         background
-          ? "bg-pink-900 text-gray-100 text-center rounded-md px-5 py-1 max-w-32 cursor-pointer"
-          : "border border-black text-center rounded-md px-5 py-1 max-w-32 cursor-pointer"
+          ? "bg-pink-900 text-gray-100 text-center rounded-md px-5 py-2 cursor-pointer"
+          : "border border-black text-center rounded-md px-5 py-2 cursor-pointer"
       }
       {...props}
     >

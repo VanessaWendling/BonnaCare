@@ -5,6 +5,9 @@ import { Menu } from "./Menu";
 import { FiLogOut } from "react-icons/fi";
 
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { CustomJwtPayload } from "../Types/Types";
+import { jwtDecode } from "jwt-decode";
 
 export const Header = () => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
@@ -21,6 +24,19 @@ export const Header = () => {
     setOpenMenu(false);
   };
 
+  function goToHomePage(){
+    const token = Cookies.get("token");
+    const decoded = jwtDecode<CustomJwtPayload>(token!);
+    switch(decoded.scope){
+      case 'ROLE_USER':
+        navigate("/home");
+        break;
+      case 'ROLE_VETERINARIAN':
+        navigate('/homeVet')
+        break;     
+    }
+  }
+
   return (
     <>
       <div className="bg-amber-900 flex flex-row items-center justify-between px-4">
@@ -30,7 +46,7 @@ export const Header = () => {
           onClick={() => setOpenMenu(!openMenu)}
         /> */}
         <div className="bg-transparent w-[36px] h-[36px]" />
-        <div className="p-4 flex flex-row gap-2 items-center cursor-pointer" onClick={(() => navigate("/home"))}>
+        <div className="p-4 flex flex-row gap-2 items-center cursor-pointer" onClick={goToHomePage}>
           <TbHealthRecognition size={36} className="text-pink-100" />
           <h1 className="text-pink-100 font-bold text-xl">BonnaCare</h1>
         </div>
