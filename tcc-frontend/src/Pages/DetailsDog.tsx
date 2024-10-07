@@ -1,27 +1,48 @@
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Button } from "../Components/Button";
+import { CardAddConsult } from "../Components/Cards/CardAddConsult";
 import { CardConsult } from "../Components/Cards/CardConsult";
 import { ICardDogs } from "../Components/Cards/CardDogs";
 import { CardDogsDetails } from "../Components/Cards/CardDogsDetails";
 import { CardFind } from "../Components/Cards/CardFind";
 import { Header } from "../Components/Header";
+import { getConsultsByUuid } from "../Service/consult-endpoints";
 import { locPetContinuos } from "../Service/loc-endpoints";
-import { IConsult, IPosition, mockConsult } from "../Types/Types";
+import {
+  CustomJwtPayload,
+  IConsult,
+  IPosition
+} from "../Types/Types";
 
 export const DetailsDog = () => {
   const [petPositions, setPetPositions] = useState<IPosition[]>([]);
-  const mock: IConsult[] = mockConsult;
-
+  const [openModalAddConsult, setOpenModalAddConsult] =
+    useState<boolean>(false);
+  const [refresh, setRefresh] = useState<boolean>(false);
+  // const mock: IConsult[] = mockConsult;
+  const token = Cookies.get("token");
+  const decoded = jwtDecode<CustomJwtPayload>(token!);
   const location = useLocation();
-
+  
   const data: ICardDogs = location.state;
+  const [listOfConsults, setListOfConsults] = useState<IConsult[]>([]);
 
   useEffect(() => {
     loadPetLocalization();
-  }, []);
+    getAllConsults();
+  }, [refresh]);
+
+  function getAllConsults() {
+    getConsultsByUuid(data.uuid).then((res) =>{
+      console.log(res.data)
+      setListOfConsults(res.data.consults)});
+  }
 
   function loadPetLocalization() {
-    if (data.petLocalization?.localizator)
+    if (decoded.scope == "ROLE_USER" && (data.petLocalization?.localizator != undefined && data.petLocalization?.latitudeRef != undefined))
       locPetContinuos(data.petLocalization?.localizator)
         .then((res) => {
           setPetPositions(res.data);
@@ -31,36 +52,70 @@ export const DetailsDog = () => {
         });
   }
 
+  function addConsult() {
+    setOpenModalAddConsult(true);
+  }
+
   return (
-    <div className="bg-amber-50 h-screen w-screen self-center overflow-x-hidden">
-      <Header />
-      <div className="grid grid-cols-10 min-h-screen">
-        <div className="col-span-1" />
-        <div className="items-center col-span-4 flex-row p-4 ">
-          <CardDogsDetails
-            name={data.name}
-            photo={data.photo}
-            birthday={data.birthday}
-            idDog={data.uuid}
-            microchip={data.microchip}
-            localizator={data.petLocalization?.localizator}
-          />
-          <h3 className="text-lg p-4 font-semibold">Find My Pet</h3>
-          <CardFind
-            position={petPositions}
-            positionRef={data.petLocalization}
-          />
-        </div>
-        <div className="flex col-span-4 flex-col">
-          <h3 className="text-lg p-4 font-semibold">Consults</h3>
-          <div className="gap-4">
-            {mock.map((m, index) => (
-              <CardConsult consult={m} key={index} />
-            ))}
+    <>
+      <div className="bg-amber-50 h-screen w-screen self-center overflow-x-hidden">
+        <Header />
+        <div className="grid grid-cols-10 min-h-screen">
+          <div className="col-span-1" />
+          <div className="items-center col-span-4 flex-row p-4 ">
+            <CardDogsDetails
+              name={data.name}
+              photo={data.photo}
+              birthday={data.birthday}
+              idDog={data.uuid}
+              microchip={data.microchip}
+              localizator={data.petLocalization?.localizator}
+              role={decoded.scope}
+            />
+            {decoded.scope == "ROLE_VETERINARIAN" && (
+              <div className="p-8">
+                <Button
+                  text="Add Medical Consultation"
+                  background
+                  onClick={addConsult}
+                />
+              </div>
+            )}
+            {decoded.scope == "ROLE_USER" && (
+              <>
+                <h3 className="text-lg p-4 font-semibold">Find My Pet</h3>
+                <CardFind
+                  position={petPositions}
+                  positionRef={data.petLocalization}
+                />
+              </>
+            )}
           </div>
+          <div className="flex col-span-4 flex-col">
+            <h3 className="text-lg p-4 font-semibold">Consults</h3>
+            <div className="gap-4">
+              {listOfConsults.length > 0 &&
+                listOfConsults.map((consult, index) => (
+                  <CardConsult consult={consult} key={index} />
+                ))}
+            </div>
+          </div>
+          <div className="col-span-1" />
         </div>
-        <div className="col-span-1" />
       </div>
-    </div>
+      {openModalAddConsult && (
+        <CardAddConsult
+          key={1}
+          open={openModalAddConsult}
+          setOpen={setOpenModalAddConsult}
+          refresh={refresh}
+          setRefresh={setRefresh}
+          dogUuid={data.uuid}
+          vet={data.vet!}
+          vetUuid={data.vetUuid!}
+          listOfClinicsVet={data.listOfClinics!}
+        />
+      )}
+    </>
   );
 };
