@@ -20,4 +20,15 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
+    
+    @ExceptionHandler(MicrochipDogNotFound.class)
+    public ResponseEntity<ErrorResponse> handleMicrochipNotFound(MicrochipDogNotFound e) {
+    	ErrorResponse errorResponse = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.CONFLICT.value(),
+                HttpStatus.CONFLICT.getReasonPhrase(),
+                e.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
 }
