@@ -2,6 +2,8 @@ package com.ucp.tcc.entities;
 
 import java.util.UUID;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -17,24 +19,25 @@ public class ConsultExam {
     private UUID uuid;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private Consult consult;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Exam exam;
 
-    private String result;
-    private String observations;
+    private String interpretation;
+    
+    private boolean isAbnormal;
 
     public ConsultExam() {}
 
-    public ConsultExam(Consult consult, Exam exam, String result, String observations) {
-        this.consult = consult;
+    public ConsultExam(Exam exam, String interpretation, boolean isAbnormal) {
         this.exam = exam;
-        this.result = result;
-        this.observations = observations;
+        this.interpretation = interpretation;
+        this.isAbnormal = isAbnormal;
     }
 
-    public UUID getId() {
+	public UUID getUuid() {
         return uuid;
     }
 
@@ -58,19 +61,26 @@ public class ConsultExam {
         this.exam = exam;
     }
 
-    public String getResult() {
-        return result;
-    }
+	public String getInterpretation() {
+		return interpretation;
+	}
 
-    public void setResult(String result) {
-        this.result = result;
-    }
+	public void setInterpretation(String interpretation) {
+		this.interpretation = interpretation;
+	}
 
-    public String getObservations() {
-        return observations;
-    }
+	public boolean isAbnormal() {
+		return isAbnormal;
+	}
 
-    public void setObservations(String observations) {
-        this.observations = observations;
-    }
+	public void setAbnormal(boolean isAbnormal) {
+		this.isAbnormal = isAbnormal;
+	}
+
+	@Override
+	public String toString() {
+		return "ConsultExam [uuid=" + uuid + ", consult=" + consult + ", exam=" + exam + ", interpretation="
+				+ interpretation + ", isAbnormal=" + isAbnormal + "]";
+	}
+
 }
