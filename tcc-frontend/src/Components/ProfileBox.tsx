@@ -9,6 +9,7 @@ export interface IProfile {
   email?: string;
   phone?: string;
   crmv?: string;
+  uuid?: string
   specialization?: string;
   address?: IAddress;
   profileType?: string;
@@ -23,6 +24,7 @@ export const Profile = ({
   profileType,
   crmv,
   specialization,
+  uuid
 }: IProfile) => {
   return (
     <div className="bg-slate-50 shadow-lg min-h-[450px] max-w-[250px] rounded-2xl my-4 flex flex-col items-center gap-4 p-4">

@@ -15,7 +15,12 @@ interface IAddDogs {
   setRefresh: Dispatch<boolean>;
 }
 
-export const CardAddDogs = ({ buttonAddPet, setButtonAddPet, refresh, setRefresh }: IAddDogs) => {
+export const CardAddDogs = ({
+  buttonAddPet,
+  setButtonAddPet,
+  refresh,
+  setRefresh,
+}: IAddDogs) => {
   const [name, setName] = useState<string>("");
   const [microchip, setMicrochip] = useState<string>("");
   const [localizator, setLocalizator] = useState<string>("");
@@ -41,8 +46,8 @@ export const CardAddDogs = ({ buttonAddPet, setButtonAddPet, refresh, setRefresh
     })
       .then(() => {
         setCardAttention(true);
-        setButtonAddPet(!buttonAddPet)
-        setRefresh(!refresh)
+        setButtonAddPet(!buttonAddPet);
+        setRefresh(!refresh);
       })
       .catch();
   }
@@ -91,7 +96,6 @@ export const CardAddDogs = ({ buttonAddPet, setButtonAddPet, refresh, setRefresh
           >
             {changePage === 1 ? (
               <>
-                {" "}
                 <div className="flex flex-col">
                   <label className="font-bold">Name</label>
                   <input

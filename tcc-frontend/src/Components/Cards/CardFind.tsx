@@ -1,6 +1,6 @@
 import L, { LatLngTuple } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 
 // Importar os ícones padrão do Leaflet
@@ -17,7 +17,7 @@ interface ICardFind {
 export const CardFind = ({ position, positionRef }: ICardFind) => {
   const [selected, setSelected] = useState<TimeClassification>("7days ago"); // Default selected option
   const [filteredPosition, setFilteredPosition] = useState<IPosition[]>([]); // Dados filtrados
-
+  const [refresh, setRefresh] = useState<boolean>(false)
   const isSelected = (option: string) => {
     return selected === option
       ? "bg-amber-900 text-white"
@@ -25,7 +25,7 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
   };
 
   // Inicializar refPosition apenas se ref for definido
-  const refPosition: LatLngTuple | undefined = positionRef
+  const refPosition: LatLngTuple | undefined = positionRef?.latitudeRef
     ? [positionRef.latitudeRef, positionRef.longitudeRef]
     : undefined;
 
@@ -56,11 +56,16 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
     shadowSize: [41, 41],
   });
 
+  useEffect(() => {
+    handleSelect(selected)
+  }, [refresh]);
+
   const handleSelect = (option: TimeClassification) => {
     setSelected(option);
     const filteredData = filterByTime(position, option);
     console.log(filteredData);
     setFilteredPosition(filteredData);
+    setRefresh(!refresh)
   };
 
   const filterByTime = (
