@@ -20,7 +20,6 @@ public class ClinicService {
 	
 	public List<Clinic> getClinics(){
 		List<Clinic> clinics = clinicRepository.findAll();
-		clinics.forEach(System.out::println);
 		return clinics;
 	}
 	

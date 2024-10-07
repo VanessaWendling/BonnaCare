@@ -26,7 +26,6 @@ public class ConsultController {
 
 	@PostMapping
 	public ResponseEntity<ConsultResRecord> createConsult(@RequestBody ConsultReqRecord reqRecord) {
-		System.out.println(reqRecord);
 		return ResponseEntity.status(HttpStatus.CREATED)
 				.body(ConsultMapper.fromEntity(consultService.createConsult(reqRecord)));
 	}
