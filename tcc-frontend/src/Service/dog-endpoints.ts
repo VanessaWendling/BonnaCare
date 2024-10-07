@@ -21,3 +21,13 @@ export const createDog = async (data: IDog) => {
     }
   });
 };
+
+export const findPetByMicrochipID = async (microchip: string) => {
+  const url = `/dogs/microchip/${microchip}`
+  const token = Cookies.get('token')
+  return api.get(url, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+}

@@ -1,23 +1,24 @@
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import { FaHandHoldingMedical, FaHospitalAlt } from "react-icons/fa";
-import { FaRegSquarePlus, FaUserDoctor } from "react-icons/fa6";
-import { TbVaccine } from "react-icons/tb";
+import { GoSearch } from "react-icons/go";
 import { CardAddDogs } from "../Components/Cards/CardAddDogs";
-import { CardDogs, ICardDogs } from "../Components/Cards/CardDogs";
-import { Header } from "../Components/Header";
-import { IProfile, Profile } from "../Components/ProfileBox";
-import { Service } from "../Components/Service";
-import { personDetails } from "../Service/keeper-endpoints";
-import { vetDetails } from "../Service/vet-endpoints";
 import { CardClinic, ICardClinic } from "../Components/Cards/CardClinic";
+import { Header } from "../Components/Header";
+import { Input } from "../Components/Input";
+import { IProfile, Profile } from "../Components/ProfileBox";
+import { vetDetails } from "../Service/vet-endpoints";
+import { Button } from "../Components/Button";
+import { findPetByMicrochipID } from "../Service/dog-endpoints";
+import { CardDogs, ICardDogs } from "../Components/Cards/CardDogs";
 
 export const HomeVet = () => {
   const [buttonAddPet, setButtonAddPet] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
   const [profile, setProfile] = useState<IProfile>();
   const [listOfClinics, setListOfClinics] = useState<ICardClinic[]>();
   const [refresh, setRefresh] = useState<boolean>(false);
+  const [microchip, setMicrochip] = useState<string>("");
+  const [pet, setPet] = useState<ICardDogs>();
+  const [petError, setPetError] = useState<string>();
 
   useEffect(() => {
     getVetDetails();
@@ -36,10 +37,25 @@ export const HomeVet = () => {
           specialization: res.data.specialization,
           crmv: res.data.crmv,
           profileType: "VET",
+          uuid: res.data.uuid
         });
         setListOfClinics(res.data.clinic);
       })
-      .catch((e) => {});
+      .catch((e) => console.log(e));
+  }
+
+  function findPetByMicrochip() {
+    if (microchip !== "") {
+      findPetByMicrochipID(microchip)
+        .then((res) => {
+          setPet(res.data);
+          setPetError("");
+        })
+        .catch((e) => {
+          setPetError(e.response.data.message);
+          setPet(undefined);
+        });
+    }
   }
 
   return (
@@ -60,18 +76,37 @@ export const HomeVet = () => {
               profileType={profile?.profileType}
             />
           </div>
-          <div className="flex col-span-7 flex-col">
-            <div className="flex flex-row items-center">
-              <h2 className="text-lg p-4 font-semibold">
-                Find Pet by Microchip
-              </h2>
-              <FaRegSquarePlus
-                onClick={() => setButtonAddPet(true)}
-                size={20}
-                className="text-pink-900 cursor-pointer"
+          <div className="flex col-span-7 flex-col ">
+            <div className="flex flex-row items-center gap-2">
+              <h2 className="text-lg py-4 ps-4 font-semibold">Find Pet:</h2>
+              <Input
+                Icon={GoSearch}
+                placeholder="Microchip ID"
+                onChange={(e) => setMicrochip(e.target.value)}
               />
+              <Button text="Search" background onClick={findPetByMicrochip} />
             </div>
-            <div className="flex flex-row flex-wrap gap-4"></div>
+            <div className="flex flex-row flex-wrap gap-4 min-h-[250px]">
+              {pet && (
+                <CardDogs
+                  birthday={pet.birthday}
+                  breed={pet.breed}
+                  name={pet.name}
+                  photo={pet.photo}
+                  uuid={pet.uuid}
+                  key={pet.uuid}
+                  microchip={pet.microchip}
+                  vet={profile!.name} 
+                  vetUuid={profile!.uuid}
+                  listOfClinics={listOfClinics}
+                />
+              )}
+              {petError && (
+                <h2 className="text-center self-center text-red-600 text-2xl font-semibold">
+                  {petError}
+                </h2>
+              )}
+            </div>
             <h2 className="text-lg p-4 font-semibold">Linked Clinics</h2>
             <div className="flex gap-2 flex-wrap">
               {listOfClinics?.map((clinic, index) => (

@@ -55,4 +55,10 @@ public class DogController {
 		dogService.createPositionRef(reqRecord);
 		return ResponseEntity.ok().body("Pontos de referencia recebidos com sucesso.");
 	}
+	
+	@GetMapping("/microchip/{microchip}")
+	public ResponseEntity<DogResRecord> getDogMedicalHistoryByMicrochip(@PathVariable String microchip) {
+		return ResponseEntity.status(HttpStatus.OK)
+				.body(DogMapper.fromEntity(dogService.findByMicrochip(microchip)));
+	}
 }
