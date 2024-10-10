@@ -28,7 +28,7 @@ public class ConsultMapper {
 
 	private static Set<ExamResRecord> fromExamEntity(Set<ConsultExam> exams) {
 		return exams.stream()
-				.map(e -> new ExamResRecord(e.getUuid(), e.getExam(), e.getInterpretation(), e.isAbnormal()))
+				.map(e -> new ExamResRecord(e.getUuid(), e.getExam(), e.getInterpretation(), e.isAbnormal(), e.getFile()))
 				.collect(Collectors.toSet());
 	}
 }

@@ -3,12 +3,14 @@ import { AiOutlineClose } from "react-icons/ai";
 import { FaRegSquarePlus } from "react-icons/fa6";
 import { IExam } from "../Types/Types";
 import { Check } from "./Check";
+import { FileUploadPDF } from "./FileUploadPDF";
 import { Input } from "./Input";
 
 export interface IExamResult {
   exam: string;
   interpretation: string;
   isAbnormal: boolean;
+  file: string;
 }
 
 export interface IDynamicExams {
@@ -17,11 +19,18 @@ export interface IDynamicExams {
   setExams: Dispatch<IExamResult[]>;
 }
 
-export const DynamicExams = ({ listOfExams, exams, setExams }: IDynamicExams) => {
+export const DynamicExams = ({
+  listOfExams,
+  exams,
+  setExams,
+}: IDynamicExams) => {
   const [selectedExams, setSelectedExams] = useState<string[]>([]);
 
   const addExam = () => {
-    setExams([...exams, { exam: "", interpretation: "", isAbnormal: false }]);
+    setExams([
+      ...exams,
+      { exam: "", interpretation: "", isAbnormal: false, file: "" },
+    ]);
     setSelectedExams([...selectedExams, ""]);
   };
 
@@ -84,10 +93,20 @@ export const DynamicExams = ({ listOfExams, exams, setExams }: IDynamicExams) =>
             />
           </div>
           <div className="flex flex-row items-center gap-2">
-            <label className="font-bold flex-row">Abnormal:</label>
+          <label className="font-bold flex-row">Abnormal:</label>
             <Check
               check={exam.isAbnormal}
               setCheck={() => updateExam(index, "isAbnormal", !exam.isAbnormal)}
+            />
+          </div>
+          <div className="flex flex-row items-center gap-2 pt-1">
+            <label className="font-bold flex-row">Add file:</label>
+            <FileUploadPDF
+              base64Image={exam.file}
+              setBase64Image={(base64: string) =>
+                updateExam(index, "file", base64)
+              }
+              key={index}
             />
           </div>
         </div>

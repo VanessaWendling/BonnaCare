@@ -4,6 +4,6 @@ import java.util.UUID;
 
 import com.ucp.tcc.entities.Exam;
 
-public record ExamResRecord(UUID uuid, Exam exam, String interpretation, boolean isAbnormal) {
+public record ExamResRecord(UUID uuid, Exam exam, String interpretation, boolean isAbnormal, String file) {
 
 }

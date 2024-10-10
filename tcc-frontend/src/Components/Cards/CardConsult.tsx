@@ -2,6 +2,7 @@ import { useState } from "react";
 import { IConsult } from "../../Types/Types";
 import { FaRegSquarePlus, FaRegSquareMinus } from "react-icons/fa6";
 import { convertData } from "../../Utils/functions";
+import { DownloadPDF } from "../DownloadPDF";
 
 interface ICardConsult {
   consult: IConsult;
@@ -33,9 +34,11 @@ export const CardConsult = ({ consult }: ICardConsult) => {
         <h3 className={`${color} font-semibold rounded-md p-1`}>
           {consult.consultType}
         </h3>
-        <h3 className="text-center self-end">
-          {convertData(consult.date.substring(0, 10), "getReformattedData")}
-        </h3>
+        {consult.date && (
+          <h3 className="text-center self-end">
+            {convertData(consult.date.substring(0, 10), "getReformattedData")}
+          </h3>
+        )}
       </div>
       <div>
         <h2 className="font-semibold">Reason for Consultation:</h2>
@@ -53,9 +56,9 @@ export const CardConsult = ({ consult }: ICardConsult) => {
         <h2 className="font-semibold">Weight:</h2>
         <h2 className="ps-2">{consult.weight} kg</h2>
       </div>
-      {consult.exams && (
+      {(consult.exams?.length || 0) > 0 && (
         <div>
-          <div className="flex flex-row items-center gap-2 px-2">
+          <div className="flex flex-row items-center gap-2">
             <h2 className="font-semibold">Exams:</h2>
             {openExams ? (
               <FaRegSquareMinus
@@ -72,7 +75,7 @@ export const CardConsult = ({ consult }: ICardConsult) => {
             )}
           </div>
           {openExams
-            ? consult.exams.map((exam, index) => (
+            ? consult.exams?.map((exam, index) => (
                 <div className="ps-8" key={index}>
                   <div className="p-2 shadow-lg mb-2">
                     <div className="flex flex-row">
@@ -84,18 +87,26 @@ export const CardConsult = ({ consult }: ICardConsult) => {
                       <h2 className="ps-2">{exam.interpretation}</h2>
                     </div>
                     <div className="flex flex-row">
-                      <h2 className="font-semibold">Is Abnormal ?</h2>
+                      <h2 className="font-semibold">Is Abnormal?</h2>
                       <h2 className="ps-2">{exam.isAbnormal ? "No" : "Yes"}</h2>
                     </div>
+                    {exam.file != null && (
+                      <div className="flex flex-row justify-center">
+                        <DownloadPDF
+                          base64String={exam.file}
+                          fileName={exam.exam!.name}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               ))
             : ""}
         </div>
       )}
-      {consult.vaccines && (
+      {(consult.vaccines?.length || 0) > 0 && (
         <div>
-          <div className="flex flex-row items-center gap-2 px-2">
+          <div className="flex flex-row items-center gap-2">
             <h2 className="font-semibold">Vaccines Applied:</h2>
             {openVaccines ? (
               <FaRegSquareMinus
@@ -114,7 +125,7 @@ export const CardConsult = ({ consult }: ICardConsult) => {
           <div className="ps-8">
             {openVaccines ? (
               <div className="p-2 shadow-lg mb-2">
-                {consult.vaccines.map((vaccine, index) => (
+                {consult.vaccines?.map((vaccine, index) => (
                   <div className="flex flex-row" key={index}>
                     {/* <h2 className="font-semibold">Name:</h2> */}
                     <h2 className="ps-2 font-semibold">
@@ -130,7 +141,7 @@ export const CardConsult = ({ consult }: ICardConsult) => {
         </div>
       )}
 
-      <div className="flex flex-row items-center gap-2 px-2">
+      <div className="flex flex-row items-center gap-2">
         <h2 className="font-semibold">See Veterinarian and Clinic</h2>
         {openDetails ? (
           <FaRegSquareMinus

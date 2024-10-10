@@ -87,6 +87,7 @@ public class ConsultService {
 		consultExam.setExam(exam);
 		consultExam.setInterpretation(examRecord.interpretation());
 		consultExam.setAbnormal(examRecord.isAbnormal());
+		consultExam.setFile(examRecord.file());
 
 		return consultExam;
 	}

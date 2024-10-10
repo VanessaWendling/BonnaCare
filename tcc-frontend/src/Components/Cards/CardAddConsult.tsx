@@ -59,7 +59,6 @@ export const CardAddConsult = ({
   const [checkExam, setCheckExam] = useState<boolean>(false);
   const [exams, setExams] = useState<IExamResult[]>([]);
 
-  console.log("vetUUID" + vetUuid);
   function handleSubmit() {
     if (checkExam == false) {
       setExams([]);
@@ -67,6 +66,20 @@ export const CardAddConsult = ({
     if (checkVaccine == false) {
       setSelectedVaccines([]);
     }
+    console.log({
+      // vetUuid,
+      // selectedClinic,
+      // selectedConsultType,
+      // date,
+      // reason,
+      // observations,
+      // weight,
+      // checkExam,
+      exams,
+      // checkVaccine,
+      // selectedVaccines,
+      // treatmentPlan,
+    });
 
     createNewConsult({
       clinic: selectedClinic,
@@ -86,21 +99,6 @@ export const CardAddConsult = ({
         setRefresh(!refresh);
       })
       .catch((e) => console.log(e));
-
-    // console.log({
-    //   vetUuid,
-    //   selectedClinic,
-    //   selectedConsultType,
-    //   date,
-    //   reason,
-    //   observations,
-    //   weight,
-    //   checkExam,
-    //   exams,
-    //   checkVaccine,
-    //   selectedVaccines,
-    //   treatmentPlan,
-    // });
   }
 
   useEffect(() => {

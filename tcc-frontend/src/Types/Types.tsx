@@ -72,6 +72,7 @@ export interface IExams {
   exam?: IExamStatic;
   interpretation: string;
   isAbnormal: boolean;
+  file?: string;
 }
 
 export interface IExamStatic {

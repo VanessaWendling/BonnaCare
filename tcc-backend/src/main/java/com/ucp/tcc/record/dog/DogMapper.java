@@ -54,7 +54,7 @@ public class DogMapper {
 
 	private static Set<ExamResRecord> transformExam(Set<ConsultExam> exams) {
 		return exams.stream().map(
-				exam -> new ExamResRecord(exam.getUuid(), exam.getExam(), exam.getInterpretation(), exam.isAbnormal()))
+				exam -> new ExamResRecord(exam.getUuid(), exam.getExam(), exam.getInterpretation(), exam.isAbnormal(), exam.getFile()))
 				.collect(Collectors.toSet());
 	}
 
