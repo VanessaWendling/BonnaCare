@@ -24,7 +24,7 @@ interface IAddConsult {
   setRefresh: Dispatch<boolean>;
   vet: string;
   vetUuid: string;
-  dogUuid: string;
+  petUuid: string;
   listOfClinicsVet: IClinic[];
 }
 
@@ -33,7 +33,7 @@ export const CardAddConsult = ({
   setOpen,
   vet,
   vetUuid,
-  dogUuid,
+  petUuid,
   listOfClinicsVet,
   refresh,
   setRefresh,
@@ -92,7 +92,7 @@ export const CardAddConsult = ({
       treatmentPlan: treatmentPlan,
       vaccines: selectedVaccines,
       weight: weight,
-      dog: dogUuid,
+      pet: petUuid,
     })
       .then((res) => {
         setOpen(!open);

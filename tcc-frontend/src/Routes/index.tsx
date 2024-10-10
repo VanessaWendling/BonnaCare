@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { DetailsDog } from "../Pages/DetailsDog";
+import { DetailsPet } from "../Pages/DetailsPet";
 import { Home } from "../Pages/Home";
 import { Login } from "../Pages/Login";
 import { HomeVet } from "../Pages/HomeVet";
@@ -20,7 +20,7 @@ export const Routes = () => {
     },
     {
       path: "/details",
-      element: <DetailsDog />,
+      element: <DetailsPet />,
     }
   ]);
 

@@ -14,7 +14,7 @@ export const createNewConsult = async (data: IConsultCreate) => {
 }
 
 export const getConsultsByUuid = async (uuid: string) => {
-    const url = `/dogs/medicalhistory/${uuid}`
+    const url = `/pets/medicalhistory/${uuid}`
     const token = Cookies.get('token')
     return await api.get(url, {
         headers: {

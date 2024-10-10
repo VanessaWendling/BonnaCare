@@ -5,8 +5,8 @@ import { useLocation } from "react-router-dom";
 import { Button } from "../Components/Button";
 import { CardAddConsult } from "../Components/Cards/CardAddConsult";
 import { CardConsult } from "../Components/Cards/CardConsult";
-import { ICardDogs } from "../Components/Cards/CardDogs";
-import { CardDogsDetails } from "../Components/Cards/CardDogsDetails";
+import { ICardPets } from "../Components/Cards/CardPets";
+import { CardPetsDetails } from "../Components/Cards/CardPetsDetails";
 import { CardFind } from "../Components/Cards/CardFind";
 import { Header } from "../Components/Header";
 import { getConsultsByUuid } from "../Service/consult-endpoints";
@@ -17,7 +17,7 @@ import {
   IPosition
 } from "../Types/Types";
 
-export const DetailsDog = () => {
+export const DetailsPet = () => {
   const [petPositions, setPetPositions] = useState<IPosition[]>([]);
   const [openModalAddConsult, setOpenModalAddConsult] =
     useState<boolean>(false);
@@ -27,7 +27,7 @@ export const DetailsDog = () => {
   const decoded = jwtDecode<CustomJwtPayload>(token!);
   const location = useLocation();
   
-  const data: ICardDogs = location.state;
+  const data: ICardPets = location.state;
   const [listOfConsults, setListOfConsults] = useState<IConsult[]>([]);
 
   useEffect(() => {
@@ -63,11 +63,11 @@ export const DetailsDog = () => {
         <div className="grid grid-cols-10 min-h-screen">
           <div className="col-span-1" />
           <div className="items-center col-span-4 flex-row p-4 ">
-            <CardDogsDetails
+            <CardPetsDetails
               name={data.name}
               photo={data.photo}
               birthday={data.birthday}
-              idDog={data.uuid}
+              idPet={data.uuid}
               microchip={data.microchip}
               localizator={data.petLocalization?.localizator}
               role={decoded.scope}
@@ -110,7 +110,7 @@ export const DetailsDog = () => {
           setOpen={setOpenModalAddConsult}
           refresh={refresh}
           setRefresh={setRefresh}
-          dogUuid={data.uuid}
+          petUuid={data.uuid}
           vet={data.vet!}
           vetUuid={data.vetUuid!}
           listOfClinicsVet={data.listOfClinics!}

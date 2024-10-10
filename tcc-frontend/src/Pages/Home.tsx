@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { FaHandHoldingMedical, FaHospitalAlt } from "react-icons/fa";
 import { FaRegSquarePlus, FaUserDoctor } from "react-icons/fa6";
 import { TbVaccine } from "react-icons/tb";
-import { CardAddDogs } from "../Components/Cards/CardAddDogs";
-import { CardDogs, ICardDogs } from "../Components/Cards/CardDogs";
+import { CardAddPets } from "../Components/Cards/CardAddPet";
+import { CardPets, ICardPets } from "../Components/Cards/CardPets";
 import { Header } from "../Components/Header";
 import { IProfile, Profile } from "../Components/ProfileBox";
 import { Service } from "../Components/Service";
@@ -14,7 +14,7 @@ export const Home = () => {
   const [buttonAddPet, setButtonAddPet] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [profile, setProfile] = useState<IProfile>();
-  const [listOfDogs, setListOfDogs] = useState<ICardDogs[]>();
+  const [listOfPets, setListOfPets] = useState<ICardPets[]>();
   const [refresh, setRefresh] = useState<boolean>(false);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export const Home = () => {
           address: res.data.address,
           profileType: "TUTOR",
         });
-        setListOfDogs(res.data.dogs);
+        setListOfPets(res.data.pets);
       })
       .catch((e) => {});
   }
@@ -64,16 +64,16 @@ export const Home = () => {
               />
             </div>
             <div className="flex flex-row flex-wrap gap-4">
-              {listOfDogs?.map((dog, index) => (
-                <CardDogs
+              {listOfPets?.map((pet, index) => (
+                <CardPets
                   key={index}
-                  name={dog.name}
-                  uuid={dog.uuid}
-                  photo={dog.photo}
-                  microchip={dog.microchip}
-                  birthday={dog.birthday}
-                  breed={dog.breed}
-                  petLocalization={dog.petLocalization}
+                  name={pet.name}
+                  uuid={pet.uuid}
+                  photo={pet.photo}
+                  microchip={pet.microchip}
+                  birthday={pet.birthday}
+                  breed={pet.breed}
+                  petLocalization={pet.petLocalization}
                 />
               ))}
             </div>
@@ -110,7 +110,7 @@ export const Home = () => {
       )}
       {/* Menu */}
       {buttonAddPet ? (
-        <CardAddDogs
+        <CardAddPets
           buttonAddPet={buttonAddPet}
           setButtonAddPet={setButtonAddPet}
           setRefresh={setRefresh}

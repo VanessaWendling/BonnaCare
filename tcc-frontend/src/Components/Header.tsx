@@ -19,8 +19,8 @@ export const Header = () => {
     setOpenMenu(false);
   };
 
-  const handleAddDogs = () => {
-    navigate("/AddDogs");
+  const handleAddPets = () => {
+    navigate("/AddPets");
     setOpenMenu(false);
   };
 

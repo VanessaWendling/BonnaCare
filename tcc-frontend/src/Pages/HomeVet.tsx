@@ -1,15 +1,15 @@
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { GoSearch } from "react-icons/go";
-import { CardAddDogs } from "../Components/Cards/CardAddDogs";
+import { CardAddPets } from "../Components/Cards/CardAddPet";
 import { CardClinic, ICardClinic } from "../Components/Cards/CardClinic";
 import { Header } from "../Components/Header";
 import { Input } from "../Components/Input";
 import { IProfile, Profile } from "../Components/ProfileBox";
 import { vetDetails } from "../Service/vet-endpoints";
 import { Button } from "../Components/Button";
-import { findPetByMicrochipID } from "../Service/dog-endpoints";
-import { CardDogs, ICardDogs } from "../Components/Cards/CardDogs";
+import { findPetByMicrochipID } from "../Service/pet-endpoints";
+import { CardPets, ICardPets } from "../Components/Cards/CardPets";
 
 export const HomeVet = () => {
   const [buttonAddPet, setButtonAddPet] = useState<boolean>(false);
@@ -17,7 +17,7 @@ export const HomeVet = () => {
   const [listOfClinics, setListOfClinics] = useState<ICardClinic[]>();
   const [refresh, setRefresh] = useState<boolean>(false);
   const [microchip, setMicrochip] = useState<string>("");
-  const [pet, setPet] = useState<ICardDogs>();
+  const [pet, setPet] = useState<ICardPets>();
   const [petError, setPetError] = useState<string>();
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export const HomeVet = () => {
             </div>
             <div className="flex flex-row flex-wrap gap-4 min-h-[250px]">
               {pet && (
-                <CardDogs
+                <CardPets
                   birthday={pet.birthday}
                   breed={pet.breed}
                   name={pet.name}
@@ -129,7 +129,7 @@ export const HomeVet = () => {
       )}
       {/* Menu */}
       {buttonAddPet ? (
-        <CardAddDogs
+        <CardAddPets
           buttonAddPet={buttonAddPet}
           setButtonAddPet={setButtonAddPet}
           setRefresh={setRefresh}

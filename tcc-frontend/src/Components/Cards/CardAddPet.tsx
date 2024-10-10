@@ -4,23 +4,23 @@ import { AiOutlineClose, AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
 import { FileUpload } from "../FileUpload";
 import { CardNotification } from "./CardNotification";
 import { FaExclamationTriangle } from "react-icons/fa";
-import { createDog } from "../../Service/dog-endpoints";
+import { createPet } from "../../Service/pet-endpoints";
 import Cookies from "js-cookie";
 import { convertData } from "../../Utils/functions";
 
-interface IAddDogs {
+interface IAddPets {
   buttonAddPet: boolean;
   setButtonAddPet: Dispatch<boolean>;
   refresh: boolean;
   setRefresh: Dispatch<boolean>;
 }
 
-export const CardAddDogs = ({
+export const CardAddPets = ({
   buttonAddPet,
   setButtonAddPet,
   refresh,
   setRefresh,
-}: IAddDogs) => {
+}: IAddPets) => {
   const [name, setName] = useState<string>("");
   const [microchip, setMicrochip] = useState<string>("");
   const [localizator, setLocalizator] = useState<string>("");
@@ -35,7 +35,7 @@ export const CardAddDogs = ({
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const uuidUser = Cookies.get("uuidUser");
-    createDog({
+    createPet({
       name: name,
       photo: base64Image,
       breed: selectedBreed,
@@ -161,7 +161,7 @@ export const CardAddDogs = ({
                   type="submit"
                   className="border border-black rounded-xl px-5 py-1 max-w-32"
                 >
-                  Add dog
+                  Add pet
                 </button>
               </>
             )}

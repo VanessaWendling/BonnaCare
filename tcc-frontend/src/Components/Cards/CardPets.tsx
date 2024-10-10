@@ -8,7 +8,7 @@ import { CustomJwtPayload, IClinic, IPositionRef } from "../../Types/Types";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
-export interface ICardDogs {
+export interface ICardPets {
   uuid: string;
   photo: string;
   name: string;
@@ -21,7 +21,7 @@ export interface ICardDogs {
   petLocalization?: IPositionRef;
 }
 
-export const CardDogs = ({
+export const CardPets = ({
   uuid,
   photo,
   name,
@@ -32,7 +32,7 @@ export const CardDogs = ({
   petLocalization,
   listOfClinics,
   vetUuid,
-}: ICardDogs) => {
+}: ICardPets) => {
   const navigate = useNavigate();
   const token = Cookies.get("token");
   const decoded = jwtDecode<CustomJwtPayload>(token!);
@@ -51,22 +51,23 @@ export const CardDogs = ({
       <h3>
         {age.years}y {age.months}months
       </h3>
+      <h3>{breed}</h3>
       <div className="flex flex-row gap-1">
         <h3 className="font-semibold">Microchip:</h3>
         <h3>{microchip}</h3>
       </div>
-      {petLocalization && decoded.scope == "ROLE_USER" && (
+      {petLocalization?.localizator && decoded.scope == "ROLE_USER" && (
         <div className="flex flex-row gap-1">
           <h3 className="font-semibold">Localizator:</h3>
           <h3>{petLocalization?.localizator}</h3>
         </div>
       )}
-      <h3>{breed}</h3>
-      <div className="flex-row flex w-full justify-around ">
+      
+      <div className="flex-row flex w-full justify-around mt-auto">
         <Button
           background={true}
           text="Details"
-          idDog={1}
+          idPet={1}
           onClick={() =>
             navigate("/details", {
               state: {

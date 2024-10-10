@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { api } from "./axios";
 
-interface IDog {
+interface IPet {
   name: string;
   photo?: string,
   breed: string;
@@ -11,8 +11,8 @@ interface IDog {
   keepers: string[];
 }
 
-export const createDog = async (data: IDog) => {
-  const url = `/dogs`;
+export const createPet = async (data: IPet) => {
+  const url = `/pets`;
   const token = Cookies.get('token')
   console.log(data)
   return api.post(url, data, {
@@ -23,7 +23,7 @@ export const createDog = async (data: IDog) => {
 };
 
 export const findPetByMicrochipID = async (microchip: string) => {
-  const url = `/dogs/microchip/${microchip}`
+  const url = `/pets/microchip/${microchip}`
   const token = Cookies.get('token')
   return api.get(url, {
     headers: {

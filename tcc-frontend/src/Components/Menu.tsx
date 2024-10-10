@@ -20,8 +20,8 @@ export const Menu = ({ openMenu, setOpenMenu }: IMenu) => {
     setOpenMenu(false);
   };
 
-  const handleAddDogs = () => {
-    navigate("/AddDogs");
+  const handleAddPets = () => {
+    navigate("/AddPets");
     setOpenMenu(false);
   };
 
@@ -44,10 +44,10 @@ export const Menu = ({ openMenu, setOpenMenu }: IMenu) => {
       <nav>
         <ul className="flex flex-col p-4 text-gray-800">
           <li
-            onClick={() => handleAddDogs()}
+            onClick={() => handleAddPets()}
             className="text-xl py-4 flex cursor-pointer"
           >
-            <RiHeartAdd2Line size={25} className="mr-4" /> Add dogs
+            <RiHeartAdd2Line size={25} className="mr-4" /> Add pets
           </li>
           <li className="text-xl py-4 flex cursor-pointer">
             <FaUserFriends size={25} className="mr-4" /> Invite friends

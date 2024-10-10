@@ -2,11 +2,11 @@ import { ButtonHTMLAttributes, HTMLAttributes } from "react";
 
 interface IButton extends HTMLAttributes<HTMLElement>{
   text: string;
-  idDog?: number|string;
+  idPet?: number|string;
   background?: boolean;
 }
 
-export const Button = ({ text, idDog, background, ...props }: IButton) => {
+export const Button = ({ text, idPet, background, ...props }: IButton) => {
   return (
     <div
       className={

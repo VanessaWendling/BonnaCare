@@ -8,17 +8,17 @@ interface ICardDigsDetails {
   name: string;
   photo: string;
   birthday: string;
-  idDog: string;
+  idPet: string;
   localizator?: string;
   microchip?: string;
   role: string;
 }
 
-export const CardDogsDetails = ({
+export const CardPetsDetails = ({
   name,
   photo,
   birthday,
-  idDog,
+  idPet,
   localizator,
   microchip,
   role,
@@ -47,7 +47,7 @@ export const CardDogsDetails = ({
         </div>
         )}
         <div className="flex-row flex w-full justify-around pt-4">
-          {role == "ROLE_USER" && <Button text="Edit" idDog={idDog} />}
+          {role == "ROLE_USER" && <Button text="Edit" idPet={idPet} />}
         </div>
       </div>
     </div>

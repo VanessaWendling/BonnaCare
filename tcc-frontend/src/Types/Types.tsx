@@ -53,7 +53,7 @@ export interface IConsultCreate {
   date: string;
   consultType?: string;
   clinic: string;
-  dog:string;
+  pet:string;
   observations?: string;
   treatmentPlan?: string;
   weight?: number;
