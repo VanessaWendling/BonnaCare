@@ -3,12 +3,12 @@ package com.ucp.tcc.record.person;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.ucp.tcc.entities.Dog;
 import com.ucp.tcc.entities.Person;
-import com.ucp.tcc.record.dog.res.DogBasicResRecord;
+import com.ucp.tcc.entities.Pet;
 import com.ucp.tcc.record.person.req.PersonReqRecord;
-import com.ucp.tcc.record.person.res.PersonDogResRecord;
+import com.ucp.tcc.record.person.res.PersonPetResRecord;
 import com.ucp.tcc.record.person.res.PersonResRecord;
+import com.ucp.tcc.record.pet.res.PetBasicResRecord;
 
 public class PersonMapper {
 
@@ -21,12 +21,12 @@ public class PersonMapper {
 		return new PersonResRecord(person.getUuid(), person.getName(), person.getEmail(), person.getPhone(), person.getAddress());
 	}
 
-	public static PersonDogResRecord fromEntityDog(Person person) {
-		return new PersonDogResRecord(person.getUuid(), person.getName(), person.getPhoto(), person.getEmail(), person.getPhone(), person.getAddress(), fromDogToDogBasicResRecord(person.getDogs()));
+	public static PersonPetResRecord fromEntityPet(Person person) {
+		return new PersonPetResRecord(person.getUuid(), person.getName(), person.getPhoto(), person.getEmail(), person.getPhone(), person.getAddress(), fromPetToPetBasicResRecord(person.getPets()));
 	}
 	
-	private static  Set<DogBasicResRecord> fromDogToDogBasicResRecord (Set<Dog> dogs){
-		return dogs.stream().map(dog -> new DogBasicResRecord(dog.getUuid(), dog.getName(), dog.getPhoto(), dog.getBreed(), dog.getMicrochip(), dog.getBirthday(), dog.getPetLocalization())).collect(Collectors.toSet());
+	private static  Set<PetBasicResRecord> fromPetToPetBasicResRecord (Set<Pet> pets){
+		return pets.stream().map(pet -> new PetBasicResRecord(pet.getUuid(), pet.getName(), pet.getPhoto(), pet.getBreed(), pet.getMicrochip(), pet.getBirthday(), pet.getPetLocalization())).collect(Collectors.toSet());
 	}
 	
 	

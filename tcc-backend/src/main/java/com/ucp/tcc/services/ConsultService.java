@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 import com.ucp.tcc.entities.Clinic;
 import com.ucp.tcc.entities.Consult;
 import com.ucp.tcc.entities.ConsultExam;
-import com.ucp.tcc.entities.Dog;
 import com.ucp.tcc.entities.Exam;
+import com.ucp.tcc.entities.Pet;
 import com.ucp.tcc.entities.Vaccine;
 import com.ucp.tcc.entities.Veterinarian;
 import com.ucp.tcc.record.consult.req.ConsultReqRecord;
@@ -32,7 +32,7 @@ public class ConsultService {
 	private VeterinarianService veterinarianService;
 
 	@Autowired
-	private DogService dogService;
+	private PetService petService;
 
 	@Autowired
 	private ClinicService clinicService;
@@ -50,12 +50,12 @@ public class ConsultService {
 
 		Clinic clinic = clinicService.findByUUID(reqRecord.clinic());
 		Veterinarian vet = veterinarianService.findByUUID(reqRecord.vet());
-		Dog dog = dogService.findDogByUUID(reqRecord.dog());
+		Pet pet = petService.findPetByUUID(reqRecord.pet());
 		Set<Vaccine> vaccines = findConsultVaccinesByUUID(reqRecord.vaccines());
 
 		Consult consult = new Consult(reqRecord.date(), reqRecord.reason(), reqRecord.observations(),
 				reqRecord.treatmentPlan(), reqRecord.consultType(), reqRecord.weight(), vaccines,
-				Collections.emptySet(), vet, clinic, dog);
+				Collections.emptySet(), vet, clinic, pet);
 		consult = consultRepository.save(consult);
 
 		Set<ConsultExam> consultExams = new HashSet<>();

@@ -8,7 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ucp.tcc.entities.Dog;
+import com.ucp.tcc.entities.Pet;
 import com.ucp.tcc.entities.Localization;
 import com.ucp.tcc.record.loc.LocalizationReqRecord;
 import com.ucp.tcc.repositories.LocalizationRepository;
@@ -23,13 +23,13 @@ public class LocalizationService {
 	private LocalizationRepository localizationRepository;
 
 	@Autowired
-	private DogService dogService;
+	private PetService petService;
 
 	public boolean savePosition(LocalizationReqRecord locReqRecord) {
-		Optional<Dog> dog = dogService.findByLocalizator(locReqRecord.chipID());
-		if (dog.isPresent()) {
-			Double distanceFromRef = GeoCalculator.haversine(dog.get().getPetLocalization().getLatitudeRef(),
-					dog.get().getPetLocalization().getLongitudeRef(), Double.parseDouble(locReqRecord.latitude()),
+		Optional<Pet> pet = petService.findByLocalizator(locReqRecord.chipID());
+		if (pet.isPresent()) {
+			Double distanceFromRef = GeoCalculator.haversine(pet.get().getPetLocalization().getLatitudeRef(),
+					pet.get().getPetLocalization().getLongitudeRef(), Double.parseDouble(locReqRecord.latitude()),
 					Double.parseDouble(locReqRecord.longitude()));
 			
 			if (distanceFromRef > 0.05) //se a distância for superior a 30 metros do referencial
@@ -37,7 +37,7 @@ public class LocalizationService {
 						Double.parseDouble(locReqRecord.latitude()), Double.parseDouble(locReqRecord.longitude())));
 			return true;
 		}
-		throw new EntityNotFoundException("Dog with localizator " + locReqRecord.chipID() + " not found");
+		throw new EntityNotFoundException("Pet with localizator " + locReqRecord.chipID() + " not found");
 	}
 
 	public List<Localization> getAllByLocalizator(String localizator) {

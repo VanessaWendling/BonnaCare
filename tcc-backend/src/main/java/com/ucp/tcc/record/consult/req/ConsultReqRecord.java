@@ -10,7 +10,7 @@ import com.ucp.tcc.entities.Vaccine;
 
 public record ConsultReqRecord(Date date, String reason, String observations, String treatmentPlan,
 		ConsultType consultType, Double weight, Set<UUID> vaccines, Set<ExamResultReqRecord> exams, UUID vet,
-		UUID clinic, UUID dog) {
+		UUID clinic, UUID pet) {
 
 	public Set<Vaccine> setOfVaccinesUUID(Set<UUID> uuids) {
 		return uuids.stream().map(uuid -> new Vaccine(uuid)).collect(Collectors.toSet());

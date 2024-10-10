@@ -22,7 +22,7 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 
 @Entity
-public class Dog {
+public class Pet {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
@@ -46,22 +46,22 @@ public class Dog {
 	@JsonBackReference
 	private Set<Person> keepers;
 
-	@OneToMany(mappedBy = "dog")
+	@OneToMany(mappedBy = "pet")
 	@OrderBy("date DESC")
 	private List<Consult> consults;
 
 	@Embedded
 	private PetLocalization petLocalization;
 
-	public Dog() {
+	public Pet() {
 
 	}
 
-	public Dog(UUID uuid) {
+	public Pet(UUID uuid) {
 		this.uuid = uuid;
 	}
 
-	public Dog(UUID uuid, String name, String photo, String microchip, Breeds breed, Date birthday, Set<Person> keepers,
+	public Pet(UUID uuid, String name, String photo, String microchip, Breeds breed, Date birthday, Set<Person> keepers,
 			List<Consult> consults) {
 		this.uuid = uuid;
 		this.name = name;
@@ -73,7 +73,7 @@ public class Dog {
 		this.consults = consults;
 	}
 
-	public Dog(String name, String photo, String microchip, Breeds breed, Date birthday, Set<Person> keepers,
+	public Pet(String name, String photo, String microchip, Breeds breed, Date birthday, Set<Person> keepers,
 			PetLocalization petLocalization) {
 		this.name = name;
 		this.photo = photo;
@@ -84,7 +84,7 @@ public class Dog {
 		this.petLocalization = petLocalization;
 	}
 
-	public Dog(UUID uuid, String name, String photo, Breeds breed, Date birthday, Set<Person> keepers) {
+	public Pet(UUID uuid, String name, String photo, Breeds breed, Date birthday, Set<Person> keepers) {
 		this.uuid = uuid;
 		this.name = name;
 		this.photo = photo;
@@ -93,7 +93,7 @@ public class Dog {
 		this.keepers = keepers;
 	}
 
-	public Dog(UUID uuid, PetLocalization petLocalization) {
+	public Pet(UUID uuid, PetLocalization petLocalization) {
 		this.uuid = uuid;
 		this.petLocalization = petLocalization;
 	}

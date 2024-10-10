@@ -53,7 +53,7 @@ public class SecurityConfig {
 				.requestMatchers(HttpMethod.POST, "/person").permitAll()
 				.requestMatchers(HttpMethod.POST, "/vet").permitAll()
 				.requestMatchers(HttpMethod.POST, "/localization").permitAll()
-				.requestMatchers(HttpMethod.PUT, "/dogs/localization").permitAll()
+				.requestMatchers(HttpMethod.PUT, "/pets/localization").permitAll()
 				.anyRequest().authenticated()).httpBasic(Customizer.withDefaults())
 				.oauth2ResourceServer(conf -> conf.jwt(jwt -> jwt.decoder(jwtDecoder())));
 		return http.build();

@@ -61,7 +61,7 @@ public class Consult {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonIgnore
-	private Dog dog;
+	private Pet pet;
 
 	public Consult() {
 
@@ -69,7 +69,7 @@ public class Consult {
 
 	public Consult(UUID uuid, Date date, String reason, String observations, String treatmentPlan,
 			ConsultType consultType, Double weight, Set<Vaccine> vaccines, Set<ConsultExam> consultExams, Veterinarian vet,
-			Clinic clinic, Dog dog) {
+			Clinic clinic, Pet pet) {
 		this.uuid = uuid;
 		this.date = date;
 		this.reason = reason;
@@ -81,11 +81,11 @@ public class Consult {
 		this.consultExams = consultExams;
 		this.vet = vet;
 		this.clinic = clinic;
-		this.dog = dog;
+		this.pet = pet;
 	}
 
 	public Consult(Date date, String reason, String observations, String treatmentPlan, ConsultType consultType,
-			Double weight, Set<Vaccine> vaccines, Set<ConsultExam> consultExams, Veterinarian vet, Clinic clinic, Dog dog) {
+			Double weight, Set<Vaccine> vaccines, Set<ConsultExam> consultExams, Veterinarian vet, Clinic clinic, Pet pet) {
 		this.date = date;
 		this.reason = reason;
 		this.observations = observations;
@@ -96,7 +96,7 @@ public class Consult {
 		this.consultExams = consultExams;
 		this.vet = vet;
 		this.clinic = clinic;
-		this.dog = dog;
+		this.pet = pet;
 	}
 
 	public Double getWeight() {
@@ -191,12 +191,12 @@ public class Consult {
 		this.clinic = clinic;
 	}
 
-	public Dog getDog() {
-		return dog;
+	public Pet getPet() {
+		return pet;
 	}
 
-	public void setDog(Dog dog) {
-		this.dog = dog;
+	public void setPet(Pet pet) {
+		this.pet = pet;
 	}
 
 	public void setClinic(Clinic clinic) {
@@ -205,7 +205,7 @@ public class Consult {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(clinic, consultExams, consultType, date, dog, observations, reason, treatmentPlan, uuid,
+		return Objects.hash(clinic, consultExams, consultType, date, pet, observations, reason, treatmentPlan, uuid,
 				vaccines, vet);
 	}
 
@@ -220,7 +220,7 @@ public class Consult {
 		Consult other = (Consult) obj;
 		return Objects.equals(clinic, other.clinic) && Objects.equals(consultExams, other.consultExams)
 				&& consultType == other.consultType && Objects.equals(date, other.date)
-				&& Objects.equals(dog, other.dog) && Objects.equals(observations, other.observations)
+				&& Objects.equals(pet, other.pet) && Objects.equals(observations, other.observations)
 				&& Objects.equals(reason, other.reason) && Objects.equals(treatmentPlan, other.treatmentPlan)
 				&& Objects.equals(uuid, other.uuid) && Objects.equals(vaccines, other.vaccines)
 				&& Objects.equals(vet, other.vet);

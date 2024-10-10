@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ucp.tcc.record.person.PersonMapper;
 import com.ucp.tcc.record.person.req.PersonReqRecord;
-import com.ucp.tcc.record.person.res.PersonDogResRecord;
+import com.ucp.tcc.record.person.res.PersonPetResRecord;
 import com.ucp.tcc.record.person.res.PersonResRecord;
 import com.ucp.tcc.services.PersonService;
 
@@ -27,9 +27,9 @@ public class PersonController {
 	private PersonService personService;
 
 	@GetMapping
-	public ResponseEntity<List<PersonDogResRecord>> getAll() {
+	public ResponseEntity<List<PersonPetResRecord>> getAll() {
 		return ResponseEntity.status(HttpStatus.OK)
-				.body(personService.getPeople().stream().map(PersonMapper::fromEntityDog).toList());
+				.body(personService.getPeople().stream().map(PersonMapper::fromEntityPet).toList());
 	}
 
 	@PostMapping
@@ -39,8 +39,8 @@ public class PersonController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<PersonDogResRecord> findByUUID(@PathVariable UUID id) {
+	public ResponseEntity<PersonPetResRecord> findByUUID(@PathVariable UUID id) {
 		return ResponseEntity.status(HttpStatus.OK)
-				.body(PersonMapper.fromEntityDog(personService.getKeeperById(id)));
+				.body(PersonMapper.fromEntityPet(personService.getKeeperById(id)));
 	}
 }

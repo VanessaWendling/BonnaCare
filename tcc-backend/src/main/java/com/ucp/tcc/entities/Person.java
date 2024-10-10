@@ -33,12 +33,12 @@ public class Person implements AuthenticatedUser{
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JsonManagedReference
-	@JoinTable(name = "dog_keepers",
+	@JoinTable(name = "pet_keepers",
 	joinColumns = @JoinColumn(name = "keepers_uuid"),
-	inverseJoinColumns = @JoinColumn(name = "dog_uuid"))
-	private Set<Dog> dogs;
+	inverseJoinColumns = @JoinColumn(name = "pet_uuid"))
+	private Set<Pet> pets;
 
-	public Person(UUID uuid, String name, String photo, String email, String password, String phone, Address address, Set<Dog> dogs) {
+	public Person(UUID uuid, String name, String photo, String email, String password, String phone, Address address, Set<Pet> pets) {
 		this.uuid = uuid;
 		this.name = name;
 		this.phone = photo;
@@ -46,7 +46,7 @@ public class Person implements AuthenticatedUser{
 		this.password = password;
 		this.phone = phone;
 		this.address = address;
-		this.dogs = dogs;
+		this.pets = pets;
 	}
 
 	public Person(String name, String photo, String email, String password, String phone, Address address) {
@@ -96,8 +96,8 @@ public class Person implements AuthenticatedUser{
 		return phone;
 	}
 
-	public Set<Dog> getDogs() {
-		return dogs;
+	public Set<Pet> getPets() {
+		return pets;
 	}
 
 	public Address getAddress() {
@@ -107,6 +107,6 @@ public class Person implements AuthenticatedUser{
 	@Override
 	public String toString() {
 		return "Person [uuid=" + uuid + ", name=" + name + ", email=" + email + ", password=" + password + ", phone="
-				+ phone + ", address=" + address + ", dogs=" + dogs + "]";
+				+ phone + ", address=" + address + ", pets=" + pets + "]";
 	}
 }

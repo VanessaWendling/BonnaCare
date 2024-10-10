@@ -1,4 +1,4 @@
-package com.ucp.tcc.record.dog.req;
+package com.ucp.tcc.record.pet.req;
 
 import java.util.Date;
 import java.util.Set;
@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ucp.tcc.entities.Breeds;
 import com.ucp.tcc.entities.Person;
 
-public record DogReqRecord(String name, String photo, String microchip, Breeds breed, 
+public record PetReqRecord(String name, String photo, String microchip, Breeds breed, 
 		@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 		Date birthday, Set<UUID> keepers, String localizator) {
 

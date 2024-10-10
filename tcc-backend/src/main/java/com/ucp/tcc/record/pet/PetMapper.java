@@ -1,4 +1,4 @@
-package com.ucp.tcc.record.dog;
+package com.ucp.tcc.record.pet;
 
 import java.util.List;
 import java.util.Set;
@@ -6,35 +6,35 @@ import java.util.stream.Collectors;
 
 import com.ucp.tcc.entities.Consult;
 import com.ucp.tcc.entities.ConsultExam;
-import com.ucp.tcc.entities.Dog;
 import com.ucp.tcc.entities.Person;
+import com.ucp.tcc.entities.Pet;
 import com.ucp.tcc.entities.PetLocalization;
 import com.ucp.tcc.entities.Vaccine;
 import com.ucp.tcc.record.clinic.ClinicMapper;
 import com.ucp.tcc.record.consult.res.ConsultResRecord;
 import com.ucp.tcc.record.consult.res.ExamResRecord;
 import com.ucp.tcc.record.consult.res.VaccineResRecord;
-import com.ucp.tcc.record.dog.req.DogReqRecord;
-import com.ucp.tcc.record.dog.res.DogResHistoricRecord;
-import com.ucp.tcc.record.dog.res.DogResRecord;
 import com.ucp.tcc.record.person.res.PersonResRecord;
+import com.ucp.tcc.record.pet.req.PetReqRecord;
+import com.ucp.tcc.record.pet.res.PetResHistoricRecord;
+import com.ucp.tcc.record.pet.res.PetResRecord;
 import com.ucp.tcc.record.veterinarian.VetMapper;
 
-public class DogMapper {
+public class PetMapper {
 
-	public static Dog fromRecord(DogReqRecord reqRecord) {
-		return new Dog(reqRecord.name(), reqRecord.photo(), reqRecord.microchip(), reqRecord.breed(),
+	public static Pet fromRecord(PetReqRecord reqRecord) {
+		return new Pet(reqRecord.name(), reqRecord.photo(), reqRecord.microchip(), reqRecord.breed(),
 				reqRecord.birthday(), reqRecord.setOfPeopleDetails(reqRecord.keepers()),
 				new PetLocalization(reqRecord.localizator()));
 	}
 
-	public static DogResRecord fromEntity(Dog dog) {
-		return new DogResRecord(dog.getUuid(), dog.getName(), dog.getMicrochip(), dog.getBreed(), dog.getBirthday(),
-				setOfPeopleDetailsRecord(dog.getKeepers()), dog.getPetLocalization(), dog.getPhoto());
+	public static PetResRecord fromEntity(Pet pet) {
+		return new PetResRecord(pet.getUuid(), pet.getName(), pet.getMicrochip(), pet.getBreed(), pet.getBirthday(),
+				setOfPeopleDetailsRecord(pet.getKeepers()), pet.getPetLocalization(), pet.getPhoto());
 	}
 
-	public static DogResHistoricRecord fromEntityHistoricRecord(Dog dog) {
-		return new DogResHistoricRecord(dog.getUuid(), transformConsult(dog.getConsults()));
+	public static PetResHistoricRecord fromEntityHistoricRecord(Pet pet) {
+		return new PetResHistoricRecord(pet.getUuid(), transformConsult(pet.getConsults()));
 	}
 
 	private static List<ConsultResRecord> transformConsult(List<Consult> consults) {
