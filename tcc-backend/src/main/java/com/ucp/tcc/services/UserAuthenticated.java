@@ -12,6 +12,8 @@ import com.ucp.tcc.entities.Veterinarian;
 
 public class UserAuthenticated implements UserDetails {
 
+	private static final long serialVersionUID = 1L;
+	
 	private final AuthenticatedUser authenticatedUser;
 
 	public UserAuthenticated(AuthenticatedUser authenticatedUser) {
