@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -30,23 +31,22 @@ public class Consult {
 
 	private Date date;
 
+	@Column(length = 500)
 	private String reason;
 
+	@Column(length = 500)
 	private String observations;
 
+	@Column(length = 500)
 	private String treatmentPlan;
 
 	private ConsultType consultType;
-	
+
 	private Double weight;
 
 	@ManyToMany
-	@JoinTable(
-	    name = "consult_vaccines",
-	    joinColumns = @JoinColumn(name = "consult_uuid"),
-	    inverseJoinColumns = @JoinColumn(name = "vaccines_uuid"),
-	    uniqueConstraints = @UniqueConstraint(columnNames = {"consult_uuid", "vaccines_uuid"})
-	)
+	@JoinTable(name = "consult_vaccines", joinColumns = @JoinColumn(name = "consult_uuid"), inverseJoinColumns = @JoinColumn(name = "vaccines_uuid"), uniqueConstraints = @UniqueConstraint(columnNames = {
+			"consult_uuid", "vaccines_uuid" }))
 	private Set<Vaccine> vaccines;
 
 	@OneToMany(mappedBy = "consult", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -68,8 +68,8 @@ public class Consult {
 	}
 
 	public Consult(UUID uuid, Date date, String reason, String observations, String treatmentPlan,
-			ConsultType consultType, Double weight, Set<Vaccine> vaccines, Set<ConsultExam> consultExams, Veterinarian vet,
-			Clinic clinic, Pet pet) {
+			ConsultType consultType, Double weight, Set<Vaccine> vaccines, Set<ConsultExam> consultExams,
+			Veterinarian vet, Clinic clinic, Pet pet) {
 		this.uuid = uuid;
 		this.date = date;
 		this.reason = reason;
@@ -85,7 +85,8 @@ public class Consult {
 	}
 
 	public Consult(Date date, String reason, String observations, String treatmentPlan, ConsultType consultType,
-			Double weight, Set<Vaccine> vaccines, Set<ConsultExam> consultExams, Veterinarian vet, Clinic clinic, Pet pet) {
+			Double weight, Set<Vaccine> vaccines, Set<ConsultExam> consultExams, Veterinarian vet, Clinic clinic,
+			Pet pet) {
 		this.date = date;
 		this.reason = reason;
 		this.observations = observations;
