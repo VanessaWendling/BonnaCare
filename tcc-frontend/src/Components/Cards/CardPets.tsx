@@ -48,9 +48,10 @@ export const CardPets = ({
         )}
       </div>
       <h1 className="font-semibold text-2xl">{name}</h1>
-      <h3>
-        {age.years}y {age.months}months
-      </h3>
+      <div className="flex flex-row gap-1">
+        {age.years > 0 && <h3>{age.years}y</h3>}
+        <h3>{age.months}months</h3>
+      </div>
       <h3>{breed}</h3>
       <div className="flex flex-row gap-1">
         <h3 className="font-semibold">Microchip:</h3>
@@ -62,7 +63,7 @@ export const CardPets = ({
           <h3>{petLocalization?.localizator}</h3>
         </div>
       )}
-      
+
       <div className="flex-row flex w-full justify-around mt-auto">
         <Button
           background={true}

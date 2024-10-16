@@ -2,12 +2,31 @@ import { IExamResult } from "../Components/ExamInputsComponent";
 
 export const breedTypes = [
   { breed: "MONTAINS" },
-  { breed: "FLOCKING" },
-  { breed: "HERDING" },
-  { breed: "RETRIEVERS" },
-  { breed: "SPANIELS" },
-  { breed: "POINTERS" },
-  { breed: "SETTERS" },
+{ breed: "FLOCKING" },
+{ breed: "HERDING" },
+{ breed: "RETRIEVERS" },
+{ breed: "SPANIELS" },
+{ breed: "POINTERS" },
+{ breed: "SETTERS" },
+{ breed: "TERRIERS" },
+{ breed: "WORKING" },
+{ breed: "TOY" },
+{ breed: "HOUNDS" },
+{ breed: "NON_SPORTING" },
+{ breed: "UTILITY" },
+{ breed: "MIXED" },
+{ breed: "PERSIAN" },
+{ breed: "SIAMESE" },
+{ breed: "MAINE_COON" },
+{ breed: "BENGAL" },
+{ breed: "SPHYNX" },
+{ breed: "RAGDOLL" },
+{ breed: "BRITISH_SHORTHAIR" },
+{ breed: "AMERICAN_SHORTHAIR" },
+{ breed: "SCOTTISH_FOLD" },
+{ breed: "DEVON_REX" },
+{ breed: "BURMESE" },
+{ breed: "RUSSIAN_BLUE" }
 ];
 
 export interface IKeepper {
@@ -53,7 +72,7 @@ export interface IConsultCreate {
   date: string;
   consultType?: string;
   clinic: string;
-  pet:string;
+  pet: string;
   observations?: string;
   treatmentPlan?: string;
   weight?: number;
@@ -145,4 +164,3 @@ export const consultType = [
 export interface IConsultType {
   type: string;
 }
-

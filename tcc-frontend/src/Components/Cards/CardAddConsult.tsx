@@ -149,7 +149,7 @@ export const CardAddConsult = ({
           : "fixed top-0 left-[-100%] w-[300px] h-screen bg-white z-10 duration-300"
       }
     >
-      <div className="w-[800px] h-[500px] bg-amber-200 p-4 flex flex-col rounded-md relative items-center">
+      <div className="w-[800px] h-[500px] bg-purple-300 p-4 flex flex-col rounded-md relative items-center">
         <div className="flex flex-row justify-between w-full">
           <AiOutlineClose
             size={28}

@@ -94,7 +94,7 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
             : "fixed top-0 left-[-100%] w-[300px] h-screen bg-white z-10 duration-300"
         }
       >
-        <div className="max-w-[800px] md:w-[800px] bg-amber-200 p-6 flex flex-col m-auto rounded-md relative items-center">
+        <div className="max-w-[800px] md:w-[800px] bg-purple-300 p-6 flex flex-col m-auto rounded-md relative items-center">
           <div className="flex flex-row justify-between w-full">
             <AiOutlineClose
               size={28}
@@ -156,7 +156,7 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                 <div className="flex flex-row gap-8 items-center">
                   <div>
                     <div className="flex flex-col pb-2">
-                      <label>Name</label>
+                      <label className="font-semibold">Name</label>
                       <input
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -166,7 +166,7 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                       />
                     </div>
                     <div className="flex flex-col pb-2">
-                      <label>E-mail</label>
+                      <label className="font-semibold">E-mail</label>
                       <input
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -176,7 +176,7 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                       />
                     </div>
                     <div className="flex flex-col pb-2">
-                      <label>Phone</label>
+                      <label className="font-semibold">Phone</label>
                       <input
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
@@ -187,55 +187,12 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                     </div>
                   </div>
                   <div className="flex flex-col">
-                    <label>Photo</label>
+                    <label className="font-semibold">Photo</label>
                     <FileUpload
                       base64Image={photo}
                       setBase64Image={setPhoto}
                     />
                   </div>
-                  {/* <div className="flex flex-col">
-                  <label>Profile</label>
-                  <label className="themeSwitcherTwo relative inline-flex cursor-pointer select-none items-center">
-                    <input
-                      type="checkbox"
-                      checked={isChecked}
-                      onChange={() => setIsChecked(!isChecked)}
-                      className="sr-only"
-                    />
-                    <span className="label flex items-center text-sm font-medium text-black">
-                      Veterinarian
-                    </span>
-                    <span
-                      className={`slider mx-4 flex h-8 w-[60px] items-center rounded-full p-1 duration-200 ${
-                        isChecked ? "bg-pink-900" : "bg-amber-900"
-                      }`}
-                    >
-                      <span
-                        className={`dot h-6 w-6 rounded-full bg-white duration-200 ${
-                          isChecked ? "translate-x-[28px]" : ""
-                        }`}
-                      ></span>
-                    </span>
-                    <span className="label flex items-center text-sm font-medium text-black">
-                      Keeper
-                    </span>
-                  </label>
-                </div>
-                {isChecked == false ? (
-                  <div className="flex flex-col">
-                    <label>Registro Veterinário</label>
-                    <input
-                      value={crvm}
-                      disabled={isChecked}
-                      onChange={(e) => setCrvm(e.target.value)}
-                      className="p-2 rounded-2xl"
-                      type="text"
-                      placeholder="CRMV"
-                    />
-                  </div>
-                ) : (
-                  ""
-                )} */}
                 </div>
               </>
             ) : (
@@ -246,7 +203,7 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                 <div className="flex flex-row gap-8">
                   <div>
                     <div className="flex flex-col pb-2">
-                      <label>CEP</label>
+                      <label className="font-semibold">CEP</label>
                       <input
                         value={cep}
                         onChange={(e) => setCep(e.target.value)}
@@ -257,7 +214,7 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                       />
                     </div>
                     <div className="flex flex-col pb-2">
-                      <label>City</label>
+                      <label className="font-semibold">City</label>
                       <input
                         value={city}
                         disabled={city != ""}
@@ -267,7 +224,7 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                       />
                     </div>
                     <div className="flex flex-col pb-2">
-                      <label>Locale</label>
+                      <label className="font-semibold">Locale</label>
                       <input
                         value={locale}
                         disabled={locale != ""}
@@ -279,7 +236,7 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                   </div>
                   <div>
                     <div className="flex flex-col pb-2">
-                      <label>Street</label>
+                      <label className="font-semibold">Street</label>
                       <input
                         value={street}
                         disabled={street != ""}
@@ -289,7 +246,7 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                       />
                     </div>
                     <div className="flex flex-col pb-2">
-                      <label>Neighborhood</label>
+                      <label className="font-semibold">Neighborhood</label>
                       <input
                         value={neighborhood}
                         disabled={neighborhood != ""}
@@ -299,7 +256,7 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                       />
                     </div>
                     <div className="flex flex-col pb-2">
-                      <label>Number</label>
+                      <label className="font-semibold">Number</label>
                       <input
                         value={number}
                         onChange={(e) => setNumber(e.target.value)}
@@ -317,7 +274,7 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
             {changePage === 3 ? (
               <>
                 <div className="flex flex-col">
-                  <label>Password</label>
+                  <label className="font-semibold">Password</label>
                   <input
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -327,7 +284,7 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label>Confirm your password</label>
+                  <label className="font-semibold">Confirm your password</label>
                   <input
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}

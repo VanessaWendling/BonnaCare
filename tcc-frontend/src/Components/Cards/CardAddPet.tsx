@@ -61,7 +61,7 @@ export const CardAddPets = ({
             : "fixed top-0 left-[-100%] w-[300px] h-screen bg-white z-10 duration-300"
         }
       >
-        <div className="w-[400px] h-[500px] bg-amber-200 p-6 flex flex-col rounded-md relative items-center">
+        <div className="w-[400px] h-[500px] bg-purple-300 p-6 flex flex-col rounded-md relative items-center">
           <div className="flex flex-row justify-between w-full">
             <AiOutlineClose
               size={28}
@@ -84,7 +84,7 @@ export const CardAddPets = ({
           </div>
           {changePage === 1 ? (
             <h1 className="px-4 text-3xl sm:text-3xl md:text-5xl lg:6xl font-bold pt-4">
-              Add your <span className="text-pink-900">pet</span>
+              Add your <span className="text-pink-900">Pet</span>
             </h1>
           ) : (
             ""
@@ -114,7 +114,7 @@ export const CardAddPets = ({
                     onChange={(e) => setSelectedBreed(e.target.value)}
                   >
                     {listOfBreeds.map((item: IBreedType) => (
-                      <option value={item.breed}>{item.breed}</option>
+                      <option value={item.breed}>{item.breed.replace("_", " ")}</option>
                     ))}
                   </select>
                 </div>

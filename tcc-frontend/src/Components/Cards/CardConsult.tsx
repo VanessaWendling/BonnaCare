@@ -90,10 +90,10 @@ export const CardConsult = ({ consult }: ICardConsult) => {
                       <h2 className="font-semibold">Is Abnormal?</h2>
                       <h2 className="ps-2">{exam.isAbnormal ? "No" : "Yes"}</h2>
                     </div>
-                    {exam.file != null && (
+                    {exam.file != "" && (
                       <div className="flex flex-row justify-center">
                         <DownloadPDF
-                          base64String={exam.file}
+                          base64String={exam.file || ""}
                           fileName={exam.exam!.name}
                         />
                       </div>

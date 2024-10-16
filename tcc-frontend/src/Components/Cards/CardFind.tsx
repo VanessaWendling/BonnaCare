@@ -15,12 +15,12 @@ interface ICardFind {
 }
 
 export const CardFind = ({ position, positionRef }: ICardFind) => {
-  const [selected, setSelected] = useState<TimeClassification>("7days ago"); // Default selected option
+  const [selected, setSelected] = useState<TimeClassification>("Last seen"); // Default selected option
   const [filteredPosition, setFilteredPosition] = useState<IPosition[]>([]); // Dados filtrados
   const [refresh, setRefresh] = useState<boolean>(false)
   const isSelected = (option: string) => {
     return selected === option
-      ? "bg-amber-900 text-white"
+      ? "bg-purple-950 text-white"
       : "bg-lime-50 text-black";
   };
 
@@ -112,7 +112,7 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
       <div className="flex-row pb-1 gap-1 flex justify-end">
         <h3
           onClick={() => handleSelect("Last seen")}
-          className={`border-2 border-amber-400 rounded-md p-1 text-center font-semibold ${isSelected(
+          className={`border-2 border-purple-400 rounded-md p-1 text-center font-semibold ${isSelected(
             "Last seen"
           )}`}
         >
@@ -120,7 +120,7 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
         </h3>
         <h3
           onClick={() => handleSelect("1h ago")}
-          className={`border-2 border-amber-400 rounded-md p-1 text-center font-semibold ${isSelected(
+          className={`border-2 border-purple-400 rounded-md p-1 text-center font-semibold ${isSelected(
             "1h ago"
           )}`}
         >
@@ -128,7 +128,7 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
         </h3>
         <h3
           onClick={() => handleSelect("1d ago")}
-          className={`border-2 border-amber-400 rounded-md p-1 text-center font-semibold ${isSelected(
+          className={`border-2 border-purple-400 rounded-md p-1 text-center font-semibold ${isSelected(
             "1d ago"
           )}`}
         >
@@ -136,7 +136,7 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
         </h3>
         <h3
           onClick={() => handleSelect("7days ago")}
-          className={`border-2 border-amber-400 rounded-md p-1 text-center font-semibold ${isSelected(
+          className={`border-2 border-purple-400 rounded-md p-1 text-center font-semibold ${isSelected(
             "7days ago"
           )}`}
         >
@@ -144,7 +144,7 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
         </h3>
         <h3
           onClick={() => handleSelect("A month ago")}
-          className={`border-2 border-amber-400 rounded-md p-1 text-center font-semibold ${isSelected(
+          className={`border-2 border-purple-400 rounded-md p-1 text-center font-semibold ${isSelected(
             "A month ago"
           )}`}
         >

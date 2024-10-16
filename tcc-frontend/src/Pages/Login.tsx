@@ -47,7 +47,7 @@ export const Login = () => {
 
   return (
     <>
-      <div className="bg-amber-900 flex min-h-screen justify-center items-center">
+      <div className="bg-purple-950 flex min-h-screen justify-center items-center">
         <div className=" max-w-[1000px] max-h-[500px] md:h-[600px] bg-stone-100 flex flex-col-reverse md:flex-row m-auto rounded-md justify-between  my-8">
           <div className="w-full md:w-1/2 flex flex-col justify-center align-baseline items-center p-4">
             <div className="w-full text-gray-900 text-center">
@@ -75,7 +75,7 @@ export const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <h2>{error}</h2>
+              <h2 className="text-red-500">{error}</h2>
               <button
                 type="submit"
                 className="border border-black rounded-md px-5 py-1 max-w-32"

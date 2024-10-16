@@ -60,7 +60,7 @@ export const HomeVet = () => {
 
   return (
     <>
-      <div className="bg-amber-50 h-screen w-screen self-center overflow-x-hidden">
+      <div className="bg-amber-50 h-screen w-screen self-center overflow-x-hidden pb-4">
         <Header />
         <div className="min-h-screen flex flex-col sm:grid md:grid-cols-10">
           <div className="md:col-span-1" />

@@ -2,6 +2,7 @@ import React from "react";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
 import { IAddress } from "../Types/Types";
 import { Photo } from "./Photo";
+import { formatPhoneNumber } from "../Utils/functions";
 
 export interface IProfile {
   name?: string;
@@ -37,7 +38,7 @@ export const Profile = ({
         )}
       </div>
       <h3 className="text-base font-normal">{email}</h3>
-      {phone && <h3 className="text-base font-normal">{phone}</h3>}
+      {phone && <h3 className="text-base font-normal">{formatPhoneNumber(phone)}</h3>}
       {address && (
         <h3 className="text-base font-normal">
           {address?.city} - {address?.locale}

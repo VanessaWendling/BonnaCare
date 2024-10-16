@@ -23,7 +23,7 @@ export const CardNotification = ({
           : "fixed top-0 left-[-100%] w-[300px] h-screen bg-white z-10 duration-300"
       }
     >
-      <div className="w-[400px] h-[300px] bg-amber-200 p-6 flex flex-col rounded-md relative justify-center items-center gap-8">
+      <div className="w-[400px] h-[300px] bg-purple-300 p-6 flex flex-col rounded-md relative justify-center items-center gap-8">
         <Icon size={60} />
         <h2>{text}</h2>
         <Button text="Fechar" onClick={() => setState(!state)} />

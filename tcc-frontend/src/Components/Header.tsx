@@ -39,7 +39,7 @@ export const Header = () => {
 
   return (
     <>
-      <div className="bg-amber-900 flex flex-row items-center justify-between px-4">
+      <div className="bg-purple-950 flex flex-row items-center justify-between px-4">
         {/* <HiOutlineMenu
           size={36}
           className="text-pink-100 cursor-pointer"

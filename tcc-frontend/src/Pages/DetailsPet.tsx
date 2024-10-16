@@ -58,7 +58,7 @@ export const DetailsPet = () => {
 
   return (
     <>
-      <div className="bg-amber-50 h-screen w-screen self-center overflow-x-hidden">
+      <div className="bg-purple-100 h-screen w-screen self-center overflow-x-hidden">
         <Header />
         <div className="grid grid-cols-10 min-h-screen">
           <div className="col-span-1" />
