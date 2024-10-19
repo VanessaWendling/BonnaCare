@@ -25,8 +25,7 @@ public class LocalizationController {
 
 	@PostMapping
 	public ResponseEntity<String> receiveGPSData(@RequestBody LocalizationReqRecord reqRecord) {
-		localizationService.savePosition(reqRecord);
-		return ResponseEntity.ok("Dados recebidos com sucesso");
+		return ResponseEntity.ok(localizationService.savePosition(reqRecord));
 	}
 
 	@GetMapping("/{localizator}")

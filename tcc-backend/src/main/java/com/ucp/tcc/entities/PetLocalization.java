@@ -1,10 +1,11 @@
 package com.ucp.tcc.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class PetLocalization {
-
+	@Column(unique = true)
 	private String localizator;
 
 	private Double latitudeRef;
