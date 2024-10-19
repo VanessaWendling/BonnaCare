@@ -44,7 +44,7 @@ public class Pet {
 
 	@ManyToMany
 	@JsonBackReference
-	private Set<Person> keepers;
+	private Set<Keeper> keepers;
 
 	@OneToMany(mappedBy = "pet")
 	@OrderBy("date DESC")
@@ -61,7 +61,7 @@ public class Pet {
 		this.uuid = uuid;
 	}
 
-	public Pet(UUID uuid, String name, String photo, String microchip, Breeds breed, Date birthday, Set<Person> keepers,
+	public Pet(UUID uuid, String name, String photo, String microchip, Breeds breed, Date birthday, Set<Keeper> keepers,
 			List<Consult> consults) {
 		this.uuid = uuid;
 		this.name = name;
@@ -73,7 +73,7 @@ public class Pet {
 		this.consults = consults;
 	}
 
-	public Pet(String name, String photo, String microchip, Breeds breed, Date birthday, Set<Person> keepers,
+	public Pet(String name, String photo, String microchip, Breeds breed, Date birthday, Set<Keeper> keepers,
 			PetLocalization petLocalization) {
 		this.name = name;
 		this.photo = photo;
@@ -84,7 +84,7 @@ public class Pet {
 		this.petLocalization = petLocalization;
 	}
 
-	public Pet(UUID uuid, String name, String photo, Breeds breed, Date birthday, Set<Person> keepers) {
+	public Pet(UUID uuid, String name, String photo, Breeds breed, Date birthday, Set<Keeper> keepers) {
 		this.uuid = uuid;
 		this.name = name;
 		this.photo = photo;
@@ -134,7 +134,7 @@ public class Pet {
 		this.photo = photo;
 	}
 
-	public Set<Person> getKeepers() {
+	public Set<Keeper> getKeepers() {
 		return keepers;
 	}
 
@@ -150,7 +150,7 @@ public class Pet {
 		this.breed = breed;
 	}
 
-	public void setKeepers(Set<Person> keepers) {
+	public void setKeepers(Set<Keeper> keepers) {
 		this.keepers = keepers;
 	}
 

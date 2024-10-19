@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ucp.tcc.entities.AuthenticatedUser;
-import com.ucp.tcc.entities.Person;
+import com.ucp.tcc.entities.Keeper;
 import com.ucp.tcc.entities.Veterinarian;
 
 public class UserAuthenticated implements UserDetails {
@@ -27,7 +27,7 @@ public class UserAuthenticated implements UserDetails {
 	
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (authenticatedUser instanceof Person) {
+        if (authenticatedUser instanceof Keeper) {
             return List.of(() -> "ROLE_USER"); // Para Person
         } else if (authenticatedUser instanceof Veterinarian) {
             return List.of(() -> "ROLE_VETERINARIAN"); // Para Veterinarian

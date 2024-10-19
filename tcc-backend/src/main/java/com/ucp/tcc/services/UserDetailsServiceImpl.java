@@ -5,19 +5,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.ucp.tcc.entities.Person;
+import com.ucp.tcc.entities.Keeper;
 import com.ucp.tcc.entities.Veterinarian;
-import com.ucp.tcc.repositories.PersonRepository;
+import com.ucp.tcc.repositories.KeeperRepository;
 import com.ucp.tcc.repositories.VeterinarianRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-	private final PersonRepository personRepository;
+	private final KeeperRepository personRepository;
 
 	private final VeterinarianRepository veterinarianRepository;
 
-	public UserDetailsServiceImpl(PersonRepository personRepository, VeterinarianRepository veterinarianRepository) {
+	public UserDetailsServiceImpl(KeeperRepository personRepository, VeterinarianRepository veterinarianRepository) {
 		this.personRepository = personRepository;
 		this.veterinarianRepository = veterinarianRepository;
 	}
@@ -25,7 +25,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-		Person person = personRepository.findByEmail(email).orElse(null);
+		Keeper person = personRepository.findByEmail(email).orElse(null);
 
 		Veterinarian veterinarian = null;
 		if (person == null) {

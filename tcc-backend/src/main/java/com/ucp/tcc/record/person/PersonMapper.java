@@ -3,7 +3,7 @@ package com.ucp.tcc.record.person;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.ucp.tcc.entities.Person;
+import com.ucp.tcc.entities.Keeper;
 import com.ucp.tcc.entities.Pet;
 import com.ucp.tcc.record.person.req.PersonReqRecord;
 import com.ucp.tcc.record.person.res.PersonPetResRecord;
@@ -12,16 +12,16 @@ import com.ucp.tcc.record.pet.res.PetBasicResRecord;
 
 public class PersonMapper {
 
-	public static Person fromRecord(PersonReqRecord reqRecord) {
-		return new Person(reqRecord.name(), reqRecord.photo(), reqRecord.email(), reqRecord.password(), reqRecord.phone(),
+	public static Keeper fromRecord(PersonReqRecord reqRecord) {
+		return new Keeper(reqRecord.name(), reqRecord.photo(), reqRecord.email(), reqRecord.password(), reqRecord.phone(),
 				reqRecord.address());
 	}
 
-	public static PersonResRecord fromEntity(Person person) {
+	public static PersonResRecord fromEntity(Keeper person) {
 		return new PersonResRecord(person.getUuid(), person.getName(), person.getEmail(), person.getPhone(), person.getAddress());
 	}
 
-	public static PersonPetResRecord fromEntityPet(Person person) {
+	public static PersonPetResRecord fromEntityPet(Keeper person) {
 		return new PersonPetResRecord(person.getUuid(), person.getName(), person.getPhoto(), person.getEmail(), person.getPhone(), person.getAddress(), fromPetToPetBasicResRecord(person.getPets()));
 	}
 	

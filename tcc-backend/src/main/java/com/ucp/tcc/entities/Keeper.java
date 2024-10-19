@@ -17,7 +17,7 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 
 @Entity
-public class Person implements AuthenticatedUser{
+public class Keeper implements AuthenticatedUser{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
@@ -38,7 +38,7 @@ public class Person implements AuthenticatedUser{
 	inverseJoinColumns = @JoinColumn(name = "pet_uuid"))
 	private Set<Pet> pets;
 
-	public Person(UUID uuid, String name, String photo, String email, String password, String phone, Address address, Set<Pet> pets) {
+	public Keeper(UUID uuid, String name, String photo, String email, String password, String phone, Address address, Set<Pet> pets) {
 		this.uuid = uuid;
 		this.name = name;
 		this.phone = photo;
@@ -49,7 +49,7 @@ public class Person implements AuthenticatedUser{
 		this.pets = pets;
 	}
 
-	public Person(String name, String photo, String email, String password, String phone, Address address) {
+	public Keeper(String name, String photo, String email, String password, String phone, Address address) {
 		this.name = name;
 		this.photo = photo;
 		this.email = email;
@@ -58,11 +58,11 @@ public class Person implements AuthenticatedUser{
 		this.address = address;
 	}
 
-	public Person() {
+	public Keeper() {
 
 	}
 
-	public Person(UUID uuid) {
+	public Keeper(UUID uuid) {
 		this.uuid = uuid;
 	}
 
@@ -106,7 +106,7 @@ public class Person implements AuthenticatedUser{
 
 	@Override
 	public String toString() {
-		return "Person [uuid=" + uuid + ", name=" + name + ", email=" + email + ", password=" + password + ", phone="
+		return "Keeper [uuid=" + uuid + ", name=" + name + ", email=" + email + ", password=" + password + ", phone="
 				+ phone + ", address=" + address + ", pets=" + pets + "]";
 	}
 }

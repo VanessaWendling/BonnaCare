@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 import com.ucp.tcc.entities.Consult;
 import com.ucp.tcc.entities.ConsultExam;
-import com.ucp.tcc.entities.Person;
+import com.ucp.tcc.entities.Keeper;
 import com.ucp.tcc.entities.Pet;
 import com.ucp.tcc.entities.PetLocalization;
 import com.ucp.tcc.entities.Vaccine;
@@ -58,7 +58,7 @@ public class PetMapper {
 				.collect(Collectors.toSet());
 	}
 
-	private static Set<PersonResRecord> setOfPeopleDetailsRecord(Set<Person> people) {
+	private static Set<PersonResRecord> setOfPeopleDetailsRecord(Set<Keeper> people) {
 		return people.stream().map(person -> new PersonResRecord(person.getUuid(), person.getName(), person.getEmail(),
 				person.getPhone(), person.getAddress())).collect(Collectors.toSet());
 	}

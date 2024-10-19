@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ucp.tcc.entities.Person;
+import com.ucp.tcc.entities.Keeper;
 import com.ucp.tcc.entities.Pet;
 import com.ucp.tcc.entities.PetLocalization;
 import com.ucp.tcc.exception.MicrochipPetNotFound;
@@ -33,7 +33,7 @@ public class PetService {
 	}
 
 	public Pet insertPet(PetReqRecord reqRecord) {
-		Set<Person> person = reqRecord.keepers().stream().map(uuid -> personService.getKeeperById(uuid))
+		Set<Keeper> person = reqRecord.keepers().stream().map(uuid -> personService.getKeeperById(uuid))
 				.collect(Collectors.toSet());
 		return petRepository.save(new Pet(reqRecord.name(), reqRecord.photo(), reqRecord.microchip(), reqRecord.breed(),
 				reqRecord.birthday(), person, new PetLocalization(reqRecord.localizator())));
