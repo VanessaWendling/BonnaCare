@@ -51,7 +51,7 @@ public class ConsultService {
 		Clinic clinic = clinicService.findByUUID(reqRecord.clinic());
 		Veterinarian vet = veterinarianService.findByUUID(reqRecord.vet());
 		Pet pet = petService.findPetByUUID(reqRecord.pet());
-		Set<Vaccine> vaccines = findConsultVaccinesByUUID(reqRecord.vaccines());
+		Set<Vaccine> vaccines = reqRecord.vaccines().isEmpty() ? Collections.emptySet() : findConsultVaccinesByUUID(reqRecord.vaccines());
 
 		Consult consult = new Consult(reqRecord.date(), reqRecord.reason(), reqRecord.observations(),
 				reqRecord.treatmentPlan(), reqRecord.consultType(), reqRecord.weight(), vaccines,
@@ -59,9 +59,11 @@ public class ConsultService {
 		consult = consultRepository.save(consult);
 
 		Set<ConsultExam> consultExams = new HashSet<>();
-		for (ExamResultReqRecord examRecord : reqRecord.exams()) {
-			ConsultExam consultExam = parseDataConsultExam(examRecord, consult);
-			consultExams.add(consultExam);
+		if (!reqRecord.exams().isEmpty()) {
+			for (ExamResultReqRecord examRecord : reqRecord.exams()) {
+				ConsultExam consultExam = parseDataConsultExam(examRecord, consult);
+				consultExams.add(consultExam);
+			}
 		}
 
 		// Salva os ConsultExams no banco
@@ -72,7 +74,6 @@ public class ConsultService {
 		consult = consultRepository.save(consult); // Atualiza a consulta com os exames
 
 		return consult;
-
 	}
 
 	private Set<Vaccine> findConsultVaccinesByUUID(Set<UUID> uuids) {
