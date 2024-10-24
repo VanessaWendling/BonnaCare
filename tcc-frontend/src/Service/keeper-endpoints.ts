@@ -1,8 +1,8 @@
 import Cookies from "js-cookie";
-import { IKeepper } from "../Types/Types";
+import { IKeeper } from "../Types/Types";
 import { api } from "./axios";
 
-export const createNewAccount = async (data: IKeepper) => {
+export const createNewAccount = async (data: IKeeper) => {
   const url = `/person`;
   return (await api.post(url, data)).status;
 };

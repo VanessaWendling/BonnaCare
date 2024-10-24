@@ -1,7 +1,7 @@
 import { IExamResult } from "../Components/ExamInputsComponent";
 
 export const breedTypes = [
-  { breed: "MONTAINS" },
+{ breed: "MONTAINS" },
 { breed: "FLOCKING" },
 { breed: "HERDING" },
 { breed: "RETRIEVERS" },
@@ -29,7 +29,59 @@ export const breedTypes = [
 { breed: "RUSSIAN_BLUE" }
 ];
 
-export interface IKeepper {
+export function translateSpecialization(specialization: string): string {
+  switch (specialization) {
+    case 'Small_Animal_Medical_Clinic':
+      return 'Clínica Médica de Animais de Pequeno Porte';
+    case 'Large_Animal_Medical_Clinic':
+      return 'Clínica Médica de Animais de Grande Porte';
+    case 'Cardiology':
+      return 'Cardiologia';
+    case 'Dermatology':
+      return 'Dermatologia';
+    case 'orthopedy':
+      return 'Ortopedia';
+    case 'Ophthalmology':
+      return 'Oftalmologia';
+    case 'Oncology':
+      return 'Oncologia';
+    case 'Neurology':
+      return 'Neurologia';
+    case 'Anesthesiology':
+      return 'Anestesiologia';
+    case 'Endocrinology':
+      return 'Endocrinologia';
+    case 'Pathology':
+      return 'Patologia';
+    case 'Wild_and_Exotic_Animal_Medicine':
+      return 'Medicina de Animais Selvagens e Exóticos';
+    case 'Surgery':
+      return 'Cirurgia';
+    case 'Animal_Behavior':
+      return 'Comportamento Animal';
+    case 'Nutrition':
+      return 'Nutrição';
+    default:
+      return 'Especialização desconhecida';
+  }
+}
+
+export function translateConsultType(consultType: string): string {
+  switch (consultType) {
+    case 'ROUTINE':
+      return 'ROTINA';
+    case 'EMERGENCY':
+      return 'EMERGÊNCIA';
+    case 'VACCINE':
+      return 'VACINA';
+    case 'SURGERY':
+      return 'CIRURGIA';
+    default:
+      return 'DESCONHECIDO';
+  }
+}
+
+export interface IKeeper {
   name: string;
   photo?: string;
   email: string;
@@ -130,12 +182,12 @@ export interface IAddress {
 }
 
 export type TimeClassification =
-  | "Last seen"
-  | "1h ago"
-  | "1d ago"
-  | "7days ago"
-  | "A month ago"
-  | "More than a month ago";
+  | "Visto por último"
+  | "1h atrás"
+  | "1d atrás"
+  | "7d atrás"
+  | "Um mês atrás"
+  | "Mais de um mês atrás";
 
 export interface IPosition {
   localizator: string;
@@ -144,9 +196,9 @@ export interface IPosition {
   date: string;
 }
 export interface IPositionRef {
-  latitudeRef: number;
+  latitudeRef?: number;
   localizator: string;
-  longitudeRef: number;
+  longitudeRef?: number;
 }
 
 export interface ILogin {
