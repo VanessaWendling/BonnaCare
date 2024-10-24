@@ -68,7 +68,7 @@ export const DynamicExams = ({
             />
           </div>
           <div className="pb-2 flex flex-col">
-            <label className="font-bold">Exam:</label>
+            <label className="font-bold">Exame:</label>
             <select
               value={selectedExams[index] || ""}
               className="rounded-md p-2"
@@ -82,7 +82,7 @@ export const DynamicExams = ({
             </select>
           </div>
           <div className="pb-2">
-            <label className="font-bold">Interpretation:</label>
+            <label className="font-bold">Interpretação:</label>
             <Input
               placeholder="Interpretation"
               value={exam.interpretation}
@@ -93,14 +93,14 @@ export const DynamicExams = ({
             />
           </div>
           <div className="flex flex-row items-center gap-2">
-          <label className="font-bold flex-row">Abnormal:</label>
+          <label className="font-bold flex-row">Resultado normal?</label>
             <Check
               check={exam.isAbnormal}
               setCheck={() => updateExam(index, "isAbnormal", !exam.isAbnormal)}
             />
           </div>
           <div className="flex flex-row items-center gap-2 pt-1">
-            <label className="font-bold flex-row">Add file:</label>
+            <label className="font-bold flex-row">Add pdf:</label>
             <FileUploadPDF
               base64Image={exam.file}
               setBase64Image={(base64: string) =>

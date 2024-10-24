@@ -1,4 +1,4 @@
-import { Dispatch, useEffect, useState } from "react";
+import { Dispatch, FormEvent, useEffect, useState } from "react";
 import { AiOutlineClose, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import {
   getListOfExams,
@@ -10,6 +10,7 @@ import {
   IConsultType,
   IExam,
   IVaccine,
+  translateConsultType,
 } from "../../Types/Types";
 import { Check } from "../Check";
 import { IExamResult, DynamicExams } from "../ExamInputsComponent";
@@ -52,34 +53,38 @@ export const CardAddConsult = ({
 
   const [reason, setReason] = useState<string>("");
   const [observations, setObservations] = useState<string>("");
-  const [weight, setWeight] = useState<number>(0);
+  const [weight, setWeight] = useState<number>();
   const [date, setDate] = useState<string>();
   const [treatmentPlan, setTreatmentPlan] = useState<string>("");
   const [checkVaccine, setCheckVaccine] = useState<boolean>(false);
   const [checkExam, setCheckExam] = useState<boolean>(false);
-  const [exams, setExams] = useState<IExamResult[]>([]);
+  const [exams, setExams] = useState<IExamResult[]>([
+    { exam: "", interpretation: "", isAbnormal: false, file: "" },
+  ]);
 
-  function handleSubmit() {
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     if (checkExam == false) {
       setExams([]);
     }
     if (checkVaccine == false) {
       setSelectedVaccines([]);
     }
-    console.log({
-      // vetUuid,
-      // selectedClinic,
-      // selectedConsultType,
-      // date,
-      // reason,
-      // observations,
-      // weight,
-      // checkExam,
-      exams,
-      // checkVaccine,
-      // selectedVaccines,
-      // treatmentPlan,
-    });
+    // console.log({
+    //   vetUuid,
+    //   selectedClinic,
+    //   selectedConsultType,
+    //   date,
+    //   reason,
+    //   observations,
+    //   weight,
+    //   checkExam,
+    //   exams,
+    //   checkVaccine,
+    //   selectedVaccines,
+    //   treatmentPlan,
+    //   petUuid
+    // });
 
     createNewConsult({
       clinic: selectedClinic,
@@ -94,7 +99,7 @@ export const CardAddConsult = ({
       weight: weight,
       pet: petUuid,
     })
-      .then((res) => {
+      .then(() => {
         setOpen(!open);
         setRefresh(!refresh);
       })
@@ -145,7 +150,7 @@ export const CardAddConsult = ({
     <div
       className={
         open
-          ? "fixed inset-0 flex justify-center items-center  z-10 bg-black bg-opacity-70a duration-300"
+          ? "fixed inset-0 flex justify-center items-center  z-10 bg-black bg-opacity-70 duration-300"
           : "fixed top-0 left-[-100%] w-[300px] h-screen bg-white z-10 duration-300"
       }
     >
@@ -180,21 +185,21 @@ export const CardAddConsult = ({
         <>
           {changePage === 1 ? (
             <h1 className="text-3xl sm:text-3xl md:text-3xl lg:text-4xl font-bold w-[500px] flex-wrap text-center">
-              <span className="text-pink-900">New </span> Consult
+              <span className="text-pink-900">Nova </span> Consulta
             </h1>
           ) : (
             ""
           )}
           {changePage === 2 ? (
             <h1 className="text-3xl sm:text-3xl md:text-3xl lg:text-4xl font-bold">
-              Exams
+              Exames
             </h1>
           ) : (
             ""
           )}
           {changePage === 3 ? (
             <h1 className="text-3xl sm:text-3xl md:text-3xl lg:text-4xl font-bold flex-wrap text-center w-[500px]">
-              Vaccines
+              Vacinas
             </h1>
           ) : (
             ""
@@ -205,7 +210,7 @@ export const CardAddConsult = ({
             <div className="flex-row gap-8 justify-evenly w-full flex">
               <div className="gap-4">
                 <div className="flex flex-col py-2">
-                  <label className="font-bold">Veterinarian</label>
+                  <label className="font-bold">Veterinário Responsável</label>
                   <Input
                     className="p-2 rounded-2xl"
                     type="text"
@@ -215,7 +220,7 @@ export const CardAddConsult = ({
                   />
                 </div>
                 <div className="flex flex-col py-2 w-full">
-                  <label className="font-bold">Clinic:</label>
+                  <label className="font-bold">Clínica</label>
                   <select
                     value={selectedClinic}
                     className="rounded-md p-2"
@@ -229,20 +234,22 @@ export const CardAddConsult = ({
                   </select>
                 </div>
                 <div className="flex flex-col py-2 w-full">
-                  <label className="font-bold">Consult Type</label>
+                  <label className="font-bold">Tipo de Consulta</label>
                   <select
                     value={selectedConsultType}
                     className="rounded-md p-2"
                     onChange={(e) => setSelectedConsultType(e.target.value)}
                   >
                     {listOfConsultTypes.map((item: IConsultType) => (
-                      <option value={item.type}>{item.type}</option>
+                      <option value={item.type}>
+                        {translateConsultType(item.type)}
+                      </option>
                     ))}
                   </select>
                 </div>
                 <div className="flex flex-col py-2 w-full">
-                  <label className="font-bold">Date</label>
-                  <input
+                  <label className="font-bold">Data</label>
+                  <Input
                     type="date"
                     value={date}
                     onChange={(e) => setDate(e.target.value)}
@@ -252,30 +259,30 @@ export const CardAddConsult = ({
               </div>
               <div className="gap-4">
                 <div className="flex flex-col py-2">
-                  <label className="font-bold">Reason</label>
+                  <label className="font-bold">Motivo</label>
                   <Input
                     className="p-2 rounded-2xl"
                     type="text"
-                    placeholder="Main problem"
+                    placeholder="Motivo da Consulta"
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col py-2">
-                  <label className="font-bold">Observation</label>
+                  <label className="font-bold">Observação</label>
                   <Input
                     type="text"
                     isLarge={true}
-                    placeholder="Details"
+                    placeholder="Detalhes"
                     value={observations}
                     onChange={(e) => setObservations(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col py-2">
-                  <label className="font-bold">Weight (kg)</label>
+                  <label className="font-bold">Peso</label>
                   <Input
                     type="number"
-                    placeholder="Loc ID"
+                    placeholder="0,0 kg"
                     value={weight}
                     onChange={(e) => setWeight(Number(e.target.value))}
                   />
@@ -290,9 +297,9 @@ export const CardAddConsult = ({
               <div className=" flex-col gap-8 justify-evenly w-full flex">
                 <div className="gap-4">
                   <div className="flex flex-col">
-                    <div className="flex flex-row items-center gap-2 py-2">
-                      <label className="font-bold">
-                        Was an exam necessary?
+                    <div className="flex flex-row items-center gap-2 pb-2 justify-center">
+                      <label className="font-bold ">
+                        Foi necessário realizar algum exame?
                       </label>
                       <Check check={checkExam} setCheck={setCheckExam} />
                     </div>
@@ -313,57 +320,58 @@ export const CardAddConsult = ({
             ""
           )}
           {changePage === 3 ? (
-            <div className="flex flex-row gap-8 items-center self-center">
-              <div className="flex flex-col self-center  flex-grow w-[550px]">
-                <div className="flex flex-row items-center gap-2 py-2">
-                  <label className="font-bold">
-                    Has any vaccine been administered?
-                  </label>
-                  <Check check={checkVaccine} setCheck={setCheckVaccine} />
-                </div>
-                {checkVaccine == true && listOfVaccines != undefined && (
-                  <select
-                    multiple
-                    value={selectedVaccines}
-                    className="rounded-md p-2 h-[150px] w-full self-center border-2 border-amber-900"
-                    onChange={(e) => {
-                      const options = e.target.options;
-                      const selectedValues: string[] = [];
+            <div className="flex flex-col gap-2 items-center justify-center w-full">
+              <div className="flex flex-row items-center gap-2 pb-2">
+                <label className="font-bold">Foi aplicado alguma vacina?</label>
+                <Check check={checkVaccine} setCheck={setCheckVaccine} />
+              </div>
+              {checkVaccine == true && listOfVaccines != undefined && (
+                <select
+                  multiple
+                  value={selectedVaccines}
+                  className="rounded-md p-2 h-[150px] w-[300px] self-center border-2 border-amber-900"
+                  onChange={(e) => {
+                    const options = e.target.options;
+                    const selectedValues: string[] = [];
 
-                      for (let i = 0; i < options.length; i++) {
-                        if (options[i].selected) {
-                          selectedValues.push(options[i].value);
-                        }
+                    for (let i = 0; i < options.length; i++) {
+                      if (options[i].selected) {
+                        selectedValues.push(options[i].value);
                       }
+                    }
 
-                      setSelectedVaccines(selectedValues); // Atualiza o estado com os valores selecionados
-                    }}
-                  >
-                    {listOfVaccines.map(
-                      (
-                        item: IVaccine // Corrigi o tipo de item para IVaccine
-                      ) => (
-                        <option key={item.uuid} value={item.uuid}>
-                          {item.name}
-                        </option>
-                      )
-                    )}
-                  </select>
-                )}
-                <div className="flex flex-col py-2">
-                  <label className="font-bold">Treatment Plan</label>
-                  <Input
-                    className="p-2 rounded-2xl"
-                    type="text"
-                    isLarge
-                    placeholder="Treatment Plan"
-                    value={treatmentPlan}
-                    onChange={(e) => setTreatmentPlan(e.target.value)}
-                  />
-                </div>
+                    setSelectedVaccines(selectedValues); // Atualiza o estado com os valores selecionados
+                  }}
+                >
+                  {listOfVaccines.map(
+                    (
+                      item: IVaccine // Corrigi o tipo de item para IVaccine
+                    ) => (
+                      <option key={item.uuid} value={item.uuid}>
+                        {item.name}
+                      </option>
+                    )
+                  )}
+                </select>
+              )}
+              <div className="flex flex-col py-2">
+                <label className="font-bold">Plano de Tratamento</label>
+                <Input
+                  className="p-2 rounded-2xl w-[500px]"
+                  type="text"
+                  isLarge
+                  placeholder="Treatment Plan"
+                  value={treatmentPlan}
+                  onChange={(e) => setTreatmentPlan(e.target.value)}
+                />
               </div>
               <div className="flex-grow basis-1/4">
-                <Button background text="Add Consult" onClick={handleSubmit} />
+              <button
+                type="submit"
+                className=" bg-pink-900 rounded-md py-2 px-5 max-w-32 text-slate-50"
+              >
+                Salvar
+              </button>
               </div>
             </div>
           ) : (

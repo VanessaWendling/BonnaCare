@@ -1,11 +1,13 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import React, { Dispatch, FormEvent, useState } from "react";
+import React, { ChangeEvent, Dispatch, FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineClose, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import { FileUpload } from "../FileUpload";
 import { getCepDetail } from "../../Service/apiViaCep-endpoints";
 import { createNewAccount } from "../../Service/keeper-endpoints";
 import { IAddress } from "../../Types/Types";
+import { formatPhoneNumber } from "../../Utils/functions";
+import { Input } from "../Input";
 
 interface ICardRegister {
   joinUs: boolean;
@@ -13,7 +15,11 @@ interface ICardRegister {
   setRegisterSuccess: Dispatch<boolean>;
 }
 
-export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardRegister) => {
+export const CardRegister = ({
+  joinUs,
+  setJoinUs,
+  setRegisterSuccess,
+}: ICardRegister) => {
   const [changePage, setChangePage] = useState<number>(1);
   const [photo, setPhoto] = useState<string>();
   const [password, setPassword] = useState<string>("");
@@ -28,8 +34,6 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
   const [phone, setPhone] = useState<string>("");
   const [street, setStreet] = useState<string>("");
   const [error, setError] = useState<string>();
-  const [isChecked, setIsChecked] = useState<boolean>(true);
-  const [crvm, setCrvm] = useState<string>();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -50,10 +54,9 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
         phone,
         address,
       });
-      console.log(status);
       if (status == 201) {
         setJoinUs(false);
-        setRegisterSuccess(true)
+        setRegisterSuccess(true);
       }
     }
   };
@@ -62,12 +65,12 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError("As senhas não são iguais");
       return false;
     }
     if (password != undefined && !passwordRegex.test(password)) {
       setError(
-        "Password must be at least 8 characters long and contain an uppercase letter, a lowercase letter, and a number."
+        "A senha deve ter pelo menos 8 caracteres contendo letras e números"
       );
       return false;
     }
@@ -85,6 +88,39 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
         setStreet(res.logradouro);
       });
   };
+
+  const handlePhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
+    let input = e.target.value.replace(/\D/g, "");
+    if (input.length > 12) input = input.slice(0, 12);
+
+    if (input.length > 6) {
+      input = `(${input.slice(0, 3)}) ${input.slice(3, 4)} ${input.slice(
+        4,
+        8
+      )}-${input.slice(8)}`;
+    } else if (input.length > 3) {
+      input = `(${input.slice(0, 3)}) ${input.slice(3)}`;
+    } else if (input.length > 0) {
+      input = `(${input}`;
+    }
+
+    setPhone(input);
+  };
+
+  const handleCEPChange = (e: ChangeEvent<HTMLInputElement>) => {
+    let input = e.target.value.replace(/\D/g, "");
+  
+    if (input.length > 8) input = input.slice(0, 8);
+  
+    if (input.length > 5) {
+      input = `${input.slice(0, 5)}-${input.slice(5, 8)}`;
+    } else if (input.length > 0) {
+      input = `${input.slice(0, 5)}`;
+    }
+  
+    setCep(input);
+  };
+
   return (
     <>
       <div
@@ -125,23 +161,23 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
           <>
             {changePage === 1 ? (
               <h1 className="px-4 text-3xl sm:text-3xl md:text-5xl lg:6xl font-bold w-[500px] flex-wrap text-center pt-4">
-                We're glad to have <span className="text-pink-900">you</span>{" "}
-                here
+                Estamos felizes em ter
+                <span className="text-pink-900"> você </span>aqui!
               </h1>
             ) : (
               ""
             )}
             {changePage === 2 ? (
               <h1 className="px-4 text-3xl sm:text-3xl md:text-5xl lg:6xl font-bold pt-4">
-                Address information
+                Informações de Endereço
               </h1>
             ) : (
               ""
             )}
             {changePage === 3 ? (
               <h1 className="px-4 text-3xl sm:text-3xl md:text-5xl lg:6xl font-bold flex-wrap text-center w-[500px] pt-4">
-                Set
-                <span className="text-pink-900"> your</span> password
+                Escolha
+                <span className="text-pink-900"> sua</span> senha
               </h1>
             ) : (
               ""
@@ -156,18 +192,18 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                 <div className="flex flex-row gap-8 items-center">
                   <div>
                     <div className="flex flex-col pb-2">
-                      <label className="font-semibold">Name</label>
-                      <input
+                      <label className="font-semibold">Nome</label>
+                      <Input
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         className="p-2 rounded-2xl"
                         type="text"
-                        placeholder="Full Name"
+                        placeholder="Nome Completo"
                       />
                     </div>
                     <div className="flex flex-col pb-2">
                       <label className="font-semibold">E-mail</label>
-                      <input
+                      <Input
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         className="p-2 rounded-2xl"
@@ -176,10 +212,10 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                       />
                     </div>
                     <div className="flex flex-col pb-2">
-                      <label className="font-semibold">Phone</label>
-                      <input
+                      <label className="font-semibold">Telefone</label>
+                      <Input
                         value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
+                        onChange={handlePhoneChange}
                         className="p-2 rounded-2xl"
                         type="text"
                         placeholder="(xx) x xxxx-xxxx"
@@ -187,11 +223,8 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                     </div>
                   </div>
                   <div className="flex flex-col">
-                    <label className="font-semibold">Photo</label>
-                    <FileUpload
-                      base64Image={photo}
-                      setBase64Image={setPhoto}
-                    />
+                    <label className="font-semibold">Foto</label>
+                    <FileUpload base64Image={photo} setBase64Image={setPhoto} />
                   </div>
                 </div>
               </>
@@ -204,9 +237,9 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                   <div>
                     <div className="flex flex-col pb-2">
                       <label className="font-semibold">CEP</label>
-                      <input
+                      <Input
                         value={cep}
-                        onChange={(e) => setCep(e.target.value)}
+                        onChange={handleCEPChange}
                         onBlur={handleCepBlur}
                         className="p-2 rounded-2xl"
                         type="text"
@@ -214,8 +247,8 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                       />
                     </div>
                     <div className="flex flex-col pb-2">
-                      <label className="font-semibold">City</label>
-                      <input
+                      <label className="font-semibold">Cidade</label>
+                      <Input
                         value={city}
                         disabled={city != ""}
                         className="p-2 rounded-2xl"
@@ -224,8 +257,8 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                       />
                     </div>
                     <div className="flex flex-col pb-2">
-                      <label className="font-semibold">Locale</label>
-                      <input
+                      <label className="font-semibold">UF</label>
+                      <Input
                         value={locale}
                         disabled={locale != ""}
                         className="p-2 rounded-2xl"
@@ -236,8 +269,8 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                   </div>
                   <div>
                     <div className="flex flex-col pb-2">
-                      <label className="font-semibold">Street</label>
-                      <input
+                      <label className="font-semibold">Rua</label>
+                      <Input
                         value={street}
                         disabled={street != ""}
                         className="p-2 rounded-2xl"
@@ -246,8 +279,8 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                       />
                     </div>
                     <div className="flex flex-col pb-2">
-                      <label className="font-semibold">Neighborhood</label>
-                      <input
+                      <label className="font-semibold">Bairro</label>
+                      <Input
                         value={neighborhood}
                         disabled={neighborhood != ""}
                         className="p-2 rounded-2xl"
@@ -256,8 +289,8 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                       />
                     </div>
                     <div className="flex flex-col pb-2">
-                      <label className="font-semibold">Number</label>
-                      <input
+                      <label className="font-semibold">Número</label>
+                      <Input
                         value={number}
                         onChange={(e) => setNumber(e.target.value)}
                         className="p-2 rounded-2xl"
@@ -274,8 +307,8 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
             {changePage === 3 ? (
               <>
                 <div className="flex flex-col">
-                  <label className="font-semibold">Password</label>
-                  <input
+                  <label className="font-semibold">Senha</label>
+                  <Input
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="p-2 rounded-2xl"
@@ -284,8 +317,8 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label className="font-semibold">Confirm your password</label>
-                  <input
+                  <label className="font-semibold">Confirmar a senha</label>
+                  <Input
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     className="p-2 rounded-2xl"
@@ -300,7 +333,7 @@ export const CardRegister = ({ joinUs, setJoinUs, setRegisterSuccess }: ICardReg
                   type="submit"
                   className="border border-black rounded-xl px-5 py-1 max-w-32"
                 >
-                  Sign up
+                  Salvar
                 </button>
               </>
             ) : (

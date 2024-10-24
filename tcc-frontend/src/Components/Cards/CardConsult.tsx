@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { IConsult } from "../../Types/Types";
+import { IConsult, translateConsultType, translateSpecialization } from "../../Types/Types";
 import { FaRegSquarePlus, FaRegSquareMinus } from "react-icons/fa6";
-import { convertData } from "../../Utils/functions";
+import { convertData, formatPhoneNumber } from "../../Utils/functions";
 import { DownloadPDF } from "../DownloadPDF";
 
 interface ICardConsult {
@@ -29,10 +29,10 @@ export const CardConsult = ({ consult }: ICardConsult) => {
   })();
 
   return (
-    <div className="bg-slate-50 shadow-lg rounded-2xl flex flex-col justify-center p-4 gap-4 mb-4">
+    <div className="bg-slate-50 shadow-lg rounded-2xl flex flex-col justify-center p-4 gap-1 mb-4">
       <div className="flex justify-between px-2">
         <h3 className={`${color} font-semibold rounded-md p-1`}>
-          {consult.consultType}
+          {consult.consultType && translateConsultType(consult.consultType)}
         </h3>
         {consult.date && (
           <h3 className="text-center self-end">
@@ -41,25 +41,25 @@ export const CardConsult = ({ consult }: ICardConsult) => {
         )}
       </div>
       <div>
-        <h2 className="font-semibold">Reason for Consultation:</h2>
+        <h2 className="font-semibold">Motivo da Consulta:</h2>
         <h2 className="ps-8">{consult.reason}</h2>
       </div>
       <div>
-        <h2 className="font-semibold">Clinical Observations:</h2>
+        <h2 className="font-semibold">Observações Clínicas:</h2>
         <h2 className="ps-8">{consult.observations}</h2>
       </div>
       <div>
-        <h2 className="font-semibold"> Treatment Plan:</h2>
+        <h2 className="font-semibold">Plano de Tratamento:</h2>
         <h2 className="ps-8">{consult.treatmentPlan}</h2>
       </div>
       <div className="flex flex-row">
-        <h2 className="font-semibold">Weight:</h2>
+        <h2 className="font-semibold">Peso:</h2>
         <h2 className="ps-2">{consult.weight} kg</h2>
       </div>
       {(consult.exams?.length || 0) > 0 && (
         <div>
-          <div className="flex flex-row items-center gap-2">
-            <h2 className="font-semibold">Exams:</h2>
+          <div className="flex flex-row items-center gap-1">
+            <h2 className="font-semibold">Exames:</h2>
             {openExams ? (
               <FaRegSquareMinus
                 onClick={() => setOpenExams(!openExams)}
@@ -77,18 +77,20 @@ export const CardConsult = ({ consult }: ICardConsult) => {
           {openExams
             ? consult.exams?.map((exam, index) => (
                 <div className="ps-8" key={index}>
-                  <div className="p-2 shadow-lg mb-2">
+                  <div className="p-2 shadow-lg mb-2 bg-slate-100">
                     <div className="flex flex-row">
-                      <h2 className="font-semibold">Exam:</h2>
+                      <h2 className="font-semibold">Exame:</h2>
                       <h2 className="ps-2">{exam.exam!.name}</h2>
                     </div>
                     <div className="flex flex-row">
-                      <h2 className="font-semibold">Result:</h2>
+                      <h2 className="font-semibold">Interpretação:</h2>
                       <h2 className="ps-2">{exam.interpretation}</h2>
                     </div>
                     <div className="flex flex-row">
-                      <h2 className="font-semibold">Is Abnormal?</h2>
-                      <h2 className="ps-2">{exam.isAbnormal ? "No" : "Yes"}</h2>
+                      <h2 className="font-semibold">Resultado normal?</h2>
+                      <h2 className="ps-2">
+                        {exam.isAbnormal ? "Sim." : "Não."}
+                      </h2>
                     </div>
                     {exam.file != "" && (
                       <div className="flex flex-row justify-center">
@@ -107,7 +109,7 @@ export const CardConsult = ({ consult }: ICardConsult) => {
       {(consult.vaccines?.length || 0) > 0 && (
         <div>
           <div className="flex flex-row items-center gap-2">
-            <h2 className="font-semibold">Vaccines Applied:</h2>
+            <h2 className="font-semibold">Vacinas Ministradas:</h2>
             {openVaccines ? (
               <FaRegSquareMinus
                 onClick={() => setOpenVaccines(!openVaccines)}
@@ -124,15 +126,17 @@ export const CardConsult = ({ consult }: ICardConsult) => {
           </div>
           <div className="ps-8">
             {openVaccines ? (
-              <div className="p-2 shadow-lg mb-2">
-                {consult.vaccines?.map((vaccine, index) => (
-                  <div className="flex flex-row" key={index}>
-                    {/* <h2 className="font-semibold">Name:</h2> */}
-                    <h2 className="ps-2 font-semibold">
-                      {index + 1} - {vaccine.name}
-                    </h2>
-                  </div>
-                ))}
+              <div className="p-1 flex flex-row">
+                  {consult.vaccines?.map((vaccine, index) => (
+                    <>
+                      <h2
+                        key={index}
+                        className="p-1 font-semibold bg-purple-900 text-slate-50 rounded-md"
+                      >
+                        {vaccine.name}
+                      </h2>
+                    </>
+                  ))}
               </div>
             ) : (
               ""
@@ -142,7 +146,7 @@ export const CardConsult = ({ consult }: ICardConsult) => {
       )}
 
       <div className="flex flex-row items-center gap-2">
-        <h2 className="font-semibold">See Veterinarian and Clinic</h2>
+        <h2 className="font-semibold">Detalhes do Veterinário e Clínica</h2>
         {openDetails ? (
           <FaRegSquareMinus
             onClick={() => setOpenDetails(!openDetails)}
@@ -161,10 +165,10 @@ export const CardConsult = ({ consult }: ICardConsult) => {
         <div className="flex flex-row justify-evenly">
           <div className="flex flex-col w-full">
             <h3 className="text-base font-semibold self-center">
-              Veterinarian
+              Vetrinário
             </h3>
             <div className="flex-row flex gap-1">
-              <h2 className="font-semibold">Name:</h2>
+              <h2 className="font-semibold">Nome:</h2>
               <h3>{consult.veterinarian.name}</h3>
             </div>
             <div className="flex-row flex gap-1">
@@ -172,21 +176,21 @@ export const CardConsult = ({ consult }: ICardConsult) => {
               <h3 className="text-center">{consult.veterinarian.crmv}</h3>
             </div>
             <div className="flex-row flex gap-1">
-              <h2 className="font-semibold">Specialization: </h2>
+              <h2 className="font-semibold">Especialização: </h2>
               <h3 className="text-center">
-                {consult.veterinarian.specialization.replace("_", " ")}
+                {translateSpecialization(consult.veterinarian.specialization)}
               </h3>
             </div>
           </div>
           <div className="flex flex-col w-full">
-            <h3 className="text-base font-semibold self-center">Clinic</h3>
+            <h3 className="text-base font-semibold self-center">Clínica</h3>
             <div className="flex-row flex gap-1">
-              <h2 className="font-semibold">Clinic: </h2>
+              <h2 className="font-semibold">Clínica: </h2>
               <h3 className="text-center">{consult.clinic.name}</h3>
             </div>
             <div className="flex-row flex gap-1">
-              <h2 className="font-semibold">Phone: </h2>
-              <h3 className="text-center">{consult.clinic.phone}</h3>
+              <h2 className="font-semibold">Telefone: </h2>
+              <h3 className="text-center">{formatPhoneNumber(consult.clinic.phone)}</h3>
             </div>
           </div>
         </div>

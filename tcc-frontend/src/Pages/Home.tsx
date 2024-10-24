@@ -12,7 +12,6 @@ import { personDetails } from "../Service/keeper-endpoints";
 
 export const Home = () => {
   const [buttonAddPet, setButtonAddPet] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
   const [profile, setProfile] = useState<IProfile>();
   const [listOfPets, setListOfPets] = useState<ICardPets[]>();
   const [refresh, setRefresh] = useState<boolean>(false);
@@ -56,7 +55,7 @@ export const Home = () => {
           </div>
           <div className="flex col-span-7 flex-col">
             <div className="flex flex-row items-center">
-              <h2 className="text-lg p-4 font-semibold">My Pets</h2>
+              <h2 className="text-lg p-4 font-semibold">Meus Pets</h2>
               <FaRegSquarePlus
                 onClick={() => setButtonAddPet(true)}
                 size={20}
@@ -77,7 +76,7 @@ export const Home = () => {
                 />
               ))}
             </div>
-            <h2 className="text-lg p-4 font-semibold">Search Service </h2>
+            <h2 className="text-lg p-4 font-semibold">Encontrar Serviços</h2>
             <div className="flex gap-2 flex-wrap">
               <Service
                 Icon={FaUserDoctor}
@@ -86,8 +85,8 @@ export const Home = () => {
               />
               <Service
                 Icon={FaHospitalAlt}
-                name="Clinicas"
-                description="Encontre clinicas perto de você."
+                name="Clínicas"
+                description="Encontre clínicas perto de você."
               />
               <Service
                 Icon={TbVaccine}
@@ -113,8 +112,8 @@ export const Home = () => {
         <CardAddPets
           buttonAddPet={buttonAddPet}
           setButtonAddPet={setButtonAddPet}
-          setRefresh={setRefresh}
           refresh={refresh}
+          setRefresh={setRefresh}
         />
       ) : (
         ""

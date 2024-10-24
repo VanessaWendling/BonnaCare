@@ -15,9 +15,10 @@ interface ICardFind {
 }
 
 export const CardFind = ({ position, positionRef }: ICardFind) => {
-  const [selected, setSelected] = useState<TimeClassification>("Last seen"); // Default selected option
+  const [selected, setSelected] =
+    useState<TimeClassification>("Visto por último"); // Default selected option
   const [filteredPosition, setFilteredPosition] = useState<IPosition[]>([]); // Dados filtrados
-  const [refresh, setRefresh] = useState<boolean>(false)
+  const [refresh, setRefresh] = useState<boolean>(false);
   const isSelected = (option: string) => {
     return selected === option
       ? "bg-purple-950 text-white"
@@ -26,7 +27,7 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
 
   // Inicializar refPosition apenas se ref for definido
   const refPosition: LatLngTuple | undefined = positionRef?.latitudeRef
-    ? [positionRef.latitudeRef, positionRef.longitudeRef]
+    ? [positionRef.latitudeRef!, positionRef.longitudeRef!]
     : undefined;
 
   const urlLeaflet: string =
@@ -57,15 +58,15 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
   });
 
   useEffect(() => {
-    handleSelect(selected)
-  }, [refresh]);
+    handleSelect(selected);
+  }, []);
 
   const handleSelect = (option: TimeClassification) => {
     setSelected(option);
     const filteredData = filterByTime(position, option);
     console.log(filteredData);
     setFilteredPosition(filteredData);
-    setRefresh(!refresh)
+    setRefresh(!refresh);
   };
 
   const filterByTime = (
@@ -76,19 +77,19 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
 
     let timeAgo: Date;
     switch (timeFilter) {
-      case "Last seen":
+      case "Visto por último":
         timeAgo = new Date(now.getTime() - 5 * 60 * 1000);
         break;
-      case "1h ago":
+      case "1h atrás":
         timeAgo = new Date(now.getTime() - 60 * 60 * 1000);
         break;
-      case "1d ago":
+      case "1d atrás":
         timeAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
         break;
-      case "7days ago":
+      case "7d atrás":
         timeAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
         break;
-      case "A month ago":
+      case "Um mês atrás":
         timeAgo = new Date(now.setMonth(now.getMonth() - 1));
         break;
       default:
@@ -111,44 +112,44 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
     <div>
       <div className="flex-row pb-1 gap-1 flex justify-end">
         <h3
-          onClick={() => handleSelect("Last seen")}
+          onClick={() => handleSelect("Visto por último")}
           className={`border-2 border-purple-400 rounded-md p-1 text-center font-semibold ${isSelected(
-            "Last seen"
+            "Visto por último"
           )}`}
         >
-          Last seen
+          Visto por último
         </h3>
         <h3
-          onClick={() => handleSelect("1h ago")}
+          onClick={() => handleSelect("1h atrás")}
           className={`border-2 border-purple-400 rounded-md p-1 text-center font-semibold ${isSelected(
-            "1h ago"
+            "1h atrás"
           )}`}
         >
-          1h ago
+          1h atrás
         </h3>
         <h3
-          onClick={() => handleSelect("1d ago")}
+          onClick={() => handleSelect("1d atrás")}
           className={`border-2 border-purple-400 rounded-md p-1 text-center font-semibold ${isSelected(
-            "1d ago"
+            "1d atrás"
           )}`}
         >
-          1d ago
+          1d atrás
         </h3>
         <h3
-          onClick={() => handleSelect("7days ago")}
+          onClick={() => handleSelect("7d atrás")}
           className={`border-2 border-purple-400 rounded-md p-1 text-center font-semibold ${isSelected(
-            "7days ago"
+            "7d atrás"
           )}`}
         >
-          7days ago
+          7d atrás
         </h3>
         <h3
-          onClick={() => handleSelect("A month ago")}
+          onClick={() => handleSelect("Um mês atrás")}
           className={`border-2 border-purple-400 rounded-md p-1 text-center font-semibold ${isSelected(
-            "A month ago"
+            "Um mês atrás"
           )}`}
         >
-          A month ago
+          1 mês atrás
         </h3>
       </div>
       <div className="relative">
@@ -162,8 +163,7 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
             refPosition ? "hidden" : ""
           }`}
         >
-          Seu pet não tem localizador cadastrado ou ponto de referência
-          cadastrado
+          Seu pet não tem localizador e/ou ponto de referência cadastrado
         </h2>
         <MapContainer
           center={refPosition || [0, 0]}

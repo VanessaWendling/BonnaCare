@@ -1,12 +1,11 @@
-import { Dispatch, FormEvent, useState } from "react";
-import { breedTypes, IBreedType } from "../../Types/Types";
-import { AiOutlineClose, AiOutlineRight, AiOutlineLeft } from "react-icons/ai";
-import { FileUpload } from "../FileUpload";
-import { CardNotification } from "./CardNotification";
-import { FaExclamationTriangle } from "react-icons/fa";
-import { createPet } from "../../Service/pet-endpoints";
 import Cookies from "js-cookie";
+import { Dispatch, FormEvent, useState } from "react";
+import { AiOutlineClose, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import { createPet } from "../../Service/pet-endpoints";
+import { breedTypes, IBreedType } from "../../Types/Types";
 import { convertData } from "../../Utils/functions";
+import { FileUpload } from "../FileUpload";
+import { Input } from "../Input";
 
 interface IAddPets {
   buttonAddPet: boolean;
@@ -24,13 +23,12 @@ export const CardAddPets = ({
   const [name, setName] = useState<string>("");
   const [microchip, setMicrochip] = useState<string>("");
   const [localizator, setLocalizator] = useState<string>("");
-  const [base64Image, setBase64Image] = useState<string>();
-  const [birthday, setBirthday] = useState<string>();
+  const [base64Image, setBase64Image] = useState<string>("");
+  const [birthday, setBirthday] = useState<string>("");
   const [listOfBreeds, setListOfBreeds] =
     useState<Array<IBreedType>>(breedTypes);
   const [selectedBreed, setSelectedBreed] = useState<string>("");
   const [changePage, setChangePage] = useState<number>(1);
-  const [cardAttention, setCardAttention] = useState<boolean>(false);
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -41,11 +39,10 @@ export const CardAddPets = ({
       breed: selectedBreed,
       microchip: microchip,
       birthday: convertData(birthday!, "getReformattedData"),
-      localizator: localizator,
+      petLocalizator: { localizator: localizator },
       keepers: [uuidUser!],
     })
       .then(() => {
-        setCardAttention(true);
         setButtonAddPet(!buttonAddPet);
         setRefresh(!refresh);
       })
@@ -84,7 +81,7 @@ export const CardAddPets = ({
           </div>
           {changePage === 1 ? (
             <h1 className="px-4 text-3xl sm:text-3xl md:text-5xl lg:6xl font-bold pt-4">
-              Add your <span className="text-pink-900">Pet</span>
+              Meu <span className="text-pink-900">Pet</span>
             </h1>
           ) : (
             ""
@@ -97,8 +94,8 @@ export const CardAddPets = ({
             {changePage === 1 ? (
               <>
                 <div className="flex flex-col">
-                  <label className="font-bold">Name</label>
-                  <input
+                  <label className="font-bold">Nome</label>
+                  <Input
                     className="p-2 rounded-2xl"
                     type="text"
                     placeholder="Buddy"
@@ -107,20 +104,23 @@ export const CardAddPets = ({
                   />
                 </div>
                 <div className="flex flex-col w-full">
-                  <label className="font-bold">Breed</label>
+                  <label className="font-bold">Raça</label>
                   <select
                     value={selectedBreed}
-                    className="rounded-2xl p-2"
+                    className="rounded-lg p-2"
+                    // size={5}
                     onChange={(e) => setSelectedBreed(e.target.value)}
                   >
                     {listOfBreeds.map((item: IBreedType) => (
-                      <option value={item.breed}>{item.breed.replace("_", " ")}</option>
+                      <option value={item.breed}>
+                        {item.breed.replace("_", " ")}
+                      </option>
                     ))}
                   </select>
                 </div>
                 <div className="flex flex-col w-full">
-                  <label className="font-bold mb-2">Birthday</label>
-                  <input
+                  <label className="font-bold mb-2">Data de Aniversário</label>
+                  <Input
                     type="date"
                     value={birthday}
                     onChange={(e) => setBirthday(e.target.value)}
@@ -131,8 +131,8 @@ export const CardAddPets = ({
             ) : (
               <>
                 <div className="flex flex-col">
-                  <label>Microchip</label>
-                  <input
+                  <label className="font-bold mb-2">Microchip</label>
+                  <Input
                     className="p-2 rounded-2xl"
                     type="text"
                     placeholder="Microchip"
@@ -141,8 +141,10 @@ export const CardAddPets = ({
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label>Localizator Code</label>
-                  <input
+                  <label className="font-bold mb-2">
+                    Código do Localizador
+                  </label>
+                  <Input
                     className="p-2 rounded-2xl"
                     type="text"
                     placeholder="Loc ID"
@@ -151,7 +153,7 @@ export const CardAddPets = ({
                   />
                 </div>
                 <div className="flex flex-col">
-                  <label>Photo</label>
+                  <label className="font-bold mb-2">Foto</label>
                   <FileUpload
                     base64Image={base64Image}
                     setBase64Image={setBase64Image}
@@ -161,23 +163,13 @@ export const CardAddPets = ({
                   type="submit"
                   className="border border-black rounded-xl px-5 py-1 max-w-32"
                 >
-                  Add pet
+                  Add Pet
                 </button>
               </>
             )}
           </form>
         </div>
       </div>
-      {cardAttention ? (
-        <CardNotification
-          text="Lembre-se de setar o local de sua residência no rastreador de seu cachorro."
-          state={cardAttention}
-          setState={setCardAttention}
-          Icon={FaExclamationTriangle}
-        />
-      ) : (
-        ""
-      )}
     </>
   );
 };

@@ -21,7 +21,7 @@ export const Login = () => {
   const navigate = useNavigate();
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault(); //
+    event.preventDefault();
     if (username !== "" && password !== "") {
       login({ username, password })
         .then((res) => {
@@ -52,7 +52,7 @@ export const Login = () => {
           <div className="w-full md:w-1/2 flex flex-col justify-center align-baseline items-center p-4">
             <div className="w-full text-gray-900 text-center">
               <h1 className="px-4 text-2xl md:text-4xl font-bold pt-4">
-                Welcome to
+                Bem-vindo ao
               </h1>
               <h1 className="px-4 text-4xl md:text-6xl font-bold">
                 Bonna<span className="text-rose-800">Care</span>
@@ -80,14 +80,14 @@ export const Login = () => {
                 type="submit"
                 className="border border-black rounded-md px-5 py-1 max-w-32"
               >
-                Sign in
+                Entrar
               </button>
             </form>
             <h2
               onClick={() => setJoinUs(true)}
               className="text-center text-brown-900 cursor-pointer"
             >
-              Join us
+              Cadastra-se!
             </h2>
           </div>
           <div className="w-full md:w-1/2 flex items-center justify-center  ">

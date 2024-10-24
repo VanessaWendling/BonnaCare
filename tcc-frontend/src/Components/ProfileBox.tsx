@@ -1,6 +1,6 @@
 import React from "react";
 import { MdOutlineAddPhotoAlternate } from "react-icons/md";
-import { IAddress } from "../Types/Types";
+import { IAddress, translateSpecialization } from "../Types/Types";
 import { Photo } from "./Photo";
 import { formatPhoneNumber } from "../Utils/functions";
 
@@ -30,11 +30,11 @@ export const Profile = ({
   return (
     <div className="bg-slate-50 shadow-lg min-h-[450px] max-w-[250px] rounded-2xl my-4 flex flex-col items-center gap-4 p-4">
       <h2 className="text-lg font-bold ">{name}</h2>
-      <div className="bg-yellow-200 rounded-2xl justify-center flex items-center h-40 w-40">
+      <div className="bg-pink-900 rounded-2xl justify-center flex items-center h-40 w-40">
         {photo ? (
           <Photo photo={photo} />
         ) : (
-          <MdOutlineAddPhotoAlternate size={64} />
+          <MdOutlineAddPhotoAlternate size={64} className="text-slate-50"/>
         )}
       </div>
       <h3 className="text-base font-normal">{email}</h3>
@@ -46,7 +46,7 @@ export const Profile = ({
       )}
       {specialization && (
         <h3 className="text-base font-normal">
-          {specialization?.replace("_", " ")}
+          {translateSpecialization(specialization)}
         </h3>
       )}
       {crmv && <h3 className="text-base font-normal">{crmv}</h3>}
@@ -55,7 +55,7 @@ export const Profile = ({
         {profileType}
       </h3>
       <h3 className="text-sm font-normal underline cursor-pointer">
-        Change my information
+        Alterar meus dados 
       </h3>
     </div>
   );
