@@ -37,7 +37,7 @@ export const HomeVet = () => {
           specialization: res.data.specialization,
           crmv: res.data.crmv,
           profileType: "VET",
-          uuid: res.data.uuid
+          uuid: res.data.uuid,
         });
         setListOfClinics(res.data.clinic);
       })
@@ -60,7 +60,7 @@ export const HomeVet = () => {
 
   return (
     <>
-      <div className="bg-amber-50 h-screen w-screen self-center overflow-x-hidden pb-4">
+      <div className="bg-purple-100 h-screen w-screen self-center overflow-x-hidden pb-4">
         <Header />
         <div className="min-h-screen flex flex-col sm:grid md:grid-cols-10">
           <div className="md:col-span-1" />
@@ -78,13 +78,22 @@ export const HomeVet = () => {
           </div>
           <div className="flex col-span-7 flex-col ">
             <div className="flex flex-row items-center gap-2">
-              <h2 className="text-lg py-4 ps-4 font-semibold">Find Pet:</h2>
-              <Input
-                Icon={GoSearch}
-                placeholder="Microchip ID"
-                onChange={(e) => setMicrochip(e.target.value)}
-              />
-              <Button text="Search" background onClick={findPetByMicrochip} />
+              <h2 className="text-lg py-4 ps-4 font-semibold">
+                Encontrar Pet:
+              </h2>
+              <div className="shadow-lg">
+                <Input
+                  Icon={GoSearch}
+                  placeholder="Microchip ID"
+                  onChange={(e) => setMicrochip(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      findPetByMicrochip(); // Chama a função apenas quando 'Enter' for pressionado
+                    }
+                  }}
+                />
+              </div>
+              <Button text="Buscar" background onClick={findPetByMicrochip} />
             </div>
             <div className="flex flex-row flex-wrap gap-4 min-h-[250px]">
               {pet && (
@@ -96,18 +105,20 @@ export const HomeVet = () => {
                   uuid={pet.uuid}
                   key={pet.uuid}
                   microchip={pet.microchip}
-                  vet={profile!.name} 
+                  vet={profile!.name}
                   vetUuid={profile!.uuid}
                   listOfClinics={listOfClinics}
                 />
               )}
               {petError && (
-                <h2 className="text-center self-center text-red-600 text-2xl font-semibold">
+                <div className="bg-slate-50 shadow-lg rounded-2xl flex flex-col justify-center p-4 gap-4 mb-4">
+                <h3 className="text-center font-semibold text-red-500">
                   {petError}
-                </h2>
+                </h3>
+              </div>
               )}
             </div>
-            <h2 className="text-lg p-4 font-semibold">Linked Clinics</h2>
+            <h2 className="text-lg p-4 font-semibold">Clínicas Vinculadas</h2>
             <div className="flex gap-2 flex-wrap">
               {listOfClinics?.map((clinic, index) => (
                 <CardClinic
