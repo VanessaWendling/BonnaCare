@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ucp.tcc.record.loc.LocalizationReqRecord;
 import com.ucp.tcc.record.pet.PetMapper;
+import com.ucp.tcc.record.pet.req.PetLocalizatorReqRecord;
 import com.ucp.tcc.record.pet.req.PetReqRecord;
 import com.ucp.tcc.record.pet.res.PetResHistoricRecord;
 import com.ucp.tcc.record.pet.res.PetResRecord;
@@ -48,6 +49,12 @@ public class PetController {
 	public ResponseEntity<PetResHistoricRecord> getPetMedicalHistoryByUUID(@PathVariable UUID uuid) {
 		return ResponseEntity.status(HttpStatus.OK)
 				.body(PetMapper.fromEntityHistoricRecord(petService.findPetByUUID(uuid)));
+	}
+	
+	@PutMapping("/localizator")
+	public ResponseEntity<String> putLocalizatorByUUID(@RequestBody PetLocalizatorReqRecord reqRecord) {
+		petService.putLocalizatorByUUID(reqRecord);
+		return ResponseEntity.ok().body("Localizator changed!");
 	}
 
 	@PutMapping("/localization")

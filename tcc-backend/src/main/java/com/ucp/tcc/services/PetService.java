@@ -14,6 +14,7 @@ import com.ucp.tcc.entities.Pet;
 import com.ucp.tcc.entities.PetLocalization;
 import com.ucp.tcc.exception.MicrochipPetNotFound;
 import com.ucp.tcc.record.loc.LocalizationReqRecord;
+import com.ucp.tcc.record.pet.req.PetLocalizatorReqRecord;
 import com.ucp.tcc.record.pet.req.PetReqRecord;
 import com.ucp.tcc.repositories.PetRepository;
 
@@ -44,6 +45,12 @@ public class PetService {
 //				.orElseThrow(() -> new EntityNotFoundException("Pet not found in the system"));
 		return petRepository.findPetWithConsultsOrderedByDate(uuid)
 				.orElseThrow(() -> new EntityNotFoundException("Pet not found in the system"));
+	}
+	
+	public Pet putLocalizatorByUUID(PetLocalizatorReqRecord petLocalizatorReqRecord) {
+		Pet pet = findPetByUUID(petLocalizatorReqRecord.uuid());
+		pet.getPetLocalization().setLocalizator(petLocalizatorReqRecord.localizator());
+		return petRepository.save(pet);
 	}
 
 	public boolean createPositionRef(LocalizationReqRecord reqRecord) {
