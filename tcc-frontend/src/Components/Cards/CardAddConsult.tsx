@@ -212,7 +212,7 @@ export const CardAddConsult = ({
                 <div className="flex flex-col py-2">
                   <label className="font-bold">Veterinário Responsável</label>
                   <Input
-                    className="p-2 rounded-2xl"
+                    className="p-2 rounded-2xl bg-slate-200"
                     type="text"
                     disabled={true}
                     placeholder={vet}

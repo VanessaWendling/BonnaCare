@@ -251,20 +251,20 @@ export const CardRegister = ({
                       <Input
                         value={city}
                         disabled={city != ""}
-                        className="p-2 rounded-2xl"
+                        className={`p-2 rounded-2xl ${city != "" && "bg-slate-200"}`}
                         type="text"
                         placeholder="Rio de Janeiro"
-                      />
+                        />
                     </div>
                     <div className="flex flex-col pb-2">
                       <label className="font-semibold">UF</label>
                       <Input
                         value={locale}
                         disabled={locale != ""}
-                        className="p-2 rounded-2xl"
+                        className={`p-2 rounded-2xl ${locale != "" && "bg-slate-200"}`}
                         type="text"
                         placeholder="RJ"
-                      />
+                        />
                     </div>
                   </div>
                   <div>
@@ -273,27 +273,27 @@ export const CardRegister = ({
                       <Input
                         value={street}
                         disabled={street != ""}
-                        className="p-2 rounded-2xl"
+                        className={`p-2 rounded-2xl ${street != "" && "bg-slate-200"}`}
                         type="text"
                         placeholder="Mosela"
-                      />
+                        />
                     </div>
                     <div className="flex flex-col pb-2">
                       <label className="font-semibold">Bairro</label>
                       <Input
                         value={neighborhood}
                         disabled={neighborhood != ""}
-                        className="p-2 rounded-2xl"
+                        className={`p-2 rounded-2xl ${neighborhood != "" && "bg-slate-200"}`}
                         type="text"
                         placeholder="Mosela"
-                      />
+                        />
                     </div>
                     <div className="flex flex-col pb-2">
                       <label className="font-semibold">Número</label>
                       <Input
                         value={number}
                         onChange={(e) => setNumber(e.target.value)}
-                        className="p-2 rounded-2xl"
+                        className={`p-2 rounded-2xl`}
                         type="text"
                         placeholder="A202"
                       />
