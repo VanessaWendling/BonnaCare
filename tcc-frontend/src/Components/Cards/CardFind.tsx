@@ -64,7 +64,6 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
   const handleSelect = (option: TimeClassification) => {
     setSelected(option);
     const filteredData = filterByTime(position, option);
-    console.log(filteredData);
     setFilteredPosition(filteredData);
     setRefresh(!refresh);
   };
@@ -97,13 +96,11 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
     }
 
     return positions.filter((item) => {
-      console.log(item);
       const [day, month, yearTime] = item.date.split("/");
       const [year, time] = yearTime.split(" ");
       const isoDateString = `${year}-${month}-${day}T${time}`;
 
       const itemDate = new Date(isoDateString);
-      console.log(itemDate + "  " + now);
       return itemDate >= timeAgo;
     });
   };
@@ -173,15 +170,27 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
           className="w-full h-[400px] z-10 rounded-md"
         >
           <TileLayer url={urlGoogle} />
-          {filteredPosition.map((position: IPosition, index: number) => (
+          {selected == "Visto por último" && filteredPosition.length > 0 ? (
             <Marker
-              key={index}
-              position={[position.latitude, position.longitude]}
+              position={[
+                filteredPosition[0].latitude,
+                filteredPosition[0].longitude,
+              ]}
               icon={DefaultIcon}
             >
-              <Popup>{position.date}</Popup>
+              <Popup>{filteredPosition[0].date}</Popup>
             </Marker>
-          ))}
+          ) : (
+            filteredPosition.map((position: IPosition, index: number) => (
+              <Marker
+                key={index}
+                position={[position.latitude, position.longitude]}
+                icon={DefaultIcon}
+              >
+                <Popup>{position.date}</Popup>
+              </Marker>
+            ))
+          )}
           {refPosition ? (
             <Marker position={refPosition} icon={RedIcon}>
               <Popup>Home</Popup>

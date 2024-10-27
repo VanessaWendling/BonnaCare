@@ -14,6 +14,8 @@ import { locPetContinuos } from "../Service/loc-endpoints";
 import { CustomJwtPayload, IConsult, IPosition } from "../Types/Types";
 import { MdOutlinePinDrop } from "react-icons/md";
 import { Input } from "../Components/Input";
+import { AiTwotoneExclamationCircle } from "react-icons/ai";
+
 import {
   getPetDataByUUID,
   IPetRes,
@@ -118,7 +120,8 @@ export const DetailsPet = () => {
               </div>
             )}
             {decoded.scope === "ROLE_USER" &&
-              pet?.petLocalizator?.localizator === "" && (
+              (pet?.petLocalizator?.localizator === "" ||
+                pet?.petLocalizator?.localizator == null) && (
                 <div className="bg-slate-50 shadow-lg rounded-2xl flex flex-col justify-center p-4 gap-4 my-4">
                   <h3 className="text-lg font-semibold text-center">
                     Cadastre o localizador do seu Pet aqui:
@@ -139,11 +142,22 @@ export const DetailsPet = () => {
               )}
             {decoded.scope === "ROLE_USER" && (
               <>
-                <h3 className="text-lg p-4 font-semibold">Localizar Meu Pet</h3>
+                <div className="flex flex-row p-4 items-center gap-2">
+                  <h3 className="text-lg font-semibold">Localizar Meu Pet</h3>
+                  <AiTwotoneExclamationCircle />
+                </div>
                 <CardFind
                   position={petPositions}
                   positionRef={pet?.petLocalizator}
                 />
+                <div className="flex flex-row ps-4 pt-1 items-center gap-2">
+                  <AiTwotoneExclamationCircle size={30}/>
+                  <h3 className="text-xs text-center">
+                    Este mapa marca os pontos onde seu pet está fora de casa.
+                    Se não houver referências exibidas, isso indica que não
+                    houve nenhuma intercorrência.
+                  </h3>
+                </div>
               </>
             )}
           </div>
