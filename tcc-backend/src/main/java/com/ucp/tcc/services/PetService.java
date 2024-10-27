@@ -41,14 +41,21 @@ public class PetService {
 	}
 
 	public Pet findPetByUUID(UUID uuid) {
-//		return petRepository.findById(uuid)
-//				.orElseThrow(() -> new EntityNotFoundException("Pet not found in the system"));
+		return petRepository.findById(uuid)
+				.orElseThrow(() -> new EntityNotFoundException("Pet not found in the system"));
+	}
+
+	public Pet findPetConsultByUUID(UUID uuid) {
 		return petRepository.findPetWithConsultsOrderedByDate(uuid)
 				.orElseThrow(() -> new EntityNotFoundException("Pet not found in the system"));
 	}
-	
+
 	public Pet putLocalizatorByUUID(PetLocalizatorReqRecord petLocalizatorReqRecord) {
 		Pet pet = findPetByUUID(petLocalizatorReqRecord.uuid());
+		
+		if (pet.getPetLocalization() == null)
+			pet.setPetLocalization(new PetLocalization());
+
 		pet.getPetLocalization().setLocalizator(petLocalizatorReqRecord.localizator());
 		return petRepository.save(pet);
 	}
@@ -56,6 +63,7 @@ public class PetService {
 	public boolean createPositionRef(LocalizationReqRecord reqRecord) {
 		Optional<Pet> optionalPet = findByLocalizator(reqRecord.chipID());
 		if (optionalPet.isPresent()) {
+			System.out.println("present : lat - " + reqRecord.latitude() + " long - " + reqRecord.longitude());
 			Pet pet = optionalPet.get();
 			pet.setPetLocalization(new PetLocalization(reqRecord.chipID(), Double.parseDouble(reqRecord.latitude()),
 					Double.parseDouble(reqRecord.longitude())));

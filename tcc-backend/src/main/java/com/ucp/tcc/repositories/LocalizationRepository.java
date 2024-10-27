@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 import com.ucp.tcc.entities.Localization;
 
 public interface LocalizationRepository extends JpaRepository<Localization, UUID> {
-	@Query("SELECT l FROM Localization l WHERE l.localizator = :localizator AND l.date >= :startDate")
+	@Query("SELECT l FROM Localization l WHERE l.localizator = :localizator AND l.date >= :startDate ORDER BY l.date DESC")
 	List<Localization> findAllByLocalizatorLastMonth(@Param("localizator") String localizator,
 			@Param("startDate") Date startDate);
 	
