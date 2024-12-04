@@ -84,7 +84,7 @@ export const DynamicExams = ({
           <div className="pb-2">
             <label className="font-bold">Interpretação:</label>
             <Input
-              placeholder="Interpretation"
+              placeholder="Interpretação"
               value={exam.interpretation}
               onChange={(e) =>
                 updateExam(index, "interpretation", e.target.value)

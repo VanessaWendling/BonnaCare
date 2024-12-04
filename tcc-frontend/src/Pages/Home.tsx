@@ -9,12 +9,18 @@ import { Header } from "../Components/Header";
 import { IProfile, Profile } from "../Components/ProfileBox";
 import { Service } from "../Components/Service";
 import { personDetails } from "../Service/keeper-endpoints";
+import { IFeedback } from "../Types/Types";
+import { useNavigate } from "react-router-dom";
+import { CardNotification } from "../Components/Cards/CardNotification";
+import { AiTwotoneExclamationCircle } from "react-icons/ai";
 
 export const Home = () => {
+  const navigate = useNavigate();
   const [buttonAddPet, setButtonAddPet] = useState<boolean>(false);
   const [profile, setProfile] = useState<IProfile>();
   const [listOfPets, setListOfPets] = useState<ICardPets[]>();
   const [refresh, setRefresh] = useState<boolean>(false);
+  const [feedback, setFeedback] = useState<IFeedback>({ feedback: false });
 
   useEffect(() => {
     getUserDetails();
@@ -34,7 +40,17 @@ export const Home = () => {
         });
         setListOfPets(res.data.pets);
       })
-      .catch((e) => {});
+      .catch((e) => {
+        switch (e.status) {
+          case 401:
+            setFeedback({
+              feedback: true,
+              message: "Acesso expirado! \n Faça o login novamente para continuar.",
+              action: () => navigate("/"),
+            });
+            break;
+        }
+      });
   }
 
   return (
@@ -117,6 +133,13 @@ export const Home = () => {
         />
       ) : (
         ""
+      )}
+      {feedback.feedback && (
+        <CardNotification
+          Icon={AiTwotoneExclamationCircle}
+          state={feedback}
+          setState={setFeedback}
+        />
       )}
     </>
   );

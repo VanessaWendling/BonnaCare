@@ -1,7 +1,8 @@
-import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { AiTwotoneExclamationCircle } from "react-icons/ai";
+import { MdOutlinePinDrop } from "react-icons/md";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../Components/Button";
 import { CardAddConsult } from "../Components/Cards/CardAddConsult";
 import { CardConsult } from "../Components/Cards/CardConsult";
@@ -9,33 +10,41 @@ import { CardFind } from "../Components/Cards/CardFind";
 import { ICardPets } from "../Components/Cards/CardPets";
 import { CardPetsDetails } from "../Components/Cards/CardPetsDetails";
 import { Header } from "../Components/Header";
+import { Input } from "../Components/Input";
 import { getConsultsByUuid } from "../Service/consult-endpoints";
 import { locPetContinuos } from "../Service/loc-endpoints";
-import { CustomJwtPayload, IConsult, IPosition } from "../Types/Types";
-import { MdOutlinePinDrop } from "react-icons/md";
-import { Input } from "../Components/Input";
-import { AiTwotoneExclamationCircle } from "react-icons/ai";
+import {
+  CustomJwtPayload,
+  IConsult,
+  IFeedback,
+  IPosition,
+} from "../Types/Types";
 
+import { CardKeeper } from "../Components/Cards/CardKeeper";
+import { CardNotification } from "../Components/Cards/CardNotification";
 import {
   getPetDataByUUID,
   IPetRes,
   putPetLocalizator,
 } from "../Service/pet-endpoints";
-import { CardKeeper } from "../Components/Cards/CardKeeper";
+import { useGetToken } from "../Utils/functions";
 
 export const DetailsPet = () => {
+  const navigate = useNavigate();
   const [petPositions, setPetPositions] = useState<IPosition[]>([]);
   const [openModalAddConsult, setOpenModalAddConsult] =
     useState<boolean>(false);
   const [refresh, setRefresh] = useState<boolean>(false);
   const [pet, setPet] = useState<IPetRes>();
-  const token = Cookies.get("token");
-  const decoded = jwtDecode<CustomJwtPayload>(token!);
+  const token = useGetToken();
+  if (token) var decoded = jwtDecode<CustomJwtPayload>(token);
+  else navigate("/");
   const location = useLocation();
 
   const data: ICardPets = location.state;
   const [listOfConsults, setListOfConsults] = useState<IConsult[]>([]);
   const [localizator, setLocalizator] = useState<string>("");
+  const [feedback, setFeedback] = useState<IFeedback>({ feedback: false });
 
   useEffect(() => {
     loadPetLocalization();
@@ -46,23 +55,38 @@ export const DetailsPet = () => {
   function getPetData() {
     getPetDataByUUID(data.uuid).then((res) => {
       setPet(res.data);
+    })
+    .catch((e) => {
+      switch (e.status) {
+        case 401:
+          setFeedback({
+            feedback: true,
+            message: "Acesso expirado! \n Faça o login novamente para continuar.",
+            action: () => navigate("/"),
+          });
+          console.log("aqui");
+          break;
+      }
     });
   }
 
   function getAllConsults() {
-    getConsultsByUuid(data.uuid).then((res) => {
+    getConsultsByUuid(data.uuid)
+    .then((res) => {
       setListOfConsults(res.data.consults);
+    })
+    .catch((e) => {
+      switch (e.status) {
+        case 401:
+          setFeedback({
+            feedback: true,
+            message: "Acesso expirado! \n Faça o login novamente para continuar.",
+            action: () => navigate("/"),
+          });
+          console.log("aqui");
+          break;
+      }
     });
-  }
-
-  function putLocalizator() {
-    if (localizator !== "") {
-      const uuid = data.uuid;
-      putPetLocalizator({ uuid, localizator }).then(() => {
-        setRefresh(!refresh);
-        setLocalizator("");
-      });
-    }
   }
 
   function loadPetLocalization() {
@@ -74,10 +98,29 @@ export const DetailsPet = () => {
       locPetContinuos(data.petLocalization?.localizator)
         .then((res) => {
           setPetPositions(res.data);
+          
         })
-        .catch(() => {
-          console.log("falha");
+        .catch((e) => {
+          switch (e.status) {
+            case 401:
+              setFeedback({
+                feedback: true,
+                message: "Acesso expirado! \n Faça o login novamente para continuar.",
+                action: () => navigate("/"),
+              });
+              break;
+          }
         });
+  }
+
+  function putLocalizator() {
+    if (localizator !== "") {
+      const uuid = data.uuid;
+      putPetLocalizator({ uuid, localizator }).then(() => {
+        setRefresh(!refresh);
+        setLocalizator("");
+      });
+    }
   }
 
   function addConsult() {
@@ -98,9 +141,9 @@ export const DetailsPet = () => {
               idPet={data.uuid}
               microchip={pet?.microchip}
               localizator={pet?.petLocalizator?.localizator}
-              role={decoded.scope}
+              role={decoded!.scope}
             />
-            {decoded.scope === "ROLE_VETERINARIAN" && (
+            {decoded!.scope === "ROLE_VETERINARIAN" && (
               <>
                 <h3 className="text-lg p-4 font-semibold">
                   Tutor{pet && pet?.keepers.length > 1 ? "es" : ""}
@@ -110,7 +153,7 @@ export const DetailsPet = () => {
                 ))}
               </>
             )}
-            {decoded.scope === "ROLE_VETERINARIAN" && (
+            {decoded!.scope === "ROLE_VETERINARIAN" && (
               <div className="py-2 px-8">
                 <Button
                   text="Nova Consulta Médica"
@@ -119,7 +162,7 @@ export const DetailsPet = () => {
                 />
               </div>
             )}
-            {decoded.scope === "ROLE_USER" &&
+            {decoded!.scope === "ROLE_USER" &&
               (pet?.petLocalizator?.localizator === "" ||
                 pet?.petLocalizator?.localizator == null) && (
                 <div className="bg-slate-50 shadow-lg rounded-2xl flex flex-col justify-center p-4 gap-4 my-4">
@@ -140,22 +183,24 @@ export const DetailsPet = () => {
                   </div>
                 </div>
               )}
-            {decoded.scope === "ROLE_USER" && (
+            {decoded!.scope === "ROLE_USER" && (
               <>
                 <div className="flex flex-row p-4 items-center gap-2">
                   <h3 className="text-lg font-semibold">Localizar Meu Pet</h3>
                   <AiTwotoneExclamationCircle />
                 </div>
+                <div className="relative overflow-hidden block w-full h-[480px]  px-2 py-8 rounded-md shadow-md">
                 <CardFind
                   position={petPositions}
                   positionRef={pet?.petLocalizator}
                 />
+                </div>
                 <div className="flex flex-row ps-4 pt-1 items-center gap-2">
-                  <AiTwotoneExclamationCircle size={30}/>
+                  <AiTwotoneExclamationCircle size={30} />
                   <h3 className="text-xs text-center">
-                    Este mapa marca os pontos onde seu pet está fora de casa.
-                    Se não houver referências exibidas, isso indica que não
-                    houve nenhuma intercorrência.
+                    Este mapa marca os pontos onde seu pet está fora de casa. Se
+                    não houver referências exibidas, isso indica que não houve
+                    nenhuma intercorrência.
                   </h3>
                 </div>
               </>
@@ -191,6 +236,13 @@ export const DetailsPet = () => {
           vet={data.vet!}
           vetUuid={data.vetUuid!}
           listOfClinicsVet={data.listOfClinics!}
+        />
+      )}
+      {feedback.feedback && (
+        <CardNotification
+          Icon={AiTwotoneExclamationCircle}
+          state={feedback}
+          setState={setFeedback}
         />
       )}
     </>

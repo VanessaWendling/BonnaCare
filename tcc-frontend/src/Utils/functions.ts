@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 export function convertData(data: string, method: string): string {
   switch (method) {
@@ -18,6 +20,16 @@ export interface IAge {
   years: number;
   months: number
 }
+
+export const useGetToken = () => {
+  const navigate = useNavigate();
+  
+  const token = Cookies.get("token");
+  if (token) return token;
+  
+  navigate("/");
+  return null;
+};
 
 export function calculateAge(date: string): IAge {
 

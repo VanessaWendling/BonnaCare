@@ -10,8 +10,13 @@ import { vetDetails } from "../Service/vet-endpoints";
 import { Button } from "../Components/Button";
 import { findPetByMicrochipID } from "../Service/pet-endpoints";
 import { CardPets, ICardPets } from "../Components/Cards/CardPets";
+import { CardNotification } from "../Components/Cards/CardNotification";
+import { IFeedback } from "../Types/Types";
+import { AiTwotoneExclamationCircle } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 export const HomeVet = () => {
+  const navigate = useNavigate();
   const [buttonAddPet, setButtonAddPet] = useState<boolean>(false);
   const [profile, setProfile] = useState<IProfile>();
   const [listOfClinics, setListOfClinics] = useState<ICardClinic[]>();
@@ -19,6 +24,7 @@ export const HomeVet = () => {
   const [microchip, setMicrochip] = useState<string>("");
   const [pet, setPet] = useState<ICardPets>();
   const [petError, setPetError] = useState<string>();
+  const [feedback, setFeedback] = useState<IFeedback>({ feedback: false });
 
   useEffect(() => {
     getVetDetails();
@@ -41,7 +47,17 @@ export const HomeVet = () => {
         });
         setListOfClinics(res.data.clinic);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        switch (e.status) {
+          case 401:
+            setFeedback({
+              feedback: true,
+              message: "Acesso expirado! \n Faça o login novamente para continuar.",
+              action: () => navigate("/"),
+            });
+            break;
+        }
+      });
   }
 
   function findPetByMicrochip() {
@@ -148,6 +164,13 @@ export const HomeVet = () => {
         />
       ) : (
         ""
+      )}
+      {feedback.feedback && (
+        <CardNotification
+          Icon={AiTwotoneExclamationCircle}
+          state={feedback}
+          setState={setFeedback}
+        />
       )}
     </>
   );

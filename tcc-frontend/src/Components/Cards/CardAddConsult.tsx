@@ -360,7 +360,7 @@ export const CardAddConsult = ({
                   className="p-2 rounded-2xl w-[500px]"
                   type="text"
                   isLarge
-                  placeholder="Treatment Plan"
+                  placeholder="Plano de tratamento"
                   value={treatmentPlan}
                   onChange={(e) => setTreatmentPlan(e.target.value)}
                 />
