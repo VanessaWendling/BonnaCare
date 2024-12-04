@@ -10,7 +10,7 @@ import { IPosition, IPositionRef, TimeClassification } from "../../Types/Types";
 import PinHome from "../../assets/PinHome.png";
 
 interface ICardFind {
-  position: IPosition[];
+  position?: IPosition[];
   positionRef?: IPositionRef;
 }
 
@@ -24,6 +24,7 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
       ? "bg-purple-950 text-white"
       : "bg-lime-50 text-black";
   };
+  useEffect(() => {}, [refresh]);
 
   // Inicializar refPosition apenas se ref for definido
   const refPosition: LatLngTuple | undefined = positionRef?.latitudeRef
@@ -34,6 +35,7 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
     "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
   const urlGoogle: string = "http://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}";
+  // const urlGoogle: string = "http://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}";
 
   // Configurar os ícones padrão
   let DefaultIcon = L.icon({
@@ -59,13 +61,15 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
 
   useEffect(() => {
     handleSelect(selected);
-  }, []);
+  }, [selected]);
 
   const handleSelect = (option: TimeClassification) => {
     setSelected(option);
-    const filteredData = filterByTime(position, option);
-    setFilteredPosition(filteredData);
-    setRefresh(!refresh);
+    if (position) {
+      const filteredData = filterByTime(position, option);
+      setFilteredPosition(filteredData);
+      setRefresh(!refresh);
+    }
   };
 
   const filterByTime = (
@@ -104,7 +108,11 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
       return itemDate >= timeAgo;
     });
   };
+  const [isLoaded, setIsLoaded] = useState(false);
 
+  useEffect(() => {
+    setIsLoaded(true); // Apenas para simular carregamento
+  }, []);
   return (
     <div>
       <div className="flex-row pb-1 gap-1 flex justify-end">
@@ -150,55 +158,54 @@ export const CardFind = ({ position, positionRef }: ICardFind) => {
         </h3>
       </div>
       <div className="relative">
-        <div
-          className={`absolute inset-0 w-full h-[400px] z-10 rounded-md bg-black bg-opacity-70 flex items-center justify-center ${
-            refPosition ? "hidden" : ""
-          }`}
-        />
-        <h2
-          className={`absolute z-20 w-full h-[400px] text-red-500 flex items-center justify-center text-center px-4 ${
-            refPosition ? "hidden" : ""
-          }`}
-        >
-          Seu pet não tem localizador e/ou ponto de referência cadastrado
-        </h2>
-        <MapContainer
-          center={refPosition || [0, 0]}
-          zoom={20}
-          minZoom={15}
-          scrollWheelZoom={true}
-          className="w-full h-[400px] z-10 rounded-md"
-        >
-          <TileLayer url={urlGoogle} />
-          {selected == "Visto por último" && filteredPosition.length > 0 ? (
-            <Marker
-              position={[
-                filteredPosition[0].latitude,
-                filteredPosition[0].longitude,
-              ]}
-              icon={DefaultIcon}
+        {!isLoaded || !refPosition ? (
+          <div className="absolute inset-0 w-full h-[400px] rounded-md bg-black flex items-center justify-center">
+            <h2 className="text-red-500 text-center px-4">
+              Seu pet não tem localizador e/ou ponto de referência cadastrado
+            </h2>
+          </div>
+        ) : (
+          <>
+            <MapContainer
+              center={refPosition || [0, 0]}
+              zoom={20}
+              minZoom={15}
+              scrollWheelZoom={true}
+              style={{ height: "400px", width: "100%" }}
+              // className="w-full h-[400px] z-10 rounded-md"
             >
-              <Popup>{filteredPosition[0].date}</Popup>
-            </Marker>
-          ) : (
-            filteredPosition.map((position: IPosition, index: number) => (
-              <Marker
-                key={index}
-                position={[position.latitude, position.longitude]}
-                icon={DefaultIcon}
-              >
-                <Popup>{position.date}</Popup>
-              </Marker>
-            ))
-          )}
-          {refPosition ? (
-            <Marker position={refPosition} icon={RedIcon}>
-              <Popup>Home</Popup>
-            </Marker>
-          ) : (
-            ""
-          )}
-        </MapContainer>
+              <TileLayer url={urlGoogle} />
+              {selected == "Visto por último" && filteredPosition.length > 0 ? (
+                <Marker
+                  position={[
+                    filteredPosition[0].latitude,
+                    filteredPosition[0].longitude,
+                  ]}
+                  icon={DefaultIcon}
+                >
+                  <Popup>{filteredPosition[0].date}</Popup>
+                </Marker>
+              ) : (
+                filteredPosition.map((position: IPosition, index: number) => (
+                  <Marker
+                    key={index}
+                    position={[position.latitude, position.longitude]}
+                    icon={DefaultIcon}
+                  >
+                    <Popup>{position.date}</Popup>
+                  </Marker>
+                ))
+              )}
+              {refPosition ? (
+                <Marker position={refPosition} icon={RedIcon}>
+                  <Popup>Home</Popup>
+                </Marker>
+              ) : (
+                ""
+              )}
+            </MapContainer>
+          </>
+        )}
       </div>
     </div>
   );

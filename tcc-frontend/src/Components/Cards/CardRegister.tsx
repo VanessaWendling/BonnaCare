@@ -1,18 +1,15 @@
-import { SubmitHandler, useForm } from "react-hook-form";
-import React, { ChangeEvent, Dispatch, FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { ChangeEvent, Dispatch, FormEvent, useState } from "react";
 import { AiOutlineClose, AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
-import { FileUpload } from "../FileUpload";
 import { getCepDetail } from "../../Service/apiViaCep-endpoints";
 import { createNewAccount } from "../../Service/keeper-endpoints";
-import { IAddress } from "../../Types/Types";
-import { formatPhoneNumber } from "../../Utils/functions";
+import { IAddress, IFeedback } from "../../Types/Types";
+import { FileUpload } from "../FileUpload";
 import { Input } from "../Input";
 
 interface ICardRegister {
   joinUs: boolean;
   setJoinUs: Dispatch<boolean>;
-  setRegisterSuccess: Dispatch<boolean>;
+  setRegisterSuccess: Dispatch<IFeedback>;
 }
 
 export const CardRegister = ({
@@ -56,7 +53,7 @@ export const CardRegister = ({
       });
       if (status == 201) {
         setJoinUs(false);
-        setRegisterSuccess(true);
+        setRegisterSuccess({feedback: true, message: "Perfil cadastrado com sucesso!"});
       }
     }
   };

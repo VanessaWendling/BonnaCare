@@ -64,7 +64,6 @@ export const DetailsPet = () => {
             message: "Acesso expirado! \n Faça o login novamente para continuar.",
             action: () => navigate("/"),
           });
-          console.log("aqui");
           break;
       }
     });
@@ -83,7 +82,6 @@ export const DetailsPet = () => {
             message: "Acesso expirado! \n Faça o login novamente para continuar.",
             action: () => navigate("/"),
           });
-          console.log("aqui");
           break;
       }
     });
@@ -98,7 +96,6 @@ export const DetailsPet = () => {
       locPetContinuos(data.petLocalization?.localizator)
         .then((res) => {
           setPetPositions(res.data);
-          
         })
         .catch((e) => {
           switch (e.status) {

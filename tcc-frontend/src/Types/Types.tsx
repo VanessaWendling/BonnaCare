@@ -100,6 +100,12 @@ export interface CustomJwtPayload {
   exp: number;
 }
 
+export interface IFeedback {
+  feedback: boolean;
+  message?: string;
+  action?: () => void;
+}
+
 export interface IBreedType {
   breed: string;
 }

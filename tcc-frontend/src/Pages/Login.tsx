@@ -8,12 +8,12 @@ import { CardNotification } from "../Components/Cards/CardNotification";
 import { CardRegister } from "../Components/Cards/CardRegister";
 import { Input } from "../Components/Input";
 import { jwtDecode } from "jwt-decode"
-import { CustomJwtPayload } from "../Types/Types";
+import { CustomJwtPayload, IFeedback } from "../Types/Types";
 import { login } from "../Service/login-endpoints";
 
 export const Login = () => {
   const [joinUs, setJoinUs] = useState<boolean>(false);
-  const [registerSuccess, setRegisterSuccess] = useState<boolean>(false);
+  const [registerSuccess, setRegisterSuccess] = useState<IFeedback>({feedback: false});
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
@@ -29,13 +29,13 @@ export const Login = () => {
           Cookies.set("token", res.data.token, { expires: 1 });
           Cookies.set("uuidUser", res.data.uuid, { expires: 1 });
           const decoded = jwtDecode<CustomJwtPayload>(res.data.token);
-          switch(decoded.scope){
-            case 'ROLE_USER':
+          switch (decoded.scope) {
+            case "ROLE_USER":
               navigate("/home");
               break;
-            case 'ROLE_VETERINARIAN':
-              navigate('/homeVet')
-              break;     
+            case "ROLE_VETERINARIAN":
+              navigate("/homeVet");
+              break;
           }
         })
         .catch((e) => {
@@ -48,7 +48,7 @@ export const Login = () => {
   return (
     <>
       <div className="bg-purple-950 flex min-h-screen justify-center items-center">
-        <div className=" max-w-[1000px] max-h-[500px] md:h-[600px] bg-stone-100 flex flex-col-reverse md:flex-row m-auto rounded-md justify-between  my-8">
+        <div className=" max-w-[1000px] min-w-[600px] max-h-[500px] md:h-[600px] bg-stone-100 flex flex-col-reverse md:flex-row m-auto rounded-md justify-between  my-8">
           <div className="w-full md:w-1/2 flex flex-col justify-center align-baseline items-center p-4">
             <div className="w-full text-gray-900 text-center">
               <h1 className="px-4 text-2xl md:text-4xl font-bold pt-4">
@@ -107,9 +107,8 @@ export const Login = () => {
       ) : (
         ""
       )}
-      {registerSuccess ? (
+      {registerSuccess.feedback ? (
         <CardNotification
-          text="Perfil cadastrado com sucesso!"
           setState={setRegisterSuccess}
           state={registerSuccess}
           Icon={FaCheckCircle}
