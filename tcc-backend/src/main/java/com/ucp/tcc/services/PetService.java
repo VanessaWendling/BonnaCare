@@ -36,23 +36,24 @@ public class PetService {
 	public Pet insertPet(PetReqRecord reqRecord) {
 		Set<Keeper> person = reqRecord.keepers().stream().map(uuid -> personService.getKeeperById(uuid))
 				.collect(Collectors.toSet());
-		return petRepository.save(new Pet(reqRecord.name(), reqRecord.photo(), reqRecord.microchip(), reqRecord.breed(),
-				reqRecord.birthday(), person, new PetLocalization(reqRecord.localizator())));
+		return petRepository.save(new Pet(reqRecord.name(), reqRecord.photo(), reqRecord.microchip(),
+				reqRecord.breed(), reqRecord.birthday(), person,
+				new PetLocalization(reqRecord.localizator())));
 	}
 
 	public Pet findPetByUUID(UUID uuid) {
 		return petRepository.findById(uuid)
-				.orElseThrow(() -> new EntityNotFoundException("Pet not found in the system"));
+				.orElseThrow(() -> new EntityNotFoundException("Pet não encontrado no sistema."));
 	}
 
 	public Pet findPetConsultByUUID(UUID uuid) {
 		return petRepository.findPetWithConsultsOrderedByDate(uuid)
-				.orElseThrow(() -> new EntityNotFoundException("Pet not found in the system"));
+				.orElseThrow(() -> new EntityNotFoundException("Pet não encontrado no sistema."));
 	}
 
 	public Pet putLocalizatorByUUID(PetLocalizatorReqRecord petLocalizatorReqRecord) {
 		Pet pet = findPetByUUID(petLocalizatorReqRecord.uuid());
-		
+
 		if (pet.getPetLocalization() == null)
 			pet.setPetLocalization(new PetLocalization());
 
@@ -60,17 +61,17 @@ public class PetService {
 		return petRepository.save(pet);
 	}
 
-	public boolean createPositionRef(LocalizationReqRecord reqRecord) {
+	public String createPositionRef(LocalizationReqRecord reqRecord) {
 		Optional<Pet> optionalPet = findByLocalizator(reqRecord.chipID());
 		if (optionalPet.isPresent()) {
-			System.out.println("present : lat - " + reqRecord.latitude() + " long - " + reqRecord.longitude());
 			Pet pet = optionalPet.get();
 			pet.setPetLocalization(new PetLocalization(reqRecord.chipID(), Double.parseDouble(reqRecord.latitude()),
 					Double.parseDouble(reqRecord.longitude())));
 			petRepository.save(pet);
-			return true;
+			return "Localização de referência recebidos com sucesso.";
 		}
-		throw new EntityNotFoundException("Pet with localizator " + reqRecord.chipID() + " not found");
+		throw new EntityNotFoundException(
+				"Pet com localizador" + reqRecord.chipID() + " não foi encontrado no sistema.");
 	}
 
 	public Optional<Pet> findByLocalizator(String chipID) {
@@ -83,6 +84,6 @@ public class PetService {
 		if (optionalPet.isPresent()) {
 			return optionalPet.get();
 		}
-		throw new MicrochipPetNotFound("Microchip " + microchip + " does not exist in our database.");
+		throw new MicrochipPetNotFound("Microchip " + microchip + " não existe na base dados do sistema.");
 	}
 }

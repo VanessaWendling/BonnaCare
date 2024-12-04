@@ -26,40 +26,41 @@ public class LocalizationService {
 
 	public String savePosition(LocalizationReqRecord locReqRecord) {
 		Optional<Pet> pet = petService.findByLocalizator(locReqRecord.chipID());
-	
+
 		if (pet.isPresent() && pet.get().getPetLocalization().getLatitudeRef() != null) {
+
 			Double distanceFromRef = GeoCalculator.haversine(pet.get().getPetLocalization().getLatitudeRef(),
 					pet.get().getPetLocalization().getLongitudeRef(), Double.parseDouble(locReqRecord.latitude()),
 					Double.parseDouble(locReqRecord.longitude()));
-	
+
 			if (distanceFromRef > 0.05) { // Distância maior que 50 metros do referencial
 				List<Localization> petLastLocalization = localizationRepository
 						.findLastByLocalizator(pet.get().getPetLocalization().getLocalizator(), PageRequest.of(0, 1));
-	
+
 				if (!petLastLocalization.isEmpty()) {
 					Double distanceFromLast = GeoCalculator.haversine(petLastLocalization.get(0).getLatitude(),
 							petLastLocalization.get(0).getLongitude(), Double.parseDouble(locReqRecord.latitude()),
 							Double.parseDouble(locReqRecord.longitude()));
-	
+
 					if (distanceFromLast < 0.015) { // Distância menor que 15 metros
 						petLastLocalization.get(0).setDate(new Date());
 						localizationRepository.save(petLastLocalization.get(0));
-						return "Update Position < 0.15 from Last Position";
+						return String.format("Atualizar - Posição < 0.15m da última posição. Diferença de: %.4f m.", distanceFromLast);
 					} else {
 						localizationRepository.save(
 								new Localization(locReqRecord.chipID(), Double.parseDouble(locReqRecord.latitude()),
 										Double.parseDouble(locReqRecord.longitude())));
-						return "Save Position > 0.5 from Referencial and Position > 0.15 from Last Position";
+						return String.format("Salvar - Posição > 0.5m do referencial E posição > 0.15m da última posição. Diferença de: %.4f m.", distanceFromLast);
 					}
 				} else {
 					localizationRepository.save(new Localization(locReqRecord.chipID(),
 							Double.parseDouble(locReqRecord.latitude()), Double.parseDouble(locReqRecord.longitude())));
-					return "Save Position > 0.5 from Referencial";
+					return String.format("Salvar - Posição > 0.5m do referencial. Diferença de: %.4f m.", distanceFromRef );
 				}
 			}
-			return "Nothing to do";
+			return String.format("Em casa - Nada a fazer. Diferença de: %.4f m.", distanceFromRef);
 		}
-		return "Pet not found or location reference is unmarked.";
+		return "Pet nao encontrado ou localizacao de referecia não foi marcada.";
 	}
 
 	public List<Localization> getAllByLocalizator(String localizator) {

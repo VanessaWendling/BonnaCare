@@ -59,8 +59,7 @@ public class PetController {
 
 	@PutMapping("/localization")
 	public ResponseEntity<String> createLocalizationPositionRef(@RequestBody LocalizationReqRecord reqRecord) {
-		petService.createPositionRef(reqRecord);
-		return ResponseEntity.ok().body("Pontos de referencia recebidos com sucesso.");
+		return ResponseEntity.ok().body(petService.createPositionRef(reqRecord));
 	}
 	
 	@GetMapping("/microchip/{microchip}")
